@@ -84,8 +84,6 @@ These options aren't great. They are filled with bias and don't have the full pi
 
 With LLMs, there is a unique opportunity to build software that gives every person access to personalized finance, investment, and tax advice at near-zero cost. They would use API's to access your complete financial situation and give completely personal unbiased advice.
 
-If his is something you are thinking about building, you should consider applying to the YC Summer batch.
-
 ---
 
 ### A Secure AI App Store
