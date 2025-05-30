@@ -90,3 +90,52 @@ This emotional intelligence feature will make your AI assistant feel more like a
 - Increased user loyalty in Indian market
 - Positive cultural sensitivity feedback
 - Reduced user frustration in financial interactions
+
+---
+
+## Implementation
+
+### Sarvam AI Technology Stack
+
+**Sarvam-M Model Overview**
+
+Sarvam-M, the flagship large language model (LLM) from Sarvam AI, is primarily a text-based AI model designed for advanced reasoning, chatbots, translation, and educational tools in Indian languages. While Sarvam AI as a platform offers robust speech technologies—including speech-to-text (ASR) and text-to-speech (TTS) APIs—the Sarvam-M model itself does not natively perform direct speech-to-speech (voice-to-voice) responses. However, Sarvam-M can be integrated into a speech-to-speech pipeline using Sarvam AI's broader suite of tools.
+
+### Details
+
+**Sarvam-M Model Capabilities**
+
+- Sarvam-M is a 24-billion-parameter hybrid language model focused on Indian languages, math, and programming
+- Its primary functions are text-based: chatbots, translation, and reasoning tasks
+- The model is accessible via API and Hugging Face for developers to build upon
+
+**Sarvam AI Speech Technologies**
+
+Sarvam AI offers specialized APIs for speech processing:
+
+- **Saarika**: Speech-to-text (ASR) in multiple Indian languages
+- **Bulbul**: Text-to-speech (TTS) with natural-sounding voices in Indian languages
+- **Saaras**: ASR-Translate, which converts speech to text and translates it between Indian languages
+
+These APIs enable developers to build voice-first applications, including call center bots and multilingual assistants. Sarvam AI's platform is described as "voice-enabled" and "voice-first," emphasizing its commitment to speech interfaces.
+
+### Speech-to-Speech Response Workflow
+
+While Sarvam-M itself does not process audio directly, a speech-to-speech response system can be constructed by chaining Sarvam AI's APIs:
+
+1. **Speech Input**: User speaks; audio is converted to text using Saarika (ASR)
+2. **Text Processing**: The transcribed text is fed to Sarvam-M for understanding, reasoning, or generating a response
+3. **Speech Output**: Sarvam-M's text response is converted back to speech using Bulbul (TTS)
+
+This modular approach allows for a seamless speech-to-speech user experience, even though Sarvam-M's core function is text-based.
+
+### Multilingual and Natural Voice Support
+
+- Sarvam AI supports natural, familiar speech in 11 Indian languages, with authentic accents
+- The speech APIs are designed to sound "just like India," not robotic
+
+### Implementation Conclusion
+
+- Sarvam-M does not natively support direct speech-to-speech (voice-to-voice) response
+- However, Sarvam AI's platform provides all the necessary components—high-quality speech-to-text and text-to-speech APIs—so developers can easily build a speech-to-speech pipeline using Sarvam-M for the core language understanding and generation step
+- This enables applications such as voice bots, call center agents, and multilingual conversational assistants for Indian languages

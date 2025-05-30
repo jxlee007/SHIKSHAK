@@ -33,14 +33,12 @@
 
 | **Permission Category** | **Specific Access** | **AI Benefits** | **Privacy Protection** |
 |------------------------|---------------------|-----------------|----------------------|
-| **📧 Communication** | Email, SMS, Contacts, Call logs | Smart email drafting, relationship management, communication insights | All content encrypted locally, no cloud storage |
-| **📅 Calendar & Time** | Calendar events, scheduling | Conflict resolution, meeting prep, travel time optimization | Event details never leave device |
-| **📍 Location & Movement** | GPS, motion sensors, geofencing | Context-aware reminders, commute optimization | Location history encrypted on device |
-| **📷 Media & Visual** | Camera, photo library, screen recording | Document scanning, receipt processing, visual assistance | Photos processed locally, no cloud analysis |
-| **🎤 Audio & Voice** | Microphone, ambient audio | Voice commands, meeting transcription, mood detection | Voice-to-text via cloud API (audio deleted immediately), conversation context stays local |
-| **📂 Files & Storage** | File system, downloads, cloud storage | Document organization, content search, workflow automation | File content never transmitted to cloud |
-| **📱 System Integration** | App usage, notifications, clipboard | Cross-app workflows, smart notifications, automation | Usage patterns stored encrypted locally |
-| **🏥 Health & Sensors** | Health data, biometrics, environmental | Energy-based scheduling, wellness optimization | Health data encrypted with hardware security |
+| **📷 Media & Visual** | Camera, photo library | Receipt scanning, document processing, expense tracking | Photos processed locally, no cloud analysis |
+| **🎤 Audio & Voice** | Microphone, ambient audio | Voice expense commands, financial queries, conversational AI | Voice-to-text via cloud API (audio deleted immediately), conversation context stays local |
+| **📂 Files & Storage** | File system, downloads | Receipt storage, financial document organization | File content never transmitted to cloud |
+| **📱 System Integration** | App usage, notifications, clipboard | Smart financial notifications, spending alerts | Usage patterns stored encrypted locally |
+| **📍 Location & Movement** | GPS, motion sensors, geofencing | Location-based expense tracking, merchant identification | Location history encrypted on device |
+| **📧 Communication** | SMS, banking alerts | Transaction confirmation, expense categorization | All content encrypted locally, no cloud storage |
 
 ---
 
@@ -52,10 +50,67 @@
 | **Local AI** | Llama.cpp + ONNX Runtime | TensorFlow Lite + ML Kit | Core ML + TensorFlow Lite |
 | **Encryption** | react-native-keychain + AES-256 | flutter_secure_storage + Hive | Platform-native Keychain/Keystore |
 | **Vector DB** | Chroma local + SQLite | ObjectBox Vector + Isar | SQLite with vector extensions |
-| **Voice Processing** | Google/Microsoft Speech API + local Whisper fallback | Google/Microsoft Speech API + flutter_whisper fallback | Platform Speech API + cloud service integration |
+| **Voice Processing** | Sarvam-M via OpenRouter API + Google/Microsoft Speech API fallback | Sarvam-M via OpenRouter API + Google/Microsoft Speech API fallback | Sarvam-M via OpenRouter API + Platform Speech API integration |
 | **Development Speed** | ⭐⭐⭐⭐ Fast | ⭐⭐⭐ Medium | ⭐⭐ Slower |
 | **Performance** | ⭐⭐⭐ Good | ⭐⭐⭐⭐ Better | ⭐⭐⭐⭐⭐ Best |
 | **Privacy Control** | ⭐⭐⭐⭐ High | ⭐⭐⭐⭐ High | ⭐⭐⭐⭐⭐ Maximum |
+
+---
+
+## 💰 **MVP Personal Finance & Conversational AI Features**
+
+| **Core Feature** | **Functionality** | **Voice Integration** | **Privacy Protection** |
+|------------------|-------------------|---------------------|----------------------|
+| **Expense Tracking** | Manual entry, voice commands, receipt scanning | "Add ₹200 for lunch at Café Coffee Day" | All financial data encrypted locally |
+| **Budget Management** | Set budgets, track limits, spending alerts | "Set my food budget to ₹5000 this month" | Budget data never leaves device |
+| **Category Intelligence** | Auto-categorization, merchant recognition | "Categorize my Swiggy order as food expense" | Learning patterns stored locally |
+| **Spending Analysis** | Monthly/weekly reports, trend analysis | "Show me my spending trends for groceries" | All analysis performed on-device |
+| **Financial Chat** | Natural language queries about finances | "How much have I spent on entertainment?" | Conversation history encrypted locally |
+| **Smart Insights** | Spending patterns, savings suggestions | "Where can I save money this month?" | Insights generated from local data only |
+
+### **MVP User Scenarios & Voice Commands:**
+
+| **Scenario** | **Voice Command Examples** | **AI Response** | **Local Processing** |
+|--------------|---------------------------|-----------------|-------------------|
+| **Expense Entry** | "I spent 150 rupees on auto today" | "Added ₹150 for transportation. Your daily transport budget is 80% used." | ✅ All expense data local |
+| **Quick Balance Check** | "How much did I spend this week?" | "You've spent ₹2,400 this week. That's ₹200 less than last week!" | ✅ Calculations on-device |
+| **Budget Inquiry** | "Am I on track with my monthly budget?" | "You're at 65% of your monthly budget with 10 days left. Looking good!" | ✅ Budget analysis local |
+| **Category Analysis** | "Show me my food expenses" | "Food expenses: ₹3,200 this month. Top merchant: Zomato (₹800)" | ✅ Category insights local |
+| **Savings Advice** | "Where am I spending too much?" | "Entertainment is 40% over budget. Consider reducing movie subscriptions." | ✅ Advice from local data |
+| **Receipt Processing** | "Scan this restaurant bill" | "Added ₹450 for dining at Punjab Grill. Categorized as Food & Dining." | ✅ OCR and processing local |
+
+### **MVP Technical Architecture for Finance Features:**
+
+| **Component** | **Technology** | **Data Storage** | **Processing Location** |
+|---------------|----------------|------------------|----------------------|
+| **Expense Database** | SQLite with encryption | Local device storage | 100% Local |
+| **Receipt OCR** | TensorFlow Lite OCR models | Local image processing | 100% Local |
+| **Voice Processing** | Sarvam-M via OpenRouter API | Audio not stored, text processed locally | Voice-to-text: Cloud, Analysis: Local |
+| **Financial AI** | Local LLM for financial advice | Conversation history local | 100% Local |
+| **Budget Engine** | Local algorithms for tracking | Budget rules stored locally | 100% Local |
+| **Insights Generator** | On-device analytics | Pattern analysis local | 100% Local |
+
+### **MVP Data Privacy for Finance Features:**
+
+| **Data Type** | **Storage Location** | **Encryption** | **Cloud Access** |
+|---------------|---------------------|----------------|------------------|
+| **Transaction Data** | Local SQLite database | AES-256 encryption | ❌ Never sent to cloud |
+| **Budget Information** | Local encrypted storage | Hardware-backed encryption | ❌ Never sent to cloud |
+| **Receipt Images** | Local file system | File-level encryption | ❌ Never sent to cloud |
+| **Spending Patterns** | Local analytics database | End-to-end encryption | ❌ Never sent to cloud |
+| **Financial Conversations** | Local conversation history | Encrypted message storage | ❌ Never sent to cloud |
+| **Voice Commands** | Temporary audio processing | Audio not stored | ⚠️ Audio sent for STT only (immediately deleted) |
+
+### **MVP Success Metrics - Finance Focus:**
+
+| **Metric Category** | **MVP Target** | **Measurement Method** | **Privacy Advantage** |
+|---------------------|----------------|----------------------|---------------------|
+| **Feature Adoption** | >70% users add expenses within first week | Local analytics | No user behavior sent to cloud |
+| **Voice Usage** | >50% users use voice commands for expense entry | Voice interaction tracking | Voice patterns stay local |
+| **Data Accuracy** | >85% correct auto-categorization | User correction feedback | Learning improves locally |
+| **User Engagement** | >5 financial interactions per day | Local usage metrics | Engagement data private |
+| **Privacy Trust** | >90% users comfortable with financial data handling | In-app surveys | Trust through transparency |
+| **Retention** | >60% weekly active users after 1 month | Local retention tracking | No user data shared |
 
 ---
 
@@ -63,15 +118,12 @@
 
 | **Feature Category** | **Specific Capability** | **User Scenario** | **AI Processing Location** |
 |---------------------|-------------------------|-------------------|---------------------------|
-| **📧 Email Management** | Voice email processing, smart drafting, triage | "Process my inbox during commute" | Voice-to-text: Cloud, AI Processing: 100% Local |
-| **📅 Smart Scheduling** | Conflict resolution, travel time integration | "Schedule meeting with John avoiding lunch" | Voice-to-text: Cloud, AI Processing: 100% Local |
-| **✅ Task Automation** | Recurring process learning, context reminders | Learn routine tasks and automate them | 100% Local |
-| **🧠 Personal Memory** | Preference learning, relationship management | Remember decision patterns and context | 100% Local |
-| **🗣️ Emotional Intelligence** | Cultural awareness, emotional support, relationship building | "Feeling stressed about expenses" → Supportive, culturally-aware response | 100% Local |
-| **🌐 Web Integration** | Custom dashboards, third-party tools | Render personalized interfaces in app | Local + Web UI |
-| **📍 Location Intelligence** | Contextual reminders, travel optimization | "Remind me to call Sarah at the office" | Voice-to-text: Cloud, AI Processing: 100% Local |
-| **📱 Cross-App Workflows** | App usage intelligence, smart copy-paste | Automate workflows between apps | 100% Local |
-| **📷 Visual Intelligence** | Document scanning, receipt processing | "Scan receipt and add to budget tracker" | 100% Local |
+| **💰 Personal Finance** | Voice expense tracking, budget analysis, spending insights | "Add ₹500 spent on groceries at BigBazar" | Voice-to-text: Cloud, AI Processing: 100% Local |
+| **🗣️ Conversational AI** | Natural chat interface, financial advice, contextual responses | "How much did I spend on food this month?" | Voice-to-text: Cloud, AI Processing: 100% Local |
+| **📊 Expense Management** | Receipt scanning, category auto-assignment, merchant tracking | "Scan this restaurant bill and categorize it" | 100% Local |
+| **📈 Financial Intelligence** | Spending pattern analysis, budget recommendations, savings suggestions | "Analyze my spending trends and suggest savings" | 100% Local |
+| **🎤 Voice Finance Commands** | Voice-driven expense entry, balance queries, budget alerts | "What's my remaining budget for entertainment?" | Voice-to-text: Cloud, AI Processing: 100% Local |
+| **📱 Smart Notifications** | Budget alerts, spending reminders, financial insights | Proactive alerts for budget limits and spending patterns | 100% Local |
 
 ---
 
@@ -79,11 +131,11 @@
 
 | **Phase** | **Duration** | **Key Deliverables** | **Voice Development** | **Emotional Intelligence** | **Success Metrics** |
 |-----------|--------------|---------------------|---------------------|---------------------------|-------------------|
-| **Phase 1: MVP** | 6-8 weeks | Core AI chat, basic email/calendar, voice commands, core permissions | Cloud voice APIs integration (Google/Microsoft) | Basic polite responses, Indian greetings | Voice accuracy >85%, Permission acceptance >80% |
-| **Phase 2: Smart Features** | 8-10 weeks | Advanced email processing, smart scheduling, user pattern learning, extended permissions | Regional language data collection, Indian AI partnerships | Sentiment recognition, cultural awareness (festivals) | Email accuracy >90%, Engagement >3 sessions/day |
-| **Phase 3: Advanced Intelligence** | 6-8 weeks | Advanced NLP, predictive suggestions, personal memory, analytics | Custom regional model training (Hindi, Tamil, Telugu) | Regional emotional adaptation, family context understanding | User retention >70% at 30 days |
-| **Phase 4: Enterprise & Scale** | 8-12 weeks | Enterprise security, advanced integrations, team management, API | Hybrid voice processing (local + cloud backup) | Advanced emotional support, stress recognition | Enterprise-ready features, 90%+ local voice accuracy |
-| **Phase 5: AI Enhancement** | Ongoing | Continuous model improvements, A/B testing, global localization | Complete local voice processing, eliminate cloud dependency | Personalized emotional AI companion | 100% offline voice capability, high emotional satisfaction |
+| **Phase 1: MVP** | 6-8 weeks | **Core AI Personal Finance + Conversational AI**, basic expense tracking, voice commands, essential permissions | Sarvam-M via OpenRouter API for multilingual support, Google/Microsoft fallback | Basic polite responses, Indian greetings, financial stress support | Voice accuracy >85%, Finance feature adoption >70% |
+| **Phase 2: Smart Features** | 8-10 weeks | Advanced email processing, smart scheduling, user pattern learning, extended permissions | Regional language optimization with Sarvam-M, Indian AI partnerships | Sentiment recognition, cultural awareness (festivals) | Email accuracy >90%, Engagement >3 sessions/day |
+| **Phase 3: Advanced Intelligence** | 6-8 weeks | Advanced NLP, predictive suggestions, personal memory, analytics | Custom regional model training + Sarvam-M integration (Hindi, Tamil, Telugu) | Regional emotional adaptation, family context understanding | User retention >70% at 30 days |
+| **Phase 4: Enterprise & Scale** | 8-12 weeks | Enterprise security, advanced integrations, team management, API | Hybrid voice processing (Sarvam-M local + cloud backup) | Advanced emotional support, stress recognition | Enterprise-ready features, 90%+ local voice accuracy |
+| **Phase 5: AI Enhancement** | Ongoing | Continuous model improvements, A/B testing, global localization | Complete local voice processing with Sarvam-M, eliminate cloud dependency | Personalized emotional AI companion | 100% offline voice capability, high emotional satisfaction |
 
 ---
 
@@ -120,11 +172,11 @@
 
 | **Competitor Type** | **Our Advantage** | **Market Differentiation** |
 |---------------------|-------------------|--------------------------|
-| **Cloud AI Assistants** (Siri, Google Assistant) | Complete data privacy + offline functionality + Indian emotional intelligence | "AI that learns about you, not from you - and understands your culture" |
-| **Productivity Apps** (Notion AI, Motion) | Comprehensive device integration + emotional awareness | "Single AI for all device functions with emotional intelligence" |
-| **Privacy-Focused Apps** | Advanced AI capabilities + emotional intelligence + cultural context | "No compromise between intelligence, privacy, and emotional understanding" |
-| **Enterprise Solutions** | Built-in compliance + culturally-aware communication | "Simplified compliance story with Indian workplace understanding" |
-| **Indian AI Solutions** | Privacy-first + advanced emotional intelligence + local voice processing | "Made for India, data stays in India, understands India" |
+| **Personal Finance Apps** (Mint, YNAB, ET Money) | Complete data privacy + voice interface + emotional intelligence | "AI finance assistant that understands your culture and keeps data private" |
+| **Voice Assistants** (Siri, Google Assistant) | Financial expertise + complete privacy + Indian context | "Voice finance management without sending your money data to cloud" |
+| **Indian Finance Apps** (Paytm, PhonePe Money Manager) | Privacy-first + conversational AI + emotional support | "Financial AI that stays on your device and understands Indian spending patterns" |
+| **AI Finance Tools** (Cleo, Charlie) | Local processing + Indian cultural context + voice interface | "Personal finance AI built for India, data stays in India" |
+| **Traditional Banking Apps** | Intelligent insights + cross-bank aggregation + privacy protection | "AI that works with all your accounts without sharing data with banks" |
 
 ---
 
@@ -132,10 +184,10 @@
 
 | **Revenue Stream** | **Target Segment** | **Value Proposition** | **Pricing Strategy** |
 |-------------------|-------------------|---------------------|-------------------|
-| **Freemium Individual** | Privacy-conscious professionals | Basic AI with full privacy protection | Free tier + Premium $9.99/month |
-| **Enterprise** | Companies with compliance needs | Zero-trust AI assistant for teams | $50-100/user/month |
-| **Healthcare/Legal** | Regulated industries | HIPAA/attorney-client privilege compliant | Premium enterprise pricing |
-| **Government** | Government agencies | No cloud data exposure | Custom enterprise contracts |
+| **Freemium Individual** | Privacy-conscious individuals managing personal finances | AI finance assistant with complete data privacy | Free tier (basic expense tracking) + Premium $4.99/month |
+| **Premium Personal** | Users wanting advanced financial insights | Advanced AI financial advice, budgeting, and insights | $9.99/month with unlimited features |
+| **Family Plans** | Joint family financial management | Multi-user financial planning with privacy protection | $14.99/month for up to 5 users |
+| **Small Business** | Freelancers and small business owners | Business expense tracking with tax categorization | $19.99/month per business |
 
 ---
 
@@ -167,10 +219,10 @@
 
 | **Phase** | **Approach** | **Rationale** | **Privacy Protection** |
 |-----------|--------------|---------------|----------------------|
-| **Phase 1: Initial (0-6 months)** | Cloud-based APIs (Google, Microsoft, Indian providers) | Immediate market entry with proven accuracy | Voice audio processed for recognition only, no personal context sent |
-| **Phase 2: Training (6-18 months)** | Collect regional language data + Cloud APIs | Build comprehensive multilingual dataset | Anonymized voice data collection with user consent |
-| **Phase 3: Hybrid (18-30 months)** | Custom regional models + Cloud backup | Reduce cloud dependency, improve regional accuracy | Majority processing local, cloud only for unsupported languages |
-| **Phase 4: Fully Local (30+ months)** | Complete on-device voice processing | Total privacy, no internet dependency | 100% local processing, no cloud communication |
+| **Phase 1: Initial (0-6 months)** | Sarvam-M via OpenRouter API (primary) + Cloud-based APIs (Google, Microsoft fallback) | Immediate multilingual support with free tier, proven accuracy for Indian languages | Voice audio processed for recognition only, no personal context sent |
+| **Phase 2: Training (6-18 months)** | Collect regional language data + Sarvam-M optimization + Cloud APIs | Build comprehensive multilingual dataset while leveraging Sarvam-M's Indian language strength | Anonymized voice data collection with user consent |
+| **Phase 3: Hybrid (18-30 months)** | Custom Sarvam-M integration + regional models + Cloud backup | Reduce cloud dependency, improve regional accuracy with specialized models | Majority processing local with Sarvam-M, cloud only for unsupported languages |
+| **Phase 4: Fully Local (30+ months)** | Complete on-device processing with optimized Sarvam-M models | Total privacy, no internet dependency for voice processing | 100% local processing, no cloud communication |
 
 ### **Regional Language Model Development Strategy:**
 
@@ -183,11 +235,42 @@
 
 ### **Voice Processing Evolution Data Flow:**
 ```
-Phase 1: User Voice → Cloud API → Text → Local AI Processing
-Phase 2: User Voice → Cloud API + Data Collection → Text → Local AI + Model Training
-Phase 3: User Voice → Local Model (Primary) + Cloud Backup → Text → Local AI Processing  
-Phase 4: User Voice → Local Model Only → Text → Local AI Processing (Fully Offline)
+Phase 1: User Voice → Sarvam-M via OpenRouter API (Primary) + Cloud API (Fallback) → Text → Local AI Processing
+Phase 2: User Voice → Sarvam-M API + Data Collection → Text → Local AI + Model Training
+Phase 3: User Voice → Local Sarvam-M Model (Primary) + Cloud Backup → Text → Local AI Processing  
+Phase 4: User Voice → Local Sarvam-M Model Only → Text → Local AI Processing (Fully Offline)
 ```
+
+---
+
+## 🎤 **Sarvam-M Model Integration Strategy**
+
+| **Aspect** | **Details** | **MVP Advantage** | **Long-term Vision** |
+|------------|-------------|-------------------|---------------------|
+| **Model Provider** | Sarvam-M via OpenRouter API | Free tier access for MVP development | Potential direct integration or licensing |
+| **Language Support** | Hindi, Tamil, Telugu, Bengali, English, and other Indian languages | Immediate multilingual support without separate integrations | Comprehensive Indian language ecosystem |
+| **Cost Structure** | Free tier through OpenRouter API | Zero cost for initial development and testing | Cost-effective scaling compared to major cloud providers |
+| **Indian Context** | Purpose-built for Indian languages and accents | Superior accuracy for Indian users compared to global models | Deep cultural and linguistic understanding |
+| **Privacy Integration** | API-only access, no data retention | Maintains privacy-first architecture | Future local deployment capability |
+
+### **Sarvam-M Technical Implementation:**
+
+| **Implementation Phase** | **Integration Method** | **Fallback Strategy** | **Performance Target** |
+|-------------------------|------------------------|----------------------|----------------------|
+| **MVP (Phase 1)** | Primary: Sarvam-M via OpenRouter API | Fallback: Google/Microsoft Speech APIs | >85% accuracy for Indian languages |
+| **Advanced (Phase 2-3)** | Optimized Sarvam-M integration + custom fine-tuning | Reduced dependency on fallback providers | >90% accuracy with cultural context |
+| **Enterprise (Phase 4)** | Hybrid local + Sarvam-M cloud processing | Local models for sensitive data | >95% accuracy with enterprise security |
+| **Full Local (Phase 5)** | Local Sarvam-M model deployment | Complete independence from cloud services | 100% offline capability |
+
+### **Competitive Advantage with Sarvam-M:**
+
+| **Feature** | **Traditional Cloud STT** | **Sarvam-M Integration** | **Our Unique Value** |
+|-------------|---------------------------|--------------------------|---------------------|
+| **Indian Language Accuracy** | Generic models, limited Indian context | Purpose-built for Indian languages | Superior regional language recognition |
+| **Cost for MVP** | Expensive API costs for development | Free tier access via OpenRouter | Zero-cost MVP development |
+| **Cultural Context** | Western-focused training data | Indian cultural and linguistic training | Understands code-mixing (Hinglish) naturally |
+| **Accent Recognition** | Limited Indian accent support | Optimized for Indian accents | Better recognition for diverse Indian speakers |
+| **Privacy + Performance** | Either privacy OR performance | Privacy-first + Indian-optimized performance | Best of both worlds |
 
 ### **Regional Language Development Roadmap:**
 
@@ -220,35 +303,36 @@ Phase 4: User Voice → Local Model Only → Text → Local AI Processing (Fully
 
 | **Voice Service Provider** | **Advantages** | **Regional Language Support** | **Privacy Features** |
 |----------------------------|----------------|-------------------------------|-------------------|
+| **Sarvam-M (via OpenRouter)** | Free tier for MVP, specialized in Indian languages, multilingual support | Excellent support for Hindi, Tamil, Telugu, Bengali and other Indian languages | API-only access, no data retention, optimized for Indian contexts |
 | **Google Speech-to-Text** | High accuracy, fast processing | 125+ languages including Hindi, Tamil, Telugu | Anonymous API calls, no data retention |
 | **Microsoft Speech Services** | Enterprise-grade security, offline models | 85+ languages including major Indian languages | GDPR compliant, configurable data retention |
 | **Indian AI Providers** (e.g., Krutrim, CoRover) | Local data residency, regional accent optimization | Specialized in Indian languages and dialects | Domestic data processing, government compliance |
-| **Hybrid Approach** | Best accuracy + data sovereignty | Combine global + regional providers | Dual-layer privacy protection |
+| **Hybrid Approach** | Best accuracy + data sovereignty + cost optimization | Combine Sarvam-M + global + regional providers | Multi-layer privacy protection |
 
 ### **Voice Model Development Architecture:**
 ```yaml
 Phase 1 - Cloud Foundation (0-6 months):
-  Step 1: Integrate Google/Microsoft/Indian voice APIs
-  Step 2: Build voice processing pipeline
+  Step 1: Integrate Sarvam-M via OpenRouter API (primary) + Google/Microsoft/Indian voice APIs (fallback)
+  Step 2: Build voice processing pipeline with multilingual support
   Step 3: Collect anonymized usage patterns
-  Step 4: Establish baseline accuracy metrics
+  Step 4: Establish baseline accuracy metrics for Indian languages
 
 Phase 2 - Data Collection & Training (6-18 months):
   Step 1: Partner with regional content creators and institutions
   Step 2: Collect diverse voice samples (with consent)
   Step 3: Build comprehensive multilingual datasets
-  Step 4: Train custom regional language models
+  Step 4: Optimize Sarvam-M integration and train custom regional language models
 
 Phase 3 - Hybrid Deployment (18-30 months):
-  Step 1: Deploy custom models for primary languages (Hindi, Tamil, Telugu)
-  Step 2: Use local models as primary, cloud as backup
+  Step 1: Deploy custom models with Sarvam-M optimization for primary languages (Hindi, Tamil, Telugu)
+  Step 2: Use Sarvam-M models as primary, cloud as backup
   Step 3: Continuous improvement through federated learning
   Step 4: Expand to additional regional languages
 
 Phase 4 - Full Independence (30+ months):
-  Step 1: Achieve 95%+ accuracy on all supported languages locally
+  Step 1: Achieve 95%+ accuracy on all supported languages locally with Sarvam-M
   Step 2: Eliminate cloud dependencies entirely
-  Step 3: Enable complete offline functionality
+  Step 3: Enable complete offline functionality with local Sarvam-M models
   Step 4: Implement on-device model updates and learning
 ```
 
@@ -286,12 +370,12 @@ Phase 4 - Full Independence (30+ months):
 
 | **Scenario** | **User Emotional State** | **AI Response Style** | **Cultural Adaptation** |
 |--------------|---------------------------|----------------------|------------------------|
-| **Morning Briefing** | Starting the day | Warm, encouraging, motivational | "Good morning! Wishing you a productive day ahead" |
-| **Financial Stress** | Anxiety about expenses | Supportive, solution-focused, calming | "Don't worry, let's work together to manage this" |
-| **Achievement/Success** | Happy, excited | Celebratory, sharing joy | "Bahut badiya! This is wonderful news!" |
-| **Festival Preparation** | Excited, busy, planning mode | Helpful, understanding time constraints | "I know festival preparations are exciting - let me help you manage your budget" |
-| **Work Pressure** | Stressed, overwhelmed | Calming, efficient, understanding | "I understand work can be demanding. Let me handle this quickly for you" |
-| **Family Conversations** | Discussing family expenses | Respectful, understanding family dynamics | Acknowledges joint family financial decisions |
+| **Monthly Budget Review** | Concerned about overspending | Supportive, analytical, solution-focused | "Let's review your expenses together. No judgment, only solutions." |
+| **Financial Stress** | Anxiety about expenses | Empathetic, calming, practical advice | "Main samajh sakta hun. Let's find areas where we can save money." |
+| **Successful Savings** | Happy about reaching financial goals | Celebratory, encouraging future planning | "Bahut badiya! You've saved ₹5000 this month. Shall we set a new goal?" |
+| **Festival Expense Planning** | Excited but worried about budget | Helpful, understanding cultural importance | "Festival season is special! Let me help you plan expenses wisely." |
+| **Daily Expense Entry** | Routine, sometimes rushed | Efficient, encouraging, quick confirmation | "Added ₹150 for lunch. Your daily budget is on track!" |
+| **Investment Advice Request** | Curious but cautious about investments | Educational, culturally-aware, risk-conscious | "Investment decisions should match Indian family priorities. Let's discuss." |
 
 ### **Regional Emotional Intelligence Adaptation:**
 
