@@ -1,5 +1,4 @@
-### AI Personal Tutor for Everyone
-*By Harj Taggar*
+### AI Personal Tutor for Everyone named "Shishak"
 
 The idea of using computers to help people learn things has been a dream of computer nerds going back to the 1940's with Vannevar Bush's Memex idea, JCR Licklider's "Man-Computer Symbiosis" paper in the 60's, and Alan Kay's Dynabook proposal in the 70's.
 
