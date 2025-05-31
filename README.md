@@ -9,20 +9,20 @@
 [![Status](https://img.shields.io/badge/Status-Implementation%20Ready-brightgreen)](https://github.com/AssistantPro-MVP)
 [![Phase](https://img.shields.io/badge/Phase-MVP%20Core%20Assistant-blue)](./MVP-PLAN.md)
 [![Framework](https://img.shields.io/badge/Framework-React%20Native-61DAFB)](./Code%20documentations/react-native/)
-[![AI Engine](https://img.shields.io/badge/AI%20Engine-Sarvam%20AI-purple)](./Conversational%20AI/)
-[![Documentation](https://img.shields.io/badge/Documentation-Complete-green)](./Conversational%20AI/Starter-Notebooks(Cookbook)/)
-[![Cookbooks](https://img.shields.io/badge/Cookbooks-7%20Ready-orange)](./Conversational%20AI/Starter-Notebooks(Cookbook)/)
+[![AI Engine](https://img.shields.io/badge/AI%20Engine-Sarvam%20AI-purple)](./Features/Soch%20%28Conversational%20AI%29/)
+[![Documentation](https://img.shields.io/badge/Documentation-Complete-green)](./Features/Soch%20%28Conversational%20AI%29/Starter-Notebooks%28Cookbook%29/)
+[![Cookbooks](https://img.shields.io/badge/Cookbooks-7%20Ready-orange)](./Features/Soch%20%28Conversational%20AI%29/Starter-Notebooks%28Cookbook%29/)
 
 ## 🎯 Project Overview
 
-**AssistantPro** is a revolutionary privacy-first, mobile-first AI personal assistant engineered specifically for the Indian market. The platform integrates three core AI modules: **AI Personal Finance (Mudra)**, **AI Educational Tutor (Shikshak)**, and **Conversational AI with Emotional Intelligence (C-AI)** - all while maintaining complete user data sovereignty through local encryption and on-device AI processing.
+**AssistantPro** is a revolutionary privacy-first, mobile-first AI personal assistant engineered specifically for the Indian market. The platform integrates three core AI modules: **AI Personal Finance (Mudra)**, **AI Educational Tutor (Shikshak)**, and **Conversational AI with Emotional Intelligence (Soch)** - all while maintaining complete user data sovereignty through local encryption and on-device AI processing.
 
 ### 🚀 Quick Start
 - 📖 **New to the project?** Start with [`MVP-PLAN.md`](./MVP-PLAN.md) for technical overview
 - 💰 **Financial Features?** Check [`Features/Mudra.md`](./Features/Mudra.md) for AI Personal Finance
-- 🤖 **AI Integration?** Explore [`Conversational AI/`](./Conversational%20AI/) for Sarvam AI implementation
+- 🤖 **AI Integration?** Explore [`Features/Soch (Conversational AI)/`](./Features/Soch%20%28Conversational%20AI%29/) for Sarvam AI implementation
 - 🛠️ **Development?** See [`Code documentations/`](./Code%20documentations/) for implementation guides
-- 🎨 **UI/UX Design?** Review [`design/UI -screens.md`](./design/UI%20-screens.md) for complete screen designs
+- 🎨 **UI/UX Design?** Review [`Design/UI -screens.md`](./Design/UI%20-screens.md) for complete screen designs
 
 ### 🔥 Current MVP Status
 **Phase 1**: Core Assistant with Financial Intelligence (Mudra) + Conversational AI (C-AI)
@@ -106,17 +106,17 @@ MVP_PA/
 ├── 🎯 Feature Specifications
 │   └── Features/
 │       ├── Mudra.md                 # AI Personal Finance module
-│       └── Shikshak.md              # AI Educational Tutor module
-│
-├── 🤖 AI Integration (Sarvam AI)
-│   └── Conversational AI/
-│       ├── C-AI.md                  # Conversational AI specifications
-│       ├── Getting-started/         # Setup and authentication
-│       ├── API-references/          # Complete API documentation
-│       ├── ASR/                     # Speech recognition (Saarika/Saaras)
-│       ├── Text-Processing/         # Language processing (Mayura)
-│       ├── Text-To-Speech/          # Voice synthesis (Bulbul)
-│       └── Starter-Notebooks(Cookbook)/ # 7 implementation cookbooks
+│       ├── Sikshak/                    # AI Educational Tutor module
+│       │   ├── Shikshak.md              # Educational system specifications
+│       │   └── reference-app.md         # Reference application examples
+│       └── Soch (Conversational AI)/    # Complete Sarvam AI integration
+│           ├── Soch.md              # Conversational AI specifications
+│           ├── Getting-started/     # Setup and authentication
+│           ├── API-references/      # Complete API documentation
+│           ├── ASR/                 # Speech recognition (Saarika/Saaras)
+│           ├── Text-Processing/     # Language processing (Mayura)
+│           ├── Text-To-Speech/      # Voice synthesis (Bulbul)
+│           └── Starter-Notebooks(Cookbook)/ # 7 implementation cookbooks
 │
 ├── 💻 Development Guides
 │   └── Code documentations/
@@ -125,11 +125,11 @@ MVP_PA/
 │       └── react-native/            # Mobile app development
 │
 ├── 🎨 UI/UX Design & References
-│   ├── design/                     # Complete UI/UX design specifications
-│   │   ├── UI -screens.md          # Comprehensive screen design prompts for Google Sketch
-│   │   ├── MVP_PA.png              # Project logo and branding assets
-│   │   └── AIF reference/          # Financial interface design references
-│   └── How-to-think-about-AI-Applications/
+│   └── Design/                      # Complete UI/UX design specifications
+│       ├── UI -screens.md           # Comprehensive screen design prompts for Google Sketch
+│       ├── MVP_PA.png               # Project logo and branding assets
+│       ├── AIF reference/           # Financial interface design references
+│       └── How-to-think-about-AI-Applications/ # AI application design methodologies
 │
 └── 📚 Reference Materials
     └── Idea-refer.md                # Y Combinator startup ideas reference
@@ -278,8 +278,8 @@ MVP_PA/
 5. **Privacy Architecture** - Local encryption and data protection
 
 #### **Next Steps for Developers**
-1. **Setup Sarvam AI Account** - Follow `Getting-started/Auth.md` 
-2. **Review Implementation Guides** - Study cookbook tutorials in `Starter-Notebooks(Cookbook)/`
+1. **Setup Sarvam AI Account** - Follow `Features/Soch (Conversational AI)/Getting-started/Auth.md` 
+2. **Review Implementation Guides** - Study cookbook tutorials in `Features/Soch (Conversational AI)/Starter-Notebooks(Cookbook)/`
 3. **Start with Basic Chat** - Implement `Chat-Completion-API-Using-Sarvam-Model.md`
 4. **Add Voice Processing** - Integrate speech-to-text using Saarika model
 5. **Implement Privacy** - Set up local encryption and secure storage
@@ -294,17 +294,17 @@ cat product.md
 
 # Feature specifications  
 cat Features/Mudra.md      # AI Personal Finance
-cat Features/Shikshak.md   # AI Educational Tutor
+cat Features/Sikshak/Shikshak.md   # AI Educational Tutor
 ```
 
 #### 2. **Sarvam AI Integration Setup**
 ```bash
 # Authentication and setup
-cat "Conversational AI/Getting-started/Auth.md"
-cat "Conversational AI/Getting-started/Quickstart.md"
+cat "Features/Soch (Conversational AI)/Getting-started/Auth.md"
+cat "Features/Soch (Conversational AI)/Getting-started/Quickstart.md"
 
 # Ready-to-use implementation tutorials
-ls "Conversational AI/Starter-Notebooks(Cookbook)/"
+ls "Features/Soch (Conversational AI)/Starter-Notebooks(Cookbook)/"
 ```
 
 #### 3. **Development Environment**
@@ -360,23 +360,23 @@ ls "Code documentations/backend/"            # Backend implementation
 
 ### 🚀 **Feature Specifications**
 - **[Mudra - AI Personal Finance](./Features/Mudra.md)** - Complete financial module requirements and UPI integration
-- **[Shikshak - AI Educational Tutor](./Features/Shikshak.md)** - Educational system design for Indian demographics
-- **[C-AI - Conversational Intelligence](./Conversational%20AI/C-AI.md)** - Emotional intelligence with cultural awareness
+- **[Shikshak - AI Educational Tutor](./Features/Sikshak/Shikshak.md)** - Educational system design for Indian demographics
+- **[Soch - Conversational Intelligence](./Features/Soch%20%28Conversational%20AI%29/Soch.md)** - Emotional intelligence with cultural awareness
 
 ### 🤖 **AI Implementation Guides**
-- **[Sarvam AI Getting Started](./Conversational%20AI/Getting-started/)** - Authentication, setup, and quick start guides
-- **[API References](./Conversational%20AI/API-references/)** - Complete documentation for all Sarvam AI endpoints
-- **[Implementation Cookbooks](./Conversational%20AI/Starter-Notebooks(Cookbook)/)** - 7 ready-to-use tutorials for immediate development
+- **[Sarvam AI Getting Started](./Features/Soch%20%28Conversational%20AI%29/Getting-started/)** - Authentication, setup, and quick start guides
+- **[API References](./Features/Soch%20%28Conversational%20AI%29/API-references/)** - Complete documentation for all Sarvam AI endpoints
+- **[Implementation Cookbooks](./Features/Soch%20%28Conversational%20AI%29/Starter-Notebooks%28Cookbook%29/)** - 7 ready-to-use tutorials for immediate development
 
 ### 💻 **Development Resources**
 - **[React Native Guides](./Code%20documentations/react-native/)** - Mobile app development with privacy-first architecture
 - **[Backend Documentation](./Code%20documentations/backend/)** - Server-side implementation and API design
-- **[UI/UX Design System](./design/UI-screens.md)** - Complete mobile app interface design specifications for Google Sketch
-- **[AIF Reference Designs](./design/AIF%20reference/)** - Financial interface design patterns and layouts
+- **[UI/UX Design System](./Design/UI%20-screens.md)** - Complete mobile app interface design specifications for Google Sketch
+- **[AIF Reference Designs](./Design/AIF%20reference/)** - Financial interface design patterns and layouts
 
 ### 📋 **Strategic Context**
 - **[Y Combinator Ideas](./Idea-refer.md)** - Reference inspiration and market validation
-- **[AI Strategy Resources](./How-to-think-about-AI-Applications/)** - Product development methodologies
+- **[AI Strategy Resources](./Design/How-to-think-about-AI-Applications/)** - Product development methodologies
 
 ---
 
@@ -393,10 +393,10 @@ We welcome contributions to AssistantPro! This project aims to create India's fi
 
 ### 📖 **Getting Started with Development**
 1. Review the [`MVP-PLAN.md`](./MVP-PLAN.md) for technical overview
-2. Explore [`Conversational AI/Getting-started/`](./Conversational%20AI/Getting-started/) for AI integration
+2. Explore [`Features/Soch (Conversational AI)/Getting-started/`](./Features/Soch%20%28Conversational%20AI%29/Getting-started/) for AI integration
 3. Check [`Code documentations/`](./Code%20documentations/) for implementation guides
 4. Study [`Features/`](./Features/) directory for module specifications
-5. Review [`design/UI-screens.md`](./design/UI-screens.md) for complete UI/UX design system
+5. Review [`Design/UI-screens.md`](./Design/UI-screens.md) for complete UI/UX design system
 
 ### 🔒 **Privacy-First Development**
 All contributions must maintain our core privacy principles:
@@ -411,7 +411,7 @@ All contributions must maintain our core privacy principles:
 
 ### 💬 **Get Help**
 - **Technical Questions**: Review comprehensive documentation in project folders
-- **Implementation Issues**: Check [`Conversational AI/Starter-Notebooks(Cookbook)/`](./Conversational%20AI/Starter-Notebooks(Cookbook)/) for working examples
+- **Implementation Issues**: Check [`Features/Soch (Conversational AI)/Starter-Notebooks(Cookbook)/`](./Features/Soch%20%28Conversational%20AI%29/Starter-Notebooks%28Cookbook%29/) for working examples
 - **Privacy Concerns**: See privacy architecture specification in [`APP_BRAINSTORM.md`](./APP_BRAINSTORM.md)
 
 ### 🎯 **Project Vision**
