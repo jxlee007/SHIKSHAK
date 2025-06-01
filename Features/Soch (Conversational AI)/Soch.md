@@ -1,4 +1,3 @@
----
 # Conversational AI with Emotional Intelligence: "Soch"
 ## Core AI Platform Foundation for AssistantPro Ecosystem
 
