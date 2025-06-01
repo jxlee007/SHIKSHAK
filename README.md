@@ -111,12 +111,57 @@ MVP_PA/
 │       │   └── reference-app.md         # Reference application examples
 │       └── Soch (Conversational AI)/    # Complete Sarvam AI integration
 │           ├── Soch.md              # Conversational AI specifications
-│           ├── Getting-started/     # Setup and authentication
+│           ├── Sarvam-usage-pricing.png # Pricing reference
+│           ├── Getting-started/     # Setup and authentication guides
+│           │   ├── Auth.md              # API authentication setup
+│           │   ├── Credits-&-Rate-Limits.md # Usage limits and billing
+│           │   ├── Introduction.md      # Platform overview
+│           │   ├── Meta Prompt Guide.md # Advanced prompting techniques
+│           │   ├── Models.md            # Available AI models
+│           │   └── Quickstart.md        # Developer quick start
 │           ├── API-references/      # Complete API documentation
+│           │   ├── POST-Chat-Completions.md # Chat completion API
+│           │   ├── POST-TTS.md          # Text-to-speech API
+│           │   ├── Speech-to-text/      # STT API references
+│           │   │   ├── POST-STT.md          # Speech-to-text API
+│           │   │   └── POST-STT-Translate.md # STT with translation
+│           │   ├── Text/               # Text processing APIs
+│           │   │   ├── POST-Lang-Identificaton.md # Language detection
+│           │   │   ├── POST-Translate-Text.md     # Text translation
+│           │   │   └── POST-transliterate-text.md # Transliteration
+│           │   └── PDFs/               # Document processing
+│           │       ├── doc-translate.md     # Document translation
+│           │       └── Sarvam-parse.md      # Document parsing
 │           ├── ASR/                 # Speech recognition (Saarika/Saaras)
+│           │   ├── STT-Quickstart-Guide.md  # Speech-to-text quick start
+│           │   ├── APIs/                    # ASR API documentation
+│           │   │   ├── Overview.md              # ASR APIs overview
+│           │   │   ├── Real-time-STT-API.md     # Real-time transcription
+│           │   │   └── Batch-STT-API.md         # Batch processing
+│           │   └── Models/                  # ASR model specifications
+│           │       ├── Saarika.md               # High-accuracy STT model
+│           │       └── Saaras.md                # Domain-optimized STT
 │           ├── Text-Processing/     # Language processing (Mayura)
+│           │   ├── Quickstart.md            # Text processing quick start
+│           │   ├── APIs/                    # Text processing APIs
+│           │   │   ├── lang-detection-API.md    # Language identification
+│           │   │   ├── Text-Translation-API.md  # Translation services
+│           │   │   └── Transliteration-API.md   # Script conversion
+│           │   └── Models/                  # Text processing models
 │           ├── Text-To-Speech/      # Voice synthesis (Bulbul)
+│           │   ├── Quickstart.md            # TTS quick start guide
+│           │   ├── APIs/                    # TTS API documentation
+│           │   │   └── Overview.md              # TTS APIs overview
+│           │   └── Models/                  # TTS model specifications
+│           │       └── Bulbul.md                # Multilingual TTS model
 │           └── Starter-Notebooks(Cookbook)/ # 7 implementation cookbooks
+│               ├── Chat-Completion-API-Using-Sarvam-Model.md      # Chat API tutorial
+│               ├── STT-API-Tutorial-Using-Saarika-Model.md        # Speech-to-text guide
+│               ├── Speech-to-Text-Translation-API-Using-Saaras-Model.md # STT translation
+│               ├── Text-to-Speech-Conversion-using-Bulbul-Model.md # TTS tutorial
+│               ├── Sarvam-Translate-API-using-Mayura-Model.md     # Translation guide
+│               ├── Language-Identification-API-A-Hands-on-Guide.md # Language detection
+│               └── Transliteration-API-A-Hands-on-Guide.md       # Transliteration guide
 │
 ├── 💻 Development Guides
 │   └── Code documentations/
@@ -139,11 +184,13 @@ MVP_PA/
 
 #### **Ready-to-Implement Features**
 - **✅ 7 Complete Production Cookbooks**: Step-by-step implementation guides for all AI services
-- **✅ Full API Documentation**: All endpoints documented with Python/JavaScript examples  
+- **✅ Comprehensive API Documentation**: All endpoints documented with detailed specifications
 - **✅ Authentication & Setup**: Complete developer onboarding with API key management
 - **✅ Multi-Model Pipeline**: Speech, text, and conversation processing fully integrated
 - **✅ Error Handling**: Comprehensive error handling patterns and retry logic
 - **✅ Performance Optimization**: Best practices for API usage and rate limiting
+- **✅ Real-time & Batch Processing**: Both synchronous and asynchronous API options
+- **✅ Advanced Features**: Gender-aware translation, cultural numerals, script control
 
 #### **Complete Cookbook Library**
 | Cookbook | Technology | Purpose | Implementation Status |
@@ -156,14 +203,32 @@ MVP_PA/
 | **Language Detection** | Sarvam Platform | Auto-detect 11+ Indian languages | ✅ Production Ready |
 | **Transliteration** | Sarvam Platform | Script conversion (Roman ↔ Devanagari) | ✅ Production Ready |
 
+#### **Complete API Endpoints Documentation**
+| API Category | Endpoint | Purpose | Documentation Path |
+|--------------|----------|---------|-------------------|
+| **Chat** | `/text-generation` | Conversational AI responses | `API-references/POST-Chat-Completions.md` |
+| **Speech-to-Text** | `/speech-to-text` | Audio transcription | `API-references/Speech-to-text/POST-STT.md` |
+| **STT + Translation** | `/speech-to-text-translate` | Speech translation | `API-references/Speech-to-text/POST-STT-Translate.md` |
+| **Text-to-Speech** | `/text-to-speech` | Voice synthesis | `API-references/POST-TTS.md` |
+| **Text Translation** | `/translate` | Text translation | `API-references/Text/POST-Translate-Text.md` |
+| **Language Detection** | `/text-lid` | Language identification | `API-references/Text/POST-Lang-Identificaton.md` |
+| **Transliteration** | `/transliterate` | Script conversion | `API-references/Text/POST-transliterate-text.md` |
+
 #### **Supported Models & Capabilities**
-| Model | Purpose | Status | Integration Guide |
-|-------|---------|--------|------------------|
-| **Sarvam-M (24B)** | Text reasoning & chat | ✅ Ready | `Starter-Notebooks(Cookbook)/Chat-Completion-API-Using-Sarvam-Model.md` |
-| **Saarika ASR** | Speech-to-text (11 languages) | ✅ Ready | `Starter-Notebooks(Cookbook)/STT-API-Tutorial-Using-Saarika-Model.md` |
-| **Saaras ASR** | Speech translation | ✅ Ready | `Starter-Notebooks(Cookbook)/Speech-to-Text-Translation-API-Using-Saaras-Model.md` |
-| **Bulbul TTS** | Text-to-speech synthesis | ✅ Ready | `Starter-Notebooks(Cookbook)/Text-to-Speech-Conversion-using-Bulbul-Model.md` |
-| **Mayura** | Text processing & translation | ✅ Ready | `Starter-Notebooks(Cookbook)/Sarvam-Translate-API-using-Mayura-Model.md` |
+| Model | Purpose | Features | Integration Guide |
+|-------|---------|----------|------------------|
+| **Sarvam-M (24B)** | Text reasoning & chat | Meta-prompt support, cultural context | `Starter-Notebooks(Cookbook)/Chat-Completion-API-Using-Sarvam-Model.md` |
+| **Saarika ASR** | Speech-to-text (11 languages) | Multi-speaker, code-mixing, telephony | `Starter-Notebooks(Cookbook)/STT-API-Tutorial-Using-Saarika-Model.md` |
+| **Saaras ASR** | Speech translation | Domain-optimized, entity preservation | `Starter-Notebooks(Cookbook)/Speech-to-Text-Translation-API-Using-Saaras-Model.md` |
+| **Bulbul TTS** | Text-to-speech synthesis | Natural prosody, emotion control | `Starter-Notebooks(Cookbook)/Text-to-Speech-Conversion-using-Bulbul-Model.md` |
+| **Mayura** | Text processing & translation | Cultural context, gender-aware | `Starter-Notebooks(Cookbook)/Sarvam-Translate-API-using-Mayura-Model.md` |
+
+#### **API Processing Options**
+| Processing Type | Use Case | Documentation |
+|-----------------|----------|---------------|
+| **Real-time APIs** | Immediate response for short content | `ASR/APIs/Real-time-STT-API.md` |
+| **Batch APIs** | Asynchronous processing for large files | `ASR/APIs/Batch-STT-API.md` |
+| **Webhook Support** | Event-driven processing notifications | `Getting-started/Credits-&-Rate-Limits.md` |
 
 #### **Advanced Sarvam AI Features**
 - **🎭 Gender-Aware Translation**: Male/Female speaker options that impact tone and style
@@ -279,10 +344,13 @@ MVP_PA/
 
 #### **Next Steps for Developers**
 1. **Setup Sarvam AI Account** - Follow `Features/Soch (Conversational AI)/Getting-started/Auth.md` 
-2. **Review Implementation Guides** - Study cookbook tutorials in `Features/Soch (Conversational AI)/Starter-Notebooks(Cookbook)/`
-3. **Start with Basic Chat** - Implement `Chat-Completion-API-Using-Sarvam-Model.md`
-4. **Add Voice Processing** - Integrate speech-to-text using Saarika model
-5. **Implement Privacy** - Set up local encryption and secure storage
+2. **Review Platform Overview** - Study `Features/Soch (Conversational AI)/Getting-started/Introduction.md`
+3. **Understand Models & Pricing** - Check `Features/Soch (Conversational AI)/Getting-started/Models.md` and `Credits-&-Rate-Limits.md`
+4. **Start with Basic Chat** - Implement `Chat-Completion-API-Using-Sarvam-Model.md`
+5. **Add Voice Processing** - Integrate speech-to-text using `STT-API-Tutorial-Using-Saarika-Model.md`
+6. **Explore Advanced Features** - Language detection, translation, and TTS using respective cookbooks
+7. **API Reference Integration** - Use detailed endpoint documentation in `API-references/` folder
+8. **Implement Privacy** - Set up local encryption and secure storage
 
 ### 📋 Quick Setup Guide
 
@@ -299,15 +367,41 @@ cat Features/Sikshak/Shikshak.md   # AI Educational Tutor
 
 #### 2. **Sarvam AI Integration Setup**
 ```bash
-# Authentication and setup
+# Authentication and API setup
 cat "Features/Soch (Conversational AI)/Getting-started/Auth.md"
 cat "Features/Soch (Conversational AI)/Getting-started/Quickstart.md"
+cat "Features/Soch (Conversational AI)/Getting-started/Credits-&-Rate-Limits.md"
 
-# Ready-to-use implementation tutorials
+# Model overview and capabilities
+cat "Features/Soch (Conversational AI)/Getting-started/Models.md"
+cat "Features/Soch (Conversational AI)/Getting-started/Introduction.md"
+
+# Ready-to-use implementation tutorials (7 cookbooks)
 ls "Features/Soch (Conversational AI)/Starter-Notebooks(Cookbook)/"
+
+# API References - Complete endpoint documentation
+ls "Features/Soch (Conversational AI)/API-references/"
+ls "Features/Soch (Conversational AI)/API-references/Speech-to-text/"
+ls "Features/Soch (Conversational AI)/API-references/Text/"
 ```
 
-#### 3. **Development Environment**
+#### 3. **Explore AI Model Documentation**
+```bash
+# Speech Recognition (ASR)
+cat "Features/Soch (Conversational AI)/ASR/STT-Quickstart-Guide.md"
+cat "Features/Soch (Conversational AI)/ASR/Models/Saarika.md"     # High-accuracy STT
+cat "Features/Soch (Conversational AI)/ASR/Models/Saaras.md"      # Domain-optimized STT
+
+# Text Processing
+cat "Features/Soch (Conversational AI)/Text-Processing/Quickstart.md"
+ls "Features/Soch (Conversational AI)/Text-Processing/APIs/"
+
+# Text-to-Speech
+cat "Features/Soch (Conversational AI)/Text-To-Speech/Quickstart.md"
+cat "Features/Soch (Conversational AI)/Text-To-Speech/Models/Bulbul.md"
+```
+
+#### 4. **Development Environment**
 ```bash
 # Check implementation guides
 cat "Code documentations/implementation.md"  # setup details 
@@ -364,8 +458,11 @@ ls "Code documentations/backend/"            # Backend implementation
 - **[Soch - Conversational Intelligence](./Features/Soch%20%28Conversational%20AI%29/Soch.md)** - Emotional intelligence with cultural awareness
 
 ### 🤖 **AI Implementation Guides**
-- **[Sarvam AI Getting Started](./Features/Soch%20%28Conversational%20AI%29/Getting-started/)** - Authentication, setup, and quick start guides
-- **[API References](./Features/Soch%20%28Conversational%20AI%29/API-references/)** - Complete documentation for all Sarvam AI endpoints
+- **[Sarvam AI Getting Started](./Features/Soch%20%28Conversational%20AI%29/Getting-started/)** - Authentication, setup, and developer quickstart guides
+- **[Complete API References](./Features/Soch%20%28Conversational%20AI%29/API-references/)** - Detailed documentation for all Sarvam AI endpoints
+- **[Speech Recognition (ASR)](./Features/Soch%20%28Conversational%20AI%29/ASR/)** - Saarika & Saaras models with real-time and batch APIs
+- **[Text Processing](./Features/Soch%20%28Conversational%20AI%29/Text-Processing/)** - Mayura model for translation, transliteration, and language detection
+- **[Text-to-Speech (TTS)](./Features/Soch%20%28Conversational%20AI%29/Text-To-Speech/)** - Bulbul model for natural voice synthesis
 - **[Implementation Cookbooks](./Features/Soch%20%28Conversational%20AI%29/Starter-Notebooks%28Cookbook%29/)** - 7 ready-to-use tutorials for immediate development
 
 ### 💻 **Development Resources**

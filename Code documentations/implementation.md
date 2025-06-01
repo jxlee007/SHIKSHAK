@@ -42,3 +42,4 @@ Timestamps:
 
 9:38 Resend (for emails)
 Drag & drop your auth with descope: https://www.descope.com/sign-up-1?utm...
+use telegram custom chat modals for user conversations
