@@ -9,11 +9,24 @@
 Indian smartphone users lack a culturally-aware, privacy-first AI personal assistant that can effectively manage their digital lives while understanding Indian communication patterns and cultural nuances. Existing AI assistants are designed for Western markets and require cloud data processing, compromising user privacy and failing to address India-specific needs.
 
 ### **App Goal**
-Create a revolutionary privacy-first, mobile-first AI personal assistant specifically engineered for the Indian market that integrates three core AI modules:
-- **AI Personal Finance (AI-PF)**: Automatic transaction analysis via SMS/email 
-- **Conversational AI with Emotional Intelligence (C-AI)**: Culturally-aware AI companion
+Create a revolutionary privacy-first, mobile-first AI personal assistant specifically engineered for the Indian market that integrates three core AI modules sharing a unified Sarvam AI foundation:
 
-**MVP Success Target**: Validate core financial tracking and conversational AI features with 100+ active users in the Indian market within 3 months.
+**🤖 Soch (Core AI Platform)**: Conversational AI with emotional intelligence powered by complete Sarvam AI integration
+- **Foundation Layer**: Speech-to-Text (Saarika/Saaras), Text-to-Speech (Bulbul), Translation (Mayura), Chat Completions (Sarvam-M)
+- **Cross-Module Intelligence**: Provides NLP, voice processing, and cultural context for all other modules
+- **Implementation Status**: ✅ 7 production-ready cookbooks with complete API documentation
+
+**💰 Mudra (AI Personal Finance)**: Automatic transaction analysis via SMS/email with offline-first architecture
+- **Soch Integration**: Uses Soch's language models for Hindi/English financial communication parsing
+- **Core Features**: UPI transaction detection, GST compliance, voice financial queries
+- **Implementation Status**: 🚧 Active development with complete UI designs and SMS parsing algorithms
+
+**📚 Sikshak (AI Educational Tutor)**: Culturally-aware AI companion for personalized learning
+- **Soch Integration**: Leverages Soch's emotional intelligence and cultural awareness for age-appropriate education
+- **Mudra Integration**: Financial literacy education using real expense data for practical learning
+- **Implementation Status**: 📋 Phase 2 ready with complete design specifications
+
+**MVP Success Target**: Validate integrated AI platform with core financial tracking and conversational AI features with 100+ active users in the Indian market within 3 months of Phase 1 launch.
 
 ---
 
@@ -68,13 +81,23 @@ Core Permissions:
 ### **Third-Party APIs & Services**
 
 #### **AI Services**
-- **Sarvam AI**: Primary AI provider for Indian language support
-  - Chat Completions API for conversational AI
-  - Speech-to-Text (Saarika model) for voice processing
-  - Text-to-Speech (Bulbul model) for Hindi/English TTS
-  - Translation API (Mayura model) for Hindi-English processing
-- **OpenRouter**: Backup AI service for additional model access
-- **Local Models**: Whisper.cpp for offline speech recognition
+- **Sarvam AI (Primary Provider)**: Complete Indian language AI platform integration ✅ **Ready for Implementation**
+  - **Chat Completions API**: Sarvam-M (24B parameter) model for conversational AI with cultural awareness
+  - **Speech-to-Text Integration**: 
+    - Saarika ASR for high-accuracy Hindi/English transcription
+    - Saaras ASR for domain-optimized speech translation
+  - **Text-to-Speech**: Bulbul TTS for natural Indian language voice synthesis
+  - **Text Processing**: Mayura model for translation, transliteration, and language detection
+  - **Advanced Cultural Features**: Gender-aware translation, cultural numerals, regional script support
+  - **Implementation Resources**: ✅ 7 production-ready cookbooks available in [`Features/Soch (Conversational AI)/Starter-Notebooks(Cookbook)/`](../Features/Soch%20%28Conversational%20AI%29/Starter-Notebooks%28Cookbook%29/)
+  - **Authentication & Rate Limiting**: Complete setup guides for secure API key management
+  - **Module Integration**:
+    - **→ Mudra**: SMS/email financial data parsing, voice expense queries
+    - **→ Sikshak**: Interactive tutoring, voice-based learning content delivery
+    - **→ Unified Experience**: Cross-module context awareness and cultural continuity
+
+- **Local Fallback Models**: Whisper.cpp for offline speech recognition during connectivity issues
+- **Hybrid Architecture**: Sarvam AI online enhancement + local processing for privacy and reliability
 
 #### **Development Tools**
 - **Authentication**: Local biometric authentication (no cloud auth)
@@ -117,18 +140,28 @@ Core Permissions:
 
 ### **Dependencies & Integrations**
 
-#### **Core Dependencies**
-- **Privacy Architecture**: Hardware-level encryption implementation
-- **Local AI Models**: Mobile-optimized LLM deployment
-- **SMS Processing**: Android SMS reading permissions and parsing
-- **Voice Processing**: Local speech recognition capabilities
-- **Cultural Intelligence**: Indian cultural knowledge base
+#### **Shared AI Foundation (Soch Platform)**
+- **Unified Sarvam AI Integration**: Single API authentication and rate limiting shared across all modules
+- **Cross-Module Context Management**: Conversation history and cultural preferences accessible to Mudra and Sikshak
+- **Shared Language Processing**: Mayura model processes both financial SMS and educational content
+- **Voice Interface Consistency**: Saarika ASR and Bulbul TTS provide unified voice experience across features
 
-#### **Integration Requirements**
-- **UPI Ecosystem**: SMS parsing for PhonePe, Google Pay, Paytm
-- **Indian Banking**: Major bank SMS format recognition (SBI, HDFC, ICICI)
-- **Regional Languages**: Hindi/Devanagari text processing support
-- **Cultural Calendar**: Indian festivals and cultural events
+#### **Module-Specific Dependencies**
+**Mudra (Financial Module)**:
+- **SMS Access**: Android SMS reading permissions for UPI transaction detection
+- **UPI Ecosystem Integration**: SMS parsing for PhonePe, Google Pay, Paytm transaction formats
+- **Indian Banking Support**: Major bank SMS format recognition (SBI, HDFC, ICICI, Axis, etc.)
+- **GST Compliance**: Current Indian tax rate calculations and categorization
+
+**Sikshak (Educational Module)**:
+- **Content Database**: Indian history, cultural knowledge, and academic subject materials
+- **Age-Appropriate Filtering**: Content moderation for different demographic groups
+- **Cultural Calendar Integration**: Indian festivals and cultural events for educational context
+
+#### **Cross-Module Data Flow**
+- **Mudra → Sikshak**: Anonymized financial patterns enhance financial literacy education
+- **Soch → All Modules**: Cultural intelligence and language processing shared across platform
+- **Unified User Profile**: Single encrypted profile with preferences accessible to all modules
 
 ### **Testing & QA Process**
 
@@ -242,30 +275,80 @@ Secondary Colors:
 #### **1. First-Time User Onboarding (15-20 minutes)**
 ```yaml
 Step 1: Welcome & Value Proposition (2 min)
-  - Cultural greeting based on device language
+  - Cultural greeting based on device language using Soch's Bulbul TTS
   - Privacy-first explanation with local data control
-  - India-specific benefits (UPI tracking, Hindi support)
+  - India-specific benefits (UPI tracking, Hindi support via Sarvam AI)
 
 Step 2: Permission Setup (5-8 min)
   - Granular permission requests with clear benefits
-  - SMS access for transaction detection
-  - Camera for receipt scanning
+  - SMS access for transaction detection (powers Mudra module)
+  - Camera for receipt scanning (enhanced by Soch's OCR capabilities)
+  - Microphone access for voice commands (Saarika ASR integration)
   - Optional email access for enhanced financial data
 
 Step 3: Cultural & Regional Setup (3-5 min)
-  - Language preference (Hindi/English/Regional)
-  - Region selection (North/South/East/West India)
-  - Cultural communication style preferences
-  - Festival and calendar preferences
+  - Language preference (Hindi/English/Regional) via Soch platform
+  - Region selection (North/South/East/West India) for cultural adaptation
+  - Cultural communication style preferences (formal/casual)
+  - Festival and calendar preferences for educational content
 
-Step 4: Financial Preferences (5 min)
+Step 4: AI Platform Introduction (3-5 min)
+  - Demo of voice interaction: "मुझे अपना खर्च दिखाओ" (Show me my expenses)
+  - Sample financial conversation using natural language
+  - Preview of educational features powered by same AI foundation
+  - Privacy settings confirmation with encryption explanation
+
+Step 5: Financial Setup (2-3 min)
   - Bank selection for SMS format optimization
   - Spending categories relevant to user lifestyle
-  - Privacy settings confirmation
+  - UPI app preferences (PhonePe, Google Pay, Paytm)
 ```
 
 #### **2. Daily Transaction Tracking (30 seconds - 2 minutes)**
 ```yaml
+Automatic Mode (30 seconds):
+  - Background SMS monitoring detects UPI transaction
+  - Soch's Mayura model parses Hindi/English SMS content
+  - AI suggests category based on merchant and cultural context
+  - User receives notification with one-tap confirmation
+
+Voice Command Mode (45 seconds):
+  - User says: "Add ₹500 auto rickshaw expense" 
+  - Saarika ASR processes Hindi/English mixed command
+  - Mudra module categorizes and stores transaction
+  - Bulbul TTS confirms: "Auto rickshaw expense of ₹500 added"
+
+Manual Entry Mode (2 minutes):
+  - User takes photo of receipt using camera
+  - Soch's OCR extracts transaction details
+  - Cross-references with SMS for verification
+  - Cultural context helps with merchant categorization
+```
+
+#### **3. Educational Learning Session (5-15 minutes)**
+```yaml
+Financial Literacy Mode:
+  - User asks: "How can I save more money?"
+  - Sikshak analyzes real spending patterns from Mudra
+  - Provides personalized advice based on actual data
+  - Uses Bulbul TTS for natural Hindi/English explanation
+
+Interactive Learning Mode:
+  - Sikshak suggests lesson based on user's financial behavior
+  - Voice-based Q&A using same Soch conversation engine
+  - Real examples from user's expense categories (anonymized)
+  - Cultural context makes lessons relevant to Indian lifestyle
+```
+
+#### **4. Cross-Module Integration Flow (2-3 minutes)**
+```yaml
+Unified Experience:
+  - User starts with financial question: "What did I spend on food?"
+  - Mudra provides data through Soch's natural language interface
+  - Conversation naturally transitions: "How can I eat healthier on budget?"
+  - Sikshak takes over using same conversational context
+  - Seamless experience powered by shared Soch foundation
+```
 Automatic Flow (30 seconds):
   - SMS transaction detected automatically
   - AI categorizes transaction with 85%+ accuracy

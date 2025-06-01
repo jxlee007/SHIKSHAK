@@ -56,49 +56,91 @@ Design a cultural preferences setup screen for Indian users.
 
 ## **Main Navigation (Bottom Tab Bar)**
 
-### **Bottom Navigation Bar Design**
+### **Bottom Navigation Bar Design - Integrated Platform**
 **Prompt for Google Sketch:**
 ```
-Design a bottom navigation bar with 4 tabs for Indian mobile app:
-1. Soch(Home) Tab: Chat bubble icon with AI spark indicator
-2. Mudra Tab: Stylized Rupee (₹) symbol with modern design  
-3. Sikshak Tab: Book/knowledge icon with graduation cap
-4. Settings Tab: Gear icon with privacy shield overlay
+Design a unified bottom navigation bar for AssistantPro integrated AI platform:
+1. **Soch (Home) Tab**: Chat bubble icon with AI spark - "Central conversational AI interface"
+2. **Mudra Tab**: Stylized Rupee (₹) symbol - "AI-powered financial intelligence" 
+3. **Sikshak Tab**: Book with AI brain icon - "Educational tutor powered by same AI"
+4. **Profile Tab**: User icon with cultural elements - "Settings and cultural preferences"
+
+Design Elements:
 - Tab bar height: 80px with safe area consideration
-- Active state: Icon + label in India green (#138808)
+- Active state: Icon + label in India green (#138808) with AI glow effect
 - Inactive state: Gray icons with subtle labels
-- Background: White with subtle top border
-- Icons: 24x24px, filled style for active, outline for inactive
-- Typography: 11px for labels, supports Hindi text
+- Background: White with subtle top border and gradient
+- Icons: 24x24px, AI-themed designs showing platform integration
+- Typography: 11px for labels, supports Hindi/English mixed text
+- Integration indicator: Subtle connecting lines showing AI foundation
 ```
 
 ---
 
-## **Tab 1: Home Screen**
+## **Tab 1: Soch (Home) - AI Conversation Hub**
 
-### **Home - Main Dashboard**
+### **Home - Unified AI Interface**
 **Prompt for Google Sketch:**
 ```
-Design an AI chat interface home screen inspired by messaging apps.
-- Header: "AssistantPro" with user avatar and time-based greeting
-- Chat interface area: 60% of screen height
-- AI message bubbles: Left-aligned, light gray background, rounded corners
-- User message bubbles: Right-aligned, India green background, white text
-- Quick action cards row (horizontal scroll):
-  - "Check Expenses" with rupee icon
-  - "Start Learning" with book icon  
-  - "Voice Command" with mic icon
-- Bottom: Text input with microphone button and send button
-- Floating action button (FAB) for voice input in bottom-right
-- Clean, conversational design with adequate spacing
-- Support for Hindi/English mixed text
+Design a conversational AI home screen that serves as the foundation for all features:
+- Header: "नमस्ते [User Name]" with time-based cultural greeting
+- AI Avatar: Warm, culturally-appropriate design representing Indian AI assistant
+- Chat interface area: 65% of screen height with conversation flow
+- Message types:
+  - AI responses: Left-aligned bubbles with Soch branding
+  - Financial queries: Integration with Mudra (₹ icon in bubble)
+  - Educational responses: Integration with Sikshak (📚 icon in bubble)
+  - User inputs: Right-aligned, India green background
+- Context cards showing cross-module integration:
+  - "Today's Spending: ₹XXX" (from Mudra)
+  - "Continue Learning: Indian History" (from Sikshak)
+- Quick actions powered by voice AI:
+  - "What did I spend today?" → Mudra data
+  - "Teach me about budgeting" → Sikshak module
+  - "Voice Command" with Saarika ASR integration
+- Bottom: Text input with voice button (Saarika/Bulbul integration)
+- Visual indicators showing how AI powers all features
 ```
 
 ---
 
-## **Tab 2: Mudra (Finance) Screens**
+## **Tab 2: Mudra (AI Finance) Screens**
 
-### **Mudra - Main Dashboard** 
+### **Mudra - AI-Powered Financial Dashboard**
+**Prompt for Google Sketch:**
+```
+Design a financial dashboard powered by conversational AI integration:
+- Header: "Mudra - AI वित्त सहायक" with voice command button (powered by Soch)
+- Balance card: Large, prominent display with monthly spending summary
+- AI Insights section: "Soch says: You spent 15% less this month!" 
+- Recent transactions list with AI-suggested categories:
+  - Each transaction shows confidence level of AI categorization
+  - Voice notes icon showing transactions added via Saarika ASR
+  - SMS auto-detection badges (UPI symbols for detected transactions)
+- Quick actions leveraging AI integration:
+  - "Ask AI about spending" → Direct link to Soch conversation
+  - "Voice expense entry" → Saarika ASR input
+  - "Get spending insights" → AI analysis via Soch
+- Integration indicators: Small AI icons showing Soch-powered features
+- Cultural elements: Hindi/English labels, Indian number formatting (lakhs/crores)
+- Smart categorization powered by cultural context understanding
+```
+
+### **Transaction Details - AI Enhanced**
+**Prompt for Google Sketch:**
+```
+Design transaction detail screen showcasing AI intelligence:
+- Transaction header with AI confidence score for categorization
+- "AI Analysis" section showing how Soch interpreted the transaction:
+  - Original SMS text (if SMS-detected)
+  - Language detection results (Hindi/English mix)
+  - Cultural context used for categorization
+- Voice note replay if transaction was added via voice command
+- AI suggestions for similar future transactions
+- Educational connection: "Learn about budgeting for this category" → Sikshak link
+- Edit options with AI re-categorization when changed
+- Integration breadcrumbs showing AI processing pipeline
+``` 
 **Prompt for Google Sketch:**
 ```
 Design a financial dashboard screen based on expense tracking apps.

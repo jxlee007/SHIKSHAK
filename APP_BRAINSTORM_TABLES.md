@@ -4,11 +4,12 @@
 
 | **Aspect** | **Details** |
 |------------|-------------|
-| **App Name** | AssistantPro |
-| **Core Vision** | Mobile-first AI personal assistant with web interfaces within native app shell |
-| **Key Differentiator** | Complete user data privacy through local encryption + comprehensive device integration |
-| **Target Market** | Privacy-conscious professionals, enterprises, healthcare, legal professionals |
-| **Primary Value** | AI assistance without cloud data exposure |
+| **App Name** | AssistantPro - Integrated AI Platform |
+| **Core Vision** | Unified AI platform with three specialized modules (Soch, Mudra, Sikshak) sharing a common Sarvam AI foundation |
+| **Key Differentiator** | Complete integration between conversational AI, financial intelligence, and educational content with privacy-first local processing |
+| **Platform Foundation** | Soch (Conversational AI) powers voice commands and NLP across all modules |
+| **Target Market** | Indian families seeking integrated financial education, privacy-conscious users, culturally-aware AI assistance |
+| **Primary Value** | Unified AI experience where financial insights enhance education and voice commands work across all features |
 
 ---
 
@@ -31,14 +32,14 @@
 
 ## 📱 **Device Permissions & Benefits Table**
 
-| **Permission Category** | **Specific Access** | **AI Benefits** | **Privacy Protection** |
-|------------------------|---------------------|-----------------|----------------------|
-| **📷 Media & Visual** | Camera, photo library | Receipt scanning, document processing, expense tracking | Photos processed locally, no cloud analysis |
-| **🎤 Audio & Voice** | Microphone, ambient audio | Voice expense commands, financial queries, conversational AI | Voice-to-text via cloud API (audio deleted immediately), conversation context stays local |
-| **📂 Files & Storage** | File system, downloads | Receipt storage, financial document organization | File content never transmitted to cloud |
-| **📱 System Integration** | App usage, notifications, clipboard | Smart financial notifications, spending alerts | Usage patterns stored encrypted locally |
-| **📍 Location & Movement** | GPS, motion sensors, geofencing | Location-based expense tracking, merchant identification | Location history encrypted on device |
-| **📧 Communication** | SMS, banking alerts | Transaction confirmation, expense categorization | All content encrypted locally, no cloud storage |
+| **Permission Category** | **Specific Access** | **AI Benefits** | **Cross-Module Integration** | **Privacy Protection** |
+|------------------------|---------------------|-----------------|----------------------------|----------------------|
+| **📷 Media & Visual** | Camera, photo library | Receipt scanning, document processing | Mudra: expense tracking, Sikshak: educational content creation | Photos processed locally, no cloud analysis |
+| **🎤 Audio & Voice** | Microphone, ambient audio | Universal voice commands across all modules | Soch: voice processing, Mudra: expense commands, Sikshak: voice learning | Voice-to-text via Sarvam API (audio deleted immediately), context stays local |
+| **📂 Files & Storage** | File system, downloads | Document organization across financial and educational content | Mudra: receipt storage, Sikshak: learning materials | File content never transmitted to cloud |
+| **📱 System Integration** | App usage, notifications, clipboard | Smart notifications across financial and educational features | Integrated alerts for spending, learning reminders | Usage patterns stored encrypted locally |
+| **📍 Location & Movement** | GPS, motion sensors, geofencing | Context-aware financial and educational recommendations | Location-based expense tracking, educational field trips | Location history encrypted on device |
+| **📧 Communication** | SMS, banking alerts | Transaction parsing enhancing both financial tracking and education | Bank SMS → Mudra analysis → Sikshak financial literacy content | All content encrypted locally, no cloud storage |
 
 ---
 
@@ -57,27 +58,27 @@
 
 ---
 
-## 💰 **MVP Personal Finance & Conversational AI Features**
+## 💰 **Integrated AI Platform Features (Soch + Mudra + Sikshak)**
 
-| **Core Feature** | **Functionality** | **Voice Integration** | **Privacy Protection** |
-|------------------|-------------------|---------------------|----------------------|
-| **Expense Tracking** | Manual entry, voice commands, receipt scanning | "Add ₹200 for lunch at Café Coffee Day" | All financial data encrypted locally |
-| **Budget Management** | Set budgets, track limits, spending alerts | "Set my food budget to ₹5000 this month" | Budget data never leaves device |
-| **Category Intelligence** | Auto-categorization, merchant recognition | "Categorize my Swiggy order as food expense" | Learning patterns stored locally |
-| **Spending Analysis** | Monthly/weekly reports, trend analysis | "Show me my spending trends for groceries" | All analysis performed on-device |
-| **Financial Chat** | Natural language queries about finances | "How much have I spent on entertainment?" | Conversation history encrypted locally |
-| **Smart Insights** | Spending patterns, savings suggestions | "Where can I save money this month?" | Insights generated from local data only |
+| **Core Feature** | **Primary Module** | **Cross-Module Integration** | **Voice Integration** | **Privacy Protection** |
+|------------------|-------------------|-----------------------------|--------------------|----------------------|
+| **Unified Voice Interface** | Soch | Universal commands across Mudra and Sikshak | "Hey Soch, categorize expense and explain budgeting" | All voice context encrypted locally |
+| **Financial Education** | Mudra + Sikshak | Real spending data enhances financial literacy content | "Teach me about my spending patterns" | Learning personalized with local financial data |
+| **Cultural Intelligence** | Soch | Festival-aware spending insights and educational content | "How should I budget for Diwali?" | Cultural preferences stored locally |
+| **SMS Transaction Learning** | Mudra + Soch | Soch's NLP powers Mudra's transaction parsing | "Parse my bank SMS and categorize" | SMS content processed locally only |
+| **Contextual Learning** | Sikshak + Mudra | Educational content adapts to real financial behavior | "Explain mutual funds using my data" | Educational personalization from local data |
+| **Emotional Financial Support** | Soch + Mudra | AI provides emotional support for financial stress | "I'm worried about my spending" | Emotional context never leaves device |
 
-### **MVP User Scenarios & Voice Commands:**
+### **Integrated User Scenarios & Cross-Module Voice Commands:**
 
-| **Scenario** | **Voice Command Examples** | **AI Response** | **Local Processing** |
-|--------------|---------------------------|-----------------|-------------------|
-| **Expense Entry** | "I spent 150 rupees on auto today" | "Added ₹150 for transportation. Your daily transport budget is 80% used." | ✅ All expense data local |
-| **Quick Balance Check** | "How much did I spend this week?" | "You've spent ₹2,400 this week. That's ₹200 less than last week!" | ✅ Calculations on-device |
-| **Budget Inquiry** | "Am I on track with my monthly budget?" | "You're at 65% of your monthly budget with 10 days left. Looking good!" | ✅ Budget analysis local |
-| **Category Analysis** | "Show me my food expenses" | "Food expenses: ₹3,200 this month. Top merchant: Zomato (₹800)" | ✅ Category insights local |
-| **Savings Advice** | "Where am I spending too much?" | "Entertainment is 40% over budget. Consider reducing movie subscriptions." | ✅ Advice from local data |
-| **Receipt Processing** | "Scan this restaurant bill" | "Added ₹450 for dining at Punjab Grill. Categorized as Food & Dining." | ✅ OCR and processing local |
+| **Scenario** | **Voice Command Examples** | **AI Response** | **Modules Involved** | **Local Processing** |
+|--------------|---------------------------|-----------------|---------------------|-------------------|
+| **Smart Expense Entry** | "I spent 150 rupees on auto, and explain transportation budgeting" | "Added ₹150 for transport. Here's how to optimize your commute budget..." | Soch + Mudra + Sikshak | ✅ All data and insights local |
+| **Financial Learning** | "Why am I overspending on food and teach me budgeting?" | "Food expenses are 40% over budget. Let me explain the 50-30-20 rule..." | Mudra + Sikshak + Soch | ✅ Learning personalized with local data |
+| **Cultural Financial Planning** | "Help me plan Diwali expenses and teach about festival budgeting" | "Based on last year's Diwali spending, here's a smart budget plan..." | All three modules | ✅ Cultural context processed locally |
+| **Emotional Financial Support** | "I'm stressed about money, help me understand my finances" | "I understand your concern. Let's review your spending together..." | Soch + Mudra + Sikshak | ✅ Emotional support with local data |
+| **Investment Learning** | "Show my portfolio and explain investment basics" | "Your mutual funds gained 12%. Here's how compound interest works..." | Mudra + Sikshak + Soch | ✅ Investment education with real data |
+| **Voice-First Learning** | "Quiz me on my actual spending habits" | "Based on your ₹3000 monthly food budget, what percentage goes to dining out?" | Sikshak + Mudra + Soch | ✅ Quiz personalized with local financial data |
 
 ### **MVP Technical Architecture for Finance Features:**
 
@@ -243,6 +244,19 @@ Phase 4: User Voice → Local Sarvam-M Model Only → Text → Local AI Processi
 
 ---
 
+## 🔗 **Cross-Module Integration Architecture**
+
+| **Integration Type** | **Soch (Core AI)** | **Mudra (Financial)** | **Sikshak (Educational)** | **Unified Experience** |
+|---------------------|---------------------|------------------------|---------------------------|------------------------|
+| **Voice Commands** | Central voice processing engine | "Add ₹200 lunch expense" | "Teach me about investments" | Universal voice interface across all features |
+| **SMS Processing** | Mayura NLP model analysis | Bank SMS transaction parsing | Educational content extraction | Unified text understanding |
+| **Cultural Intelligence** | Festival awareness, regional adaptation | Culturally-appropriate spending insights | Indian cultural education content | Consistent cultural context |
+| **Data Flow** | Conversational context engine | Financial patterns (encrypted) | Learning progress (encrypted) | Secure local data sharing |
+| **Learning Enhancement** | Emotional intelligence insights | Real financial behavior data | Personalized educational paths | Financial data enhances learning content |
+| **Privacy Architecture** | Local encryption for conversations | Local financial data processing | Local learning analytics | No cross-module cloud dependencies |
+
+---
+
 ## 🎤 **Sarvam-M Model Integration Strategy**
 
 | **Aspect** | **Details** | **MVP Advantage** | **Long-term Vision** |
@@ -299,53 +313,6 @@ Phase 4: User Voice → Local Sarvam-M Model Only → Text → Local AI Processi
 | **Custom Local Models** | Research and development | Primary recognition engine | Complete voice processing |
 | **Offline Capability** | Basic fallback only | Majority of languages supported | 100% offline functionality |
 
-### **Technical Implementation Options:**
-
-| **Voice Service Provider** | **Advantages** | **Regional Language Support** | **Privacy Features** |
-|----------------------------|----------------|-------------------------------|-------------------|
-| **Sarvam-M (via OpenRouter)** | Free tier for MVP, specialized in Indian languages, multilingual support | Excellent support for Hindi, Tamil, Telugu, Bengali and other Indian languages | API-only access, no data retention, optimized for Indian contexts |
-| **Google Speech-to-Text** | High accuracy, fast processing | 125+ languages including Hindi, Tamil, Telugu | Anonymous API calls, no data retention |
-| **Microsoft Speech Services** | Enterprise-grade security, offline models | 85+ languages including major Indian languages | GDPR compliant, configurable data retention |
-| **Indian AI Providers** (e.g., Krutrim, CoRover) | Local data residency, regional accent optimization | Specialized in Indian languages and dialects | Domestic data processing, government compliance |
-| **Hybrid Approach** | Best accuracy + data sovereignty + cost optimization | Combine Sarvam-M + global + regional providers | Multi-layer privacy protection |
-
-### **Voice Model Development Architecture:**
-```yaml
-Phase 1 - Cloud Foundation (0-6 months):
-  Step 1: Integrate Sarvam-M via OpenRouter API (primary) + Google/Microsoft/Indian voice APIs (fallback)
-  Step 2: Build voice processing pipeline with multilingual support
-  Step 3: Collect anonymized usage patterns
-  Step 4: Establish baseline accuracy metrics for Indian languages
-
-Phase 2 - Data Collection & Training (6-18 months):
-  Step 1: Partner with regional content creators and institutions
-  Step 2: Collect diverse voice samples (with consent)
-  Step 3: Build comprehensive multilingual datasets
-  Step 4: Optimize Sarvam-M integration and train custom regional language models
-
-Phase 3 - Hybrid Deployment (18-30 months):
-  Step 1: Deploy custom models with Sarvam-M optimization for primary languages (Hindi, Tamil, Telugu)
-  Step 2: Use Sarvam-M models as primary, cloud as backup
-  Step 3: Continuous improvement through federated learning
-  Step 4: Expand to additional regional languages
-
-Phase 4 - Full Independence (30+ months):
-  Step 1: Achieve 95%+ accuracy on all supported languages locally with Sarvam-M
-  Step 2: Eliminate cloud dependencies entirely
-  Step 3: Enable complete offline functionality with local Sarvam-M models
-  Step 4: Implement on-device model updates and learning
-```
-
-### **Competitive Advantage Through Local Voice Processing:**
-
-| **Advantage** | **Current Market (Cloud-dependent)** | **Our Approach (Local-first)** |
-|---------------|-------------------------------------|--------------------------------|
-| **Privacy** | Voice data sent to cloud servers | 100% on-device processing |
-| **Offline Functionality** | No offline voice recognition (like Google Assistant) | Full voice capability offline |
-| **Regional Languages** | Limited support for Indian dialects | Specialized models for regional languages |
-| **Latency** | Network-dependent response times | Instant local processing |
-| **Data Sovereignty** | Voice data stored on foreign servers | Complete user data control |
-
 ---
 
 ## 🧠 **Conversational AI with Emotional Intelligence**
@@ -354,7 +321,7 @@ Phase 4 - Full Independence (30+ months):
 |------------|------------------------------|-------------------------------------|-------------------------|
 | **Communication Style** | Respectful, relationship-focused conversations | Recognizes emotional tone, stress levels, frustration | Uses appropriate honorifics (Sir/Madam, ji suffix) |
 | **Cultural Awareness** | Understands Indian festivals, family dynamics, work culture | Adapts response style based on user's emotional state | Respects hierarchical communication patterns |
-| **Regional Adaptation** | Region-specific greetings, cultural references | Provides emotional support during stressful tasks | Understands joint family contexts, financial responsibilities |
+| **Regional Adaptation** | Region-specific greetings, cultural references | Provides emotional support during stressful tasks, celebrates achievements | Understands joint family contexts, financial responsibilities |
 | **Conversation Flow** | Warm, personal interactions vs. transactional | Detects when user needs encouragement or assistance | Balances efficiency with relationship building |
 
 ### **Emotional Intelligence Components:**
@@ -363,7 +330,7 @@ Phase 4 - Full Independence (30+ months):
 |------------------|------------------------------|--------------------------------|----------------------|
 | **Emotion Recognition** | Voice tone analysis, text sentiment, interaction patterns | Understands Indian communication nuances (indirect communication) | All emotional data processed locally |
 | **Empathy Response** | Context-aware emotional responses | Provides comfort during financial stress, celebrates achievements | Emotional patterns stored encrypted on device |
-| **Cultural Context** | Indian festival calendar, regional customs integration | "Happy Diwali! Would you like to set up bonus savings?" | Cultural preferences learned locally |
+| **Cultural Context** | Indian festival calendar, regional customs integration | "Happy Diwali! Would you like to set up bonus savings?" | Cultural data never shared with cloud |
 | **Relationship Building** | Remembers personal preferences, important dates | Asks about family, remembers previous conversations | Personal relationship data never leaves device |
 
 ### **Conversation Scenarios & Emotional Adaptation:**
