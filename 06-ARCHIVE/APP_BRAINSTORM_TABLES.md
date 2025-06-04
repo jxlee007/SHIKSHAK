@@ -196,7 +196,7 @@
 
 | **Timeline** | **Feature Category** | **Voice Model Development** | **Key Additions** |
 |--------------|---------------------|----------------------------|------------------|
-| **Year 1** | Core AI Assistant + Voice Foundation | Cloud APIs → Regional data collection → Custom Hindi/English models | MVP → Advanced Intelligence phases |
+| **Year 1** | Core AI Assistant + Voice Foundation | Cloud APIs → Regional data collection → Custom Hinglish models | MVP → Advanced Intelligence phases |
 | **Year 2** | Enterprise & Regional Expansion | Local models for 5+ Indian languages, hybrid processing | Team features, developer API, integrations |
 | **Year 3** | Global & Advanced AI | Complete local voice processing, 10+ languages offline | Multi-language, advanced local models |
 | **Year 4** | Platform Evolution | Voice model marketplace, community-contributed languages | AI marketplace, third-party privacy-first apps |

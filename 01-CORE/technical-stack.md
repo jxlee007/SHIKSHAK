@@ -331,7 +331,7 @@ class LocalAIProcessor {
   }
   
   private inferCulturalContext(text: string): CulturalContext {
-    // Hindi/English detection and cultural markers
+    // Hinglish detection and cultural markers
     const hindiWords = this.detectHindiWords(text);
     const culturalMarkers = this.detectCulturalReferences(text);
     

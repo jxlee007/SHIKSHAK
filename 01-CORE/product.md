@@ -297,7 +297,7 @@ Advanced speech-to-text, text-to-speech capabilities with Indian language suppor
 | **F1.1** Local AI Processing | Unit, Integration, Performance | <2s response time, >95% accuracy | Jest, Mocha, Performance profilers | Automated testing suite |
 | **F1.2** Hardware Encryption | Security, Penetration | AES-256 compliance, 0 vulnerabilities | Security scanners, Pen testing | Third-party security audit |
 | **F1.3** RAG-Based Cloud Training | Privacy, Data segregation, Performance | Zero personal data transmission, >10% local AI improvement | Privacy monitors, Data flow audits, ML performance metrics | Privacy compliance audit, Performance benchmarking |
-| **F2.1** SMS Scanner | Accuracy, Language | >95% parsing accuracy, Hindi/English | ML model testing, Language tests | Real SMS data validation |
+| **F2.1** SMS Scanner | Accuracy, Language | >95% parsing accuracy, Hinglish | ML model testing, Language tests | Real SMS data validation |
 | **F2.2** UPI Integration | Functional, Bank compatibility | All major banks supported | Bank API testing, Transaction simulation | User acceptance testing |
 | **F2.3** Expense Categorization | AI/ML, User feedback | >85% categorization accuracy | ML evaluation metrics | User feedback analysis |
 | **F3.1** Cultural Intelligence | Cultural, Regional | >95% cultural appropriateness | Cultural expert review | Focus group testing |
@@ -378,7 +378,7 @@ Advanced speech-to-text, text-to-speech capabilities with Indian language suppor
 | **Typography** | Primary: Noto Sans (multi-script), Secondary: Roboto | Support for Devanagari, Tamil, Telugu scripts | Minimum 16px font size, scalable text |
 | **Iconography** | Material Design with Indian cultural icons | Culturally familiar symbols (lotus, Om, etc.) | High contrast, clear recognition |
 | **Layout** | Mobile-first responsive design | Right-to-left support for Urdu/Arabic | Touch-friendly, 44px minimum touch targets |
-| **Voice Interface** | Natural language processing | Hindi/English code-switching support | Voice accessibility for visually impaired |
+| **Voice Interface** | Natural language processing | Hinglish code-switching support | Voice accessibility for visually impaired |
 
 ### User Journey Mapping
 

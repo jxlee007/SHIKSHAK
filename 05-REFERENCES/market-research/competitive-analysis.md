@@ -83,7 +83,7 @@ AssistantPro operates in the intersection of **Personal Finance AI**, **Voice As
 
 **Our Opportunity:**
 - First-mover advantage in privacy-first financial voice AI
-- Native Hindi/English mixed-language processing
+- Native Hinglish mixed-language processing
 - Cultural intelligence built into voice interactions
 
 ---
@@ -149,7 +149,7 @@ AssistantPro operates in the intersection of **Personal Finance AI**, **Voice As
 ### **Technical Differentiation**
 1. **Local Processing**: All financial data stays on device with AES-256 encryption
 2. **Cultural Context Engine**: Deep understanding of Indian festivals, family dynamics, and spending patterns
-3. **Multi-Language SMS Parsing**: Advanced Hindi/English/regional language transaction detection
+3. **Multi-Language SMS Parsing**: Advanced Hinglish/regional language transaction detection
 4. **Cross-Module Intelligence**: Integrated financial, educational, and conversational AI
 
 ### **Market Positioning Strengths**

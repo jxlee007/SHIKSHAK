@@ -290,7 +290,7 @@ npm run test:sms-parsing
 
 ### **Cultural & Localization Testing**
 ```bash
-# Hindi/English language testing
+# Hinglish language testing
 npm run test:localization:hindi
 npm run test:localization:english
 

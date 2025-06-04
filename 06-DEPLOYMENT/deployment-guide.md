@@ -157,7 +157,7 @@ Description: |
   • Privacy-first architecture
   
   SOCH AI HUB:
-  • Natural conversation in Hindi/English
+  • Natural conversation in Hinglish
   • Voice and text interaction
   • Contextual responses
   
@@ -715,7 +715,7 @@ curl -f -H "Authorization: Bearer test_token" https://api.assistantpro.in/api/v1
 - **Government Regulations:** IT Act 2000, GDPR-equivalent compliance
 
 ### Support Infrastructure
-- **Customer Service:** Hindi/English support team deployment
+- **Customer Service:** Hinglish support team deployment
 - **Documentation:** Multilingual user guides
 - **Community:** Regional user forums and support channels
 - **Feedback Systems:** Cultural adaptation feedback loops

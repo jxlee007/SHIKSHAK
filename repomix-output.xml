@@ -6367,7 +6367,7 @@ AssistantPro is a privacy-first AI personal assistant platform designed specific
 **App Response**: 
 - **SMS Access**: "Enable financial transaction detection from your UPI messages" (powers Mudra module)
 - **Camera Access**: "Scan receipts with OCR capabilities" (enhanced by Soch's processing)
-- **Microphone Access**: "Voice commands in Hindi/English" (Saarika ASR integration)
+- **Microphone Access**: "Voice commands in Hinglish" (Saarika ASR integration)
 - **Email Access**: "Optional: Enhanced financial data from bank emails"
 
 **Key Touchpoint**: Granular permission explanations with clear benefits  
@@ -6377,7 +6377,7 @@ AssistantPro is a privacy-first AI personal assistant platform designed specific
 #### **Step 3: Cultural & Regional Customization (3-5 minutes)**
 **User Action**: Selects preferences  
 **App Response**:
-- **Language Selection**: Hindi/English/Regional via Soch platform
+- **Language Selection**: Hinglish/Regional via Soch platform
 - **Regional Adaptation**: North/South/East/West India for cultural nuances
 - **Communication Style**: Formal/casual preference
 - **Festival Calendar**: Personal celebration preferences for contextual responses
@@ -6415,13 +6415,13 @@ AssistantPro is a privacy-first AI personal assistant platform designed specific
 
 **Automatic Mode (30 seconds)**:
 1. **Background SMS Processing**: Overnight UPI transactions automatically detected
-2. **AI Categorization**: Soch's Mayura model parses Hindi/English SMS content with cultural context
+2. **AI Categorization**: Soch's Mayura model parses Hinglish SMS content with cultural context
 3. **Smart Notification**: "3 new transactions detected. Tap to review."
 4. **One-Tap Confirmation**: User confirms or corrects categorization
 
 **Voice Command Mode (45 seconds)**:
 1. **User Voice Input**: "Add ₹500 auto rickshaw expense"
-2. **ASR Processing**: Saarika ASR processes Hindi/English mixed command
+2. **ASR Processing**: Saarika ASR processes Hinglish mixed command
 3. **AI Integration**: Mudra module categorizes and stores transaction
 4. **Voice Confirmation**: Bulbul TTS responds: "Auto rickshaw expense of ₹500 added"
 
@@ -6446,7 +6446,7 @@ AssistantPro is a privacy-first AI personal assistant platform designed specific
 1. **User Request**: "How can I save more money?"
 2. **Data Integration**: Sikshak analyzes real spending patterns from Mudra
 3. **Personalized Advice**: Based on actual financial behavior and cultural context
-4. **Interactive Explanation**: Using Bulbul TTS for natural Hindi/English delivery
+4. **Interactive Explanation**: Using Bulbul TTS for natural Hinglish delivery
 
 **Cultural Learning Mode**:
 1. **Content Selection**: Indian history, arts, or mathematics
@@ -47121,7 +47121,7 @@ Design a mobile app welcome screen for "AssistantPro" - an AI personal assistant
 - Cultural greeting text: "नमस्ते / Welcome" 
 - Large rounded CTA button: "शुरू करें / Get Started" positioned in bottom 25%
 - Skip option in top-right corner
-- Modern, clean typography with Hindi/English support
+- Modern, clean typography with Hinglish support
 - Mobile-first design, 375x812px (iPhone X dimensions)
 - Subtle animated elements suggestion (floating particles, gentle pulse)
 ```
@@ -47148,7 +47148,7 @@ Design a mobile permission request screen with card-based layout.
 ```
 Design a cultural preferences setup screen for Indian users.
 - Header: "Personalize Your Experience" 
-- Language selector: Large toggle buttons for Hindi/English
+- Language selector: Large toggle buttons for Hinglish
 - Regional India locations list with selectable regions (North/South/East/West)
 - Communication style cards: "Formal" vs "Casual" with examples
 - Festival calendar toggle with Indian festival icons
@@ -47177,7 +47177,7 @@ Design Elements:
 - Inactive state: Gray icons with subtle labels
 - Background: White with subtle top border and gradient
 - Icons: 24x24px, AI-themed designs showing platform integration
-- Typography: 11px for labels, supports Hindi/English mixed text
+- Typography: 11px for labels, supports Hinglish mixed text
 - Integration indicator: Subtle connecting lines showing AI foundation
 ```
 
@@ -47228,7 +47228,7 @@ Design a financial dashboard powered by conversational AI integration:
   - "Voice expense entry" → Saarika ASR input
   - "Get spending insights" → AI analysis via Soch
 - Integration indicators: Small AI icons showing Soch-powered features
-- Cultural elements: Hindi/English labels, Indian number formatting (lakhs/crores)
+- Cultural elements: Hinglish labels, Indian number formatting (lakhs/crores)
 - Smart categorization powered by cultural context understanding
 ```
 
@@ -47239,7 +47239,7 @@ Design transaction detail screen showcasing AI intelligence:
 - Transaction header with AI confidence score for categorization
 - "AI Analysis" section showing how Soch interpreted the transaction:
   - Original SMS text (if SMS-detected)
-  - Language detection results (Hindi/English mix)
+  - Language detection results (Hinglish mix)
   - Cultural context used for categorization
 - Voice note replay if transaction was added via voice command
 - AI suggestions for similar future transactions
@@ -47399,7 +47399,7 @@ Design a distraction-free reading interface for educational content.
 - Main content area:
   - Large, readable typography (16-18px)
   - Proper line spacing for comfortable reading
-  - Mixed Hindi/English text support
+  - Mixed Hinglish text support
   - Inline images with captions
   - Highlighted key terms or definitions
 - Reading controls at bottom:
@@ -47501,7 +47501,7 @@ Design a full-screen voice interaction interface.
 - Voice waveform visualization during speech
 - "Listening..." / "Processing..." status indicators
 - Transcribed text appears in real-time at bottom
-- Support for Hindi/English mixed speech display
+- Support for Hinglish mixed speech display
 - Cultural voice commands examples:
   - "मेरा खर्च दिखाओ / Show my expenses"
   - "आज कितना खर्च हुआ / How much did I spend today?"
@@ -47662,7 +47662,7 @@ This comprehensive set of design prompts should provide Google Snitch with detai
   - Leverages Soch's deep understanding of Indian communication patterns for age-appropriate, culturally-sensitive education
   - Regional adaptation capabilities ensure educational content respects local cultural values and learning styles
 - **Natural Voice Learning Interface**: 
-  - Bulbul TTS delivers educational content in natural Hindi/English with proper pronunciation and emotional inflection
+  - Bulbul TTS delivers educational content in natural Hinglish with proper pronunciation and emotional inflection
   - Interactive voice-based Q&A sessions enable hands-free learning experiences
 - **Adaptive Teaching Methods**: 
   - Soch's emotional intelligence analyzes learner engagement through voice tone and response patterns
@@ -47842,10 +47842,10 @@ In the second phase, we will implement a comprehensive video-based AI tutoring p
 |-------|-----------------------------------|
 | **Feature Name** | AI For Personal Finance (AI-PF) - "Mudra" | **Integration Module within AssistantPro Ecosystem** |
 | **Summary** | A comprehensive financial management system **powered by Soch AI foundation** and seamlessly integrated within the AI Personal Assistant app. Provides intelligent expense tracking, transaction categorization, merchant analysis, and financial trends visualization through a **culturally-aware, voice-enabled mobile interface**. **India-first design** with deep UPI integration, multi-language support, and GST compliance for the rapidly growing Indian digital payments market. **Fully functional offline** through local SMS scanning, ensuring continuous operation regardless of internet connectivity. **Enhanced by Soch's conversational AI** for natural language financial interactions and **feeding educational content to Sikshak module** for practical financial literacy. |
-| **Description** | The Mudra module **leverages the unified Soch AI platform** to automatically process financial data from emails, SMS messages, bank statements, and receipts. **Uses Soch's Mayura model for Hindi/English SMS parsing** and **Saarika ASR for voice expense queries**. The system continuously scans both email and SMS communications on the device to extract transaction details, payment confirmations, account statements, and financial notifications to build a comprehensive financial history. **Designed specifically for the Indian market** with native UPI integration, Hindi/English language support via Soch's cultural intelligence, GST compliance, and optimization for India's diverse smartphone ecosystem. **Core functionality operates completely offline** through local SMS scanning, making it resilient to internet connectivity issues common in emerging markets. **Voice commands processed through Soch enable natural financial conversations**: "What did I spend on groceries this month?" Email scanning provides additional data when connectivity is available but is not essential for primary operations. **Provides anonymized financial insights to Sikshak module** for enhanced financial literacy education. It provides users with detailed transaction management, category-based expense organization, merchant-specific spending analysis, and comprehensive financial trends reporting. The system maintains complete user privacy through local data encryption while offering intelligent financial insights and automation **powered by the shared Soch AI foundation**. |
+| **Description** | The Mudra module **leverages the unified Soch AI platform** to automatically process financial data from emails, SMS messages, bank statements, and receipts. **Uses Soch's Mayura model for Hinglish SMS parsing** and **Saarika ASR for voice expense queries**. The system continuously scans both email and SMS communications on the device to extract transaction details, payment confirmations, account statements, and financial notifications to build a comprehensive financial history. **Designed specifically for the Indian market** with native UPI integration, Hinglish language support via Soch's cultural intelligence, GST compliance, and optimization for India's diverse smartphone ecosystem. **Core functionality operates completely offline** through local SMS scanning, making it resilient to internet connectivity issues common in emerging markets. **Voice commands processed through Soch enable natural financial conversations**: "What did I spend on groceries this month?" Email scanning provides additional data when connectivity is available but is not essential for primary operations. **Provides anonymized financial insights to Sikshak module** for enhanced financial literacy education. It provides users with detailed transaction management, category-based expense organization, merchant-specific spending analysis, and comprehensive financial trends reporting. The system maintains complete user privacy through local data encryption while offering intelligent financial insights and automation **powered by the shared Soch AI foundation**. |
 | **Priority** | High - Core feature of the AI Personal Assistant app |
 | **Status** | In Development/Design Phase |
-| **User Stories / Use Cases** | **India-Specific User Stories (Powered by Soch AI):**<br/>• As an Indian user, I want the AI to automatically detect UPI transactions from SMS confirmations using Soch's Mayura language processing so I can track my digital payments<br/>• As a small business owner in India, I want automatic GST calculation and categorization for my expenses using culturally-aware AI<br/>• As a Hindi-speaking user, I want to interact with the app in my preferred language using Soch's natural Hindi processing<br/>• As a user with limited data connectivity, I want voice commands like "Add auto rickshaw expense ₹50" processed through Soch's Saarika ASR to work offline<br/>• As a user in rural areas with poor internet, I want to rely on SMS-based transaction tracking without connectivity dependence<br/>• **As a Zerodha investor, I want to see my portfolio performance integrated with my expense tracking for complete financial awareness (Phase 2)**<br/>• **As a learner, I want my financial data to help educate me through Sikshak's practical money management lessons**<br/>**Universal User Stories (Enhanced by Soch AI):**<br/>• As a user, I want to ask "What did I spend on groceries this month?" and get instant voice responses through Soch's conversational AI<br/>• As a user, I want the AI to automatically detect financial transactions from my emails and SMS messages using Soch's language processing so I don't have to manually enter them<br/>• As a user, I want to view all my transactions in an organized list with natural language search through Soch<br/>• As a user, I want to categorize transactions automatically using Soch's cultural context understanding of Indian spending patterns<br/>• As a user, I want to filter transactions by merchant, category, or time period using voice commands through Soch<br/>• As a user, I want to see spending trends and analytics with conversational explanations powered by Soch<br/>• As a user, I want to generate expense reports for business or personal use with voice commands<br/>• As a user, I want payment confirmations and account alerts from SMS to be automatically processed using Soch's Hindi/English parsing<br/>• **As an investor, I want natural language queries that work across both my expenses and investment portfolios (Phase 2)** |
+| **User Stories / Use Cases** | **India-Specific User Stories (Powered by Soch AI):**<br/>• As an Indian user, I want the AI to automatically detect UPI transactions from SMS confirmations using Soch's Mayura language processing so I can track my digital payments<br/>• As a small business owner in India, I want automatic GST calculation and categorization for my expenses using culturally-aware AI<br/>• As a Hindi-speaking user, I want to interact with the app in my preferred language using Soch's natural Hindi processing<br/>• As a user with limited data connectivity, I want voice commands like "Add auto rickshaw expense ₹50" processed through Soch's Saarika ASR to work offline<br/>• As a user in rural areas with poor internet, I want to rely on SMS-based transaction tracking without connectivity dependence<br/>• **As a Zerodha investor, I want to see my portfolio performance integrated with my expense tracking for complete financial awareness (Phase 2)**<br/>• **As a learner, I want my financial data to help educate me through Sikshak's practical money management lessons**<br/>**Universal User Stories (Enhanced by Soch AI):**<br/>• As a user, I want to ask "What did I spend on groceries this month?" and get instant voice responses through Soch's conversational AI<br/>• As a user, I want the AI to automatically detect financial transactions from my emails and SMS messages using Soch's language processing so I don't have to manually enter them<br/>• As a user, I want to view all my transactions in an organized list with natural language search through Soch<br/>• As a user, I want to categorize transactions automatically using Soch's cultural context understanding of Indian spending patterns<br/>• As a user, I want to filter transactions by merchant, category, or time period using voice commands through Soch<br/>• As a user, I want to see spending trends and analytics with conversational explanations powered by Soch<br/>• As a user, I want to generate expense reports for business or personal use with voice commands<br/>• As a user, I want payment confirmations and account alerts from SMS to be automatically processed using Soch's Hinglish parsing<br/>• **As an investor, I want natural language queries that work across both my expenses and investment portfolios (Phase 2)** |
 | **Acceptance Criteria** | **India-Specific Criteria:**<br/>• UPI transaction SMS messages are automatically parsed and categorized<br/>• Hindi and English language SMS/email parsing works accurately<br/>• GST calculations are automatically applied to eligible transactions<br/>• App functions properly on entry-level Android devices (2GB RAM minimum)<br/>• **Offline mode maintains full functionality without internet connectivity through SMS scanning**<br/>• **Core transaction detection and categorization works entirely offline via SMS processing**<br/>• Email data syncs and integrates seamlessly when connectivity is restored<br/>**Universal Criteria:**<br/>• AI successfully scans and processes financial data from both email and SMS messages<br/>• Transaction data displays correctly in list and detailed views<br/>• Category assignment works both manually and automatically via AI<br/>• Filtering system allows multiple filter combinations<br/>• Merchant-based transaction grouping functions properly<br/>• Trends view provides meaningful financial insights<br/>• Month dropdown slider enables easy time-based navigation<br/>• All data remains encrypted and processed locally<br/>• Export functionality generates accurate expense reports<br/>• Email-based statements and receipts are properly parsed and integrated when connectivity allows |
 | **Sub-Features / Components** | **Core Views:**<br/>• Home Dashboard (2.home-view.jpg)<br/>• Secondary Navigation (1.second-view.jpg)<br/>**Transaction Management:**<br/>• Transaction Detail View (2.Transaction-view.jpg)<br/>• Transaction Categories View (2.Transaction-categories-view.jpg)<br/>• Transaction Menu Options (2.Transaction-menu-options.jpg)<br/>• Transactions List View (3.transactions-list-view.jpg)<br/>• Category-wise Transaction List (3.category-wise-transaction-list-view.jpg)<br/>• Merchant-wise Transaction List (3.merchant-vise-transactions-list-view.jpg)<br/>**Organization & Analysis:**<br/>• Categories Management (3.categories-view.jpg)<br/>• Merchant View (3.merchant-view.jpg)<br/>• Filter System (3.filter-view-aside.jpg)<br/>• Month Selection (3.month-dropdown-slider.jpg)<br/>**Analytics & Reporting:**<br/>• Trends View (4.trends-view.jpg)<br/>• Trends Filter System (4.trends-view-aside-filter.jpg)<br/>• PDF Report Generation (axio_expense_report_*.pdf) |
 | **Stimulus/Response Sequences** | **Offline SMS-Based Transaction Detection (Primary Mode):**<br/>1. AI continuously monitors SMS messages for financial keywords (works offline)<br/>2. System extracts UPI transaction details, payment confirmations, and bank alerts from SMS<br/>3. AI suggests category based on merchant/description and historical patterns (local processing)<br/>4. User receives notification of detected transaction for review<br/>5. User confirms or modifies categorization<br/>6. Transaction saved and categorized in local financial history<br/>**Online Email Integration (Secondary/Enhancement Mode):**<br/>1. When internet connectivity is available, AI scans emails for additional financial data<br/>2. System extracts bank statements, detailed receipts, and investment reports from emails<br/>3. Email-based transactions are cross-referenced with SMS data to avoid duplicates<br/>4. Additional context and details are added to existing SMS-detected transactions<br/>**Manual Transaction Entry:**<br/>1. User takes photo of receipt OR manually enters transaction<br/>2. System extracts transaction details using OCR/AI (works offline)<br/>3. AI suggests category based on merchant/description<br/>4. User confirms or modifies categorization<br/>5. Transaction saved and categorized<br/>**Expense Analysis:**<br/>1. User selects filter criteria (merchant, category, date range)<br/>2. System filters and displays relevant transactions (works offline)<br/>3. User views trends and analytics (local processing)<br/>4. System provides AI-generated insights and recommendations based on local data |
@@ -47861,7 +47861,7 @@ In the second phase, we will implement a comprehensive video-based AI tutoring p
 | **Localization/Language Support** | • **Primary Languages:** Hindi and English UI with bilingual support<br/>• **Communication Parsing:** Multi-script SMS/email parsing (Devanagari, English)<br/>• **Voice Commands:** Hindi and English voice recognition for transaction entry<br/>• **Regional Adaptations:** Support for major regional languages (Tamil, Telugu, Bengali, Marathi)<br/>• **Currency Display:** Indian Rupee (₹) formatting and number systems (lakhs, crores)<br/>• **Cultural Preferences:** Festival/seasonal spending categories and Indian financial habits |
 | **Regulatory/Compliance Needs** | • **Data Localization:** Compliance with India's data protection and localization requirements<br/>• **RBI Guidelines:** Adherence to Reserve Bank of India digital payment regulations<br/>• **GST Integration:** Automated GST categorization and reporting capabilities<br/>• **KYC Support:** Integration with India's digital identity systems (Aadhaar, PAN)<br/>• **Financial Privacy:** Compliance with Indian banking and financial privacy regulations<br/>• **Local Encryption Standards:** Meeting Indian government encryption and security standards |
 | **Payment/Integration Preferences** | • **UPI Ecosystem:** Primary integration with UPI-based payment platforms<br/>• **Digital Wallets:** Support for Paytm, Amazon Pay, and other popular e-wallets<br/>• **Banking Integration:** API connections with major Indian banks and NBFCs<br/>• **Merchant Categories:** India-specific merchant categories (Kirana stores, street vendors, auto-rickshaw)<br/>• **Festival Payments:** Recognition of Indian festival and cultural payment patterns<br/>• **Subscription Services:** Integration with Indian streaming, telecom, and utility services<br/>• **Gold/Investment Tracking:** Support for traditional Indian investment patterns |
-| **Scalability Plan for Global Markets** | **Phase 1 - India Foundation (Months 1-12):**<br/>• Perfect UPI and Indian banking integration<br/>• Hindi/English localization<br/>• GST compliance features<br/>**Phase 2 - South Asian Expansion (Months 13-18):**<br/>• Bangladesh, Sri Lanka, Nepal market entry<br/>• Additional currency support<br/>• Regional payment method integration<br/>**Phase 3 - Southeast Asia (Months 19-30):**<br/>• Indonesia, Malaysia, Thailand, Philippines<br/>• Islamic banking features for Muslim markets<br/>• Local payment gateway integrations<br/>**Phase 4 - Global Markets (Months 31+):**<br/>• US, Europe, Latin America<br/>• Advanced banking API integrations<br/>• Multi-currency portfolio management |
+| **Scalability Plan for Global Markets** | **Phase 1 - India Foundation (Months 1-12):**<br/>• Perfect UPI and Indian banking integration<br/>• Hinglish localization<br/>• GST compliance features<br/>**Phase 2 - South Asian Expansion (Months 13-18):**<br/>• Bangladesh, Sri Lanka, Nepal market entry<br/>• Additional currency support<br/>• Regional payment method integration<br/>**Phase 3 - Southeast Asia (Months 19-30):**<br/>• Indonesia, Malaysia, Thailand, Philippines<br/>• Islamic banking features for Muslim markets<br/>• Local payment gateway integrations<br/>**Phase 4 - Global Markets (Months 31+):**<br/>• US, Europe, Latin America<br/>• Advanced banking API integrations<br/>• Multi-currency portfolio management |
 | **Future Market Adaptation Considerations** | • **Regulatory Frameworks:** Adapting to GDPR (Europe), PCI DSS (Global), local financial regulations<br/>• **Payment Systems:** Integration with Apple Pay, Google Pay, Samsung Pay globally<br/>• **Banking Standards:** SWIFT, IBAN, and other international banking protocols<br/>• **Currency Support:** Multi-currency transactions and real-time exchange rates<br/>• **Tax Systems:** VAT, sales tax, and other international tax compliance<br/>• **Cultural Adaptations:** Local spending categories, financial habits, and cultural preferences<br/>• **Technology Infrastructure:** Adaptation to different mobile ecosystems and connectivity patterns<br/>• **Language Expansion:** AI models for local language financial text processing<br/>• **Investment Products:** Regional investment and savings product integration |
 | **Date Created / Updated** | Created: May 29, 2025 | Updated: May 30, 2025 (Added Zerodha Kite MCP Integration for Phase 2) |
 | **References** | • AIF Reference folder screenshots (14 UI mockups)<br/>• APP_BRAINSTORM.md - AI Personal Assistant core concept<br/>• Idea-refer.md - AI Personal Assistant requirements<br/>• axio_expense_report_7600925494_1748442917321533.pdf - Sample report format<br/>• Privacy-first architecture from main app concept<br/>• India market research and UPI ecosystem analysis |
@@ -48057,8 +48057,8 @@ AssistantPro App → Mudra Module → Zerodha MCP Server → Kite Connect API �
 **Mudra leverages Soch's comprehensive AI capabilities for financial intelligence:**
 
 ### **Sarvam AI Integration**
-- **Text Processing**: Uses Mayura model for Hindi/English SMS and email parsing
-- **Language Detection**: Automatic detection of financial communication language (Hindi/English/Regional)
+- **Text Processing**: Uses Mayura model for Hinglish SMS and email parsing
+- **Language Detection**: Automatic detection of financial communication language (Hinglish/Regional)
 - **Cultural Context**: Understands Indian financial terminology, UPI references, and GST-related language
 - **Voice Commands**: Natural language financial queries processed through Soch's conversational engine
 - **Translation**: Real-time translation of financial communications across supported languages
@@ -48089,7 +48089,7 @@ Create a revolutionary privacy-first, mobile-first AI personal assistant specifi
 - **Implementation Status**: ✅ 7 production-ready cookbooks with complete API documentation
 
 **💰 Mudra (AI Personal Finance)**: Automatic transaction analysis via SMS/email with offline-first architecture
-- **Soch Integration**: Uses Soch's language models for Hindi/English financial communication parsing
+- **Soch Integration**: Uses Soch's language models for Hinglish financial communication parsing
 - **Core Features**: UPI transaction detection, GST compliance, voice financial queries
 - **Implementation Status**: 🚧 Active development with complete UI designs and SMS parsing algorithms
 
@@ -48116,7 +48116,7 @@ Create a revolutionary privacy-first, mobile-first AI personal assistant specifi
 ```yaml
 Local LLM: qwen3 8B_K_M (quantized for mobile)
 Speech Processing: Whisper.cpp (local) + Sarvam-M via OpenRouter API
-Text Processing: Sarvam Mayura model for Hindi/English
+Text Processing: Sarvam Mayura model for Hinglish
 Vector Database: Chroma (local instance) / SQLite with vector extensions
 ML Framework: TensorFlow Lite / React Native ML Kit
 ```
@@ -48156,7 +48156,7 @@ Core Permissions:
 - **Sarvam AI (Primary Provider)**: Complete Indian language AI platform integration ✅ **Ready for Implementation**
   - **Chat Completions API**: Sarvam-M (24B parameter) model for conversational AI with cultural awareness
   - **Speech-to-Text Integration**: 
-    - Saarika ASR for high-accuracy Hindi/English transcription
+    - Saarika ASR for high-accuracy Hinglish transcription
     - Saaras ASR for domain-optimized speech translation
   - **Text-to-Speech**: Bulbul TTS for natural Indian language voice synthesis
   - **Text Processing**: Mayura model for translation, transliteration, and language detection
@@ -48243,7 +48243,7 @@ Core Permissions:
 - **Permission Transparency**: Validate permission explanations
 
 #### **Cultural Testing**
-- **Language Accuracy**: Hindi/English mixed text processing
+- **Language Accuracy**: Hinglish mixed text processing
 - **Cultural Sensitivity**: Appropriate honorific usage
 - **Regional Adaptation**: Test across North/South/East/West India
 
@@ -48359,7 +48359,7 @@ Step 2: Permission Setup (5-8 min)
   - Optional email access for enhanced financial data
 
 Step 3: Cultural & Regional Setup (3-5 min)
-  - Language preference (Hindi/English/Regional) via Soch platform
+  - Language preference (Hinglish/Regional) via Soch platform
   - Region selection (North/South/East/West India) for cultural adaptation
   - Cultural communication style preferences (formal/casual)
   - Festival and calendar preferences for educational content
@@ -48380,13 +48380,13 @@ Step 5: Financial Setup (2-3 min)
 ```yaml
 Automatic Mode (30 seconds):
   - Background SMS monitoring detects UPI transaction
-  - Soch's Mayura model parses Hindi/English SMS content
+  - Soch's Mayura model parses Hinglish SMS content
   - AI suggests category based on merchant and cultural context
   - User receives notification with one-tap confirmation
 
 Voice Command Mode (45 seconds):
   - User says: "Add ₹500 auto rickshaw expense" 
-  - Saarika ASR processes Hindi/English mixed command
+  - Saarika ASR processes Hinglish mixed command
   - Mudra module categorizes and stores transaction
   - Bulbul TTS confirms: "Auto rickshaw expense of ₹500 added"
 
@@ -48403,7 +48403,7 @@ Financial Literacy Mode:
   - User asks: "How can I save more money?"
   - Sikshak analyzes real spending patterns from Mudra
   - Provides personalized advice based on actual data
-  - Uses Bulbul TTS for natural Hindi/English explanation
+  - Uses Bulbul TTS for natural Hinglish explanation
 
 Interactive Learning Mode:
   - Sikshak suggests lesson based on user's financial behavior
@@ -48499,7 +48499,7 @@ Privacy & Security:
 
 Cultural Intelligence:
   - 90%+ cultural appropriateness rating
-  - 85%+ Hindi/English processing accuracy
+  - 85%+ Hinglish processing accuracy
   - 80%+ regional adaptation satisfaction
   - 75%+ festival awareness effectiveness
 ```
@@ -48674,7 +48674,7 @@ Use knowledge graph mcp creating the knowledge base for individual user
 
 ### **🔗 Integration with Mudra (AI Personal Finance)**
 - **SMS/Email Financial Data Parsing**: 
-  - Mayura model processes Hindi/English UPI transaction messages with 98%+ accuracy
+  - Mayura model processes Hinglish UPI transaction messages with 98%+ accuracy
   - Saarika ASR converts voice expense queries: "कितना खर्च किया groceries पर?" → structured financial data
   - Cultural context understanding for Indian banking terminology (lakhs, crores, GST, UPI)
 - **Voice Financial Commands**: 
@@ -48691,7 +48691,7 @@ Use knowledge graph mcp creating the knowledge base for individual user
   - Soch's emotional intelligence adapts teaching methods based on learner engagement and cultural background
   - Age-appropriate communication using demographic awareness and regional cultural patterns
 - **Voice-Based Educational Content**: 
-  - Bulbul TTS delivers natural Hindi/English educational content with proper pronunciation
+  - Bulbul TTS delivers natural Hinglish educational content with proper pronunciation
   - Interactive Q&A sessions with culturally-aware responses and examples
 - **Cross-Module Educational Enhancement**: 
   - Financial literacy education enhanced with real anonymized data from Mudra module
@@ -48705,7 +48705,7 @@ Use knowledge graph mcp creating the knowledge base for individual user
   - Seamless transitions: "Tell me about my spending" → financial data → "How can I budget better?" → educational content
   - Maintains conversation history and user preferences across all module interactions
 - **Cultural Continuity**: 
-  - Consistent Hindi/English communication patterns across financial queries and educational sessions
+  - Consistent Hinglish communication patterns across financial queries and educational sessions
   - Same emotional intelligence and respect for cultural values in all interactions
 - **Privacy-First Integration**: 
   - All AI processing maintains local encryption while enabling rich feature interconnectivity
@@ -49053,7 +49053,7 @@ This modular approach allows for a seamless speech-to-speech user experience, ev
 
 | **Timeline** | **Feature Category** | **Voice Model Development** | **Key Additions** |
 |--------------|---------------------|----------------------------|------------------|
-| **Year 1** | Core AI Assistant + Voice Foundation | Cloud APIs → Regional data collection → Custom Hindi/English models | MVP → Advanced Intelligence phases |
+| **Year 1** | Core AI Assistant + Voice Foundation | Cloud APIs → Regional data collection → Custom Hinglish models | MVP → Advanced Intelligence phases |
 | **Year 2** | Enterprise & Regional Expansion | Local models for 5+ Indian languages, hybrid processing | Team features, developer API, integrations |
 | **Year 3** | Global & Advanced AI | Complete local voice processing, 10+ languages offline | Multi-language, advanced local models |
 | **Year 4** | Platform Evolution | Voice model marketplace, community-contributed languages | AI marketplace, third-party privacy-first apps |
@@ -50970,7 +50970,7 @@ Advanced speech-to-text, text-to-speech capabilities with Indian language suppor
 | **F1.1** Local AI Processing | Unit, Integration, Performance | <2s response time, >95% accuracy | Jest, Mocha, Performance profilers | Automated testing suite |
 | **F1.2** Hardware Encryption | Security, Penetration | AES-256 compliance, 0 vulnerabilities | Security scanners, Pen testing | Third-party security audit |
 | **F1.3** RAG-Based Cloud Training | Privacy, Data segregation, Performance | Zero personal data transmission, >10% local AI improvement | Privacy monitors, Data flow audits, ML performance metrics | Privacy compliance audit, Performance benchmarking |
-| **F2.1** SMS Scanner | Accuracy, Language | >95% parsing accuracy, Hindi/English | ML model testing, Language tests | Real SMS data validation |
+| **F2.1** SMS Scanner | Accuracy, Language | >95% parsing accuracy, Hinglish | ML model testing, Language tests | Real SMS data validation |
 | **F2.2** UPI Integration | Functional, Bank compatibility | All major banks supported | Bank API testing, Transaction simulation | User acceptance testing |
 | **F2.3** Expense Categorization | AI/ML, User feedback | >85% categorization accuracy | ML evaluation metrics | User feedback analysis |
 | **F3.1** Cultural Intelligence | Cultural, Regional | >95% cultural appropriateness | Cultural expert review | Focus group testing |
@@ -51051,7 +51051,7 @@ Advanced speech-to-text, text-to-speech capabilities with Indian language suppor
 | **Typography** | Primary: Noto Sans (multi-script), Secondary: Roboto | Support for Devanagari, Tamil, Telugu scripts | Minimum 16px font size, scalable text |
 | **Iconography** | Material Design with Indian cultural icons | Culturally familiar symbols (lotus, Om, etc.) | High contrast, clear recognition |
 | **Layout** | Mobile-first responsive design | Right-to-left support for Urdu/Arabic | Touch-friendly, 44px minimum touch targets |
-| **Voice Interface** | Natural language processing | Hindi/English code-switching support | Voice accessibility for visually impaired |
+| **Voice Interface** | Natural language processing | Hinglish code-switching support | Voice accessibility for visually impaired |
 
 ### User Journey Mapping
 
@@ -51355,7 +51355,7 @@ It's the kind of unsexy-but-critical problem that often creates big opportunitie
 - **Technology Stack**: Complete Sarvam AI integration with 7 production-ready cookbooks
 - **Core Capabilities**: 
   - Speech-to-Text (Saarika & Saaras models) for voice interactions
-  - Text-to-Speech (Bulbul model) for natural Hindi/English responses
+  - Text-to-Speech (Bulbul model) for natural Hinglish responses
   - Language Detection, Translation & Transliteration (Mayura model)
   - Chat Completions with cultural context (Sarvam-M 24B parameter model)
 - **Cross-Module Integration**: 
@@ -51367,7 +51367,7 @@ It's the kind of unsexy-but-critical problem that often creates big opportunitie
 ### **💰 Mudra** - AI Financial Assistant (Phase 1 Priority)
 - **Core Innovation**: Privacy-first expense tracking with offline-first SMS-based transaction detection
 - **Soch Integration**: 
-  - Uses Soch's Mayura model for Hindi/English financial communication parsing
+  - Uses Soch's Mayura model for Hinglish financial communication parsing
   - Voice commands: "What did I spend on groceries?" processed through Soch's NLP
   - SMS transaction categorization using Soch's cultural context understanding
 - **Technology Stack**: UPI integration, GST compliance, automatic categorization via Sarvam AI
@@ -51381,7 +51381,7 @@ It's the kind of unsexy-but-critical problem that often creates big opportunitie
 - **Focus Areas**: Indian history, Mathematics, Science, Personal Development with cultural sensitivity
 - **Soch Integration**: 
   - Leverages Soch's emotional intelligence for age-appropriate communication
-  - Uses Bulbul TTS for natural Hindi/English educational content delivery
+  - Uses Bulbul TTS for natural Hinglish educational content delivery
   - Cultural awareness ensures regionally-appropriate educational approaches
 - **Mudra Integration**: 
   - Financial literacy education using anonymized real expense data from Mudra
@@ -51436,7 +51436,7 @@ It's the kind of unsexy-but-critical problem that often creates big opportunitie
 - ✅ **Cultural Intelligence Framework**: Indian market focus with regional adaptation
 - ✅ **Advanced AI Features**: Gender-aware translation, cultural numerals, regional speech processing
 - ✅ **Investment Integration Planning**: Zerodha Kite MCP integration roadmap for Phase 2
-- ✅ **Multi-Language Support**: Hindi/English processing with SMS/email parsing capabilities
+- ✅ **Multi-Language Support**: Hinglish processing with SMS/email parsing capabilities
 - 🚧 **React Native Foundation**: TypeScript-based mobile app structure (Ready for implementation)
 - 🚧 **Local AI Pipeline**: On-device processing with Sarvam AI integration (Blueprints complete)
 
@@ -51444,7 +51444,7 @@ It's the kind of unsexy-but-critical problem that often creates big opportunitie
 
 ### 🏆 Key Differentiators
 - **🔒 Complete Privacy**: All personal data processed and stored locally with AES-256 encryption
-- **🇮🇳 India-First Design**: Deep UPI integration, Hindi/English support, cultural awareness
+- **🇮🇳 India-First Design**: Deep UPI integration, Hinglish support, cultural awareness
 - **📱 Offline Functionality**: Core features work without internet through SMS scanning
 - **🤖 Emotional Intelligence**: Culturally-aware AI understanding Indian communication patterns
 - **🎯 Integrated AI Modules**: Financial + Educational + Conversational AI in unified platform
@@ -51471,7 +51471,7 @@ It's the kind of unsexy-but-critical problem that often creates big opportunitie
                     │         SHARED SERVICES                 │
                     │  🔐 Privacy-First Encryption            │
                     │  📱 React Native Foundation             │
-                    │  🗣️ Voice Interface (Hindi/English)     │
+                    │  🗣️ Voice Interface (Hinglish)     │
                     │  🌍 Cultural Context Management        │
                     │  💾 Local SQLite Database              │
                     └─────────────┬───────────────────────────┘
@@ -51522,7 +51522,7 @@ INTEGRATION EXAMPLES:
 - **SMS/Email Scanning**: Automatic transaction detection and categorization
 - **Offline-First**: Core functionality via SMS scanning, enhanced by email when online
 - **Privacy**: All financial data encrypted locally, never shared externally
-- **Multi-language**: Hindi/English support with regional adaptation
+- **Multi-language**: Hinglish support with regional adaptation
 
 #### 🤖 **C-AI - Conversational AI with Emotional Intelligence**
 *Status: High Priority, MVP Phase 1 - Implementation Ready*
@@ -51574,7 +51574,7 @@ User Input → Local Processing → Encrypted Storage → Local AI → Actions
 | Cookbook | Technology | Purpose | Implementation Status |
 |----------|------------|---------|---------------------|
 | **Chat Completion** | Sarvam-M (24B) | Conversational AI and reasoning | ✅ Production Ready |
-| **Speech-to-Text** | Saarika ASR | Hindi/English voice recognition | ✅ Production Ready |
+| **Speech-to-Text** | Saarika ASR | Hinglish voice recognition | ✅ Production Ready |
 | **Speech Translation** | Saaras ASR | Multi-language speech translation | ✅ Production Ready |
 | **Text-to-Speech** | Bulbul TTS | Natural Indian voice synthesis | ✅ Production Ready |
 | **Text Translation** | Mayura | Advanced translation with cultural context | ✅ Production Ready |
@@ -51625,14 +51625,14 @@ User Input → Local Processing → Encrypted Storage → Local AI → Actions
 - **✅ Cultural Design Elements**: Indian-specific UI patterns with saffron/green color schemes
 - **✅ Google Sketch Ready**: Detailed prompts optimized for rapid UI generation
 - **✅ Privacy-First Visual Language**: Design patterns emphasizing data protection
-- **✅ Multi-Language Support**: Hindi/English interface design with Devanagari support
+- **✅ Multi-Language Support**: Hinglish interface design with Devanagari support
 - **✅ Accessibility Standards**: WCAG 2.1 AA compliance with 44px touch targets
 
 #### **Complete Screen Library**
 | Screen Category | Screens Available | Design Status | Cultural Adaptation |
 |-----------------|------------------|---------------|-------------------|
 | **Onboarding** | Welcome, Permissions, Cultural Setup | ✅ Complete | India-specific greetings, cultural colors |
-| **Navigation** | Bottom Tab Bar (4 tabs) | ✅ Complete | Rupee symbol, Hindi/English labels |
+| **Navigation** | Bottom Tab Bar (4 tabs) | ✅ Complete | Rupee symbol, Hinglish labels |
 | **Home/Chat** | AI Chat Interface, Voice Commands | ✅ Complete | Cultural greetings, festival awareness |
 | **Mudra Finance** | Dashboard, Transactions, Analytics | ✅ Complete | Indian number formatting, UPI patterns |
 | **Shikshak Learning** | Subject Browser, Reading Interface | ✅ Complete | Indian history focus, cultural content |
@@ -51641,7 +51641,7 @@ User Input → Local Processing → Encrypted Storage → Local AI → Actions
 
 #### **Design System Components**
 - **🎨 Color Palette**: Saffron Orange (#FF9933), India Green (#138808), Cultural accents
-- **📱 Typography**: Noto Sans Devanagari + Inter for Hindi/English support  
+- **📱 Typography**: Noto Sans Devanagari + Inter for Hinglish support  
 - **🔲 Components**: 48px buttons, 8px border radius, card-based layouts
 - **♿ Accessibility**: High contrast ratios, scalable text, voice navigation support
 - **📐 Responsive**: Android-first (5.5"-6.7"), iPhone compatibility included
@@ -51658,7 +51658,7 @@ User Input → Local Processing → Encrypted Storage → Local AI → Actions
 
 **Success Metrics:**
 - App loads in <3 seconds with secure initialization
-- Voice recognition accuracy >85% for Hindi/English
+- Voice recognition accuracy >85% for Hinglish
 - Basic AI responses within 2 seconds
 - Core permissions acceptance >80%
 
@@ -51806,7 +51806,7 @@ ls "Code documentations/backend/"            # Backend implementation
 
 #### **Technical Performance**
 - **App Launch**: <2s cold start time
-- **Voice Recognition**: >90% accuracy for Hindi/English
+- **Voice Recognition**: >90% accuracy for Hinglish
 - **Privacy Compliance**: 100% local data processing
 - **Offline Functionality**: Core features work without internet
 

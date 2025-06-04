@@ -46,7 +46,7 @@ Understanding user behavior is critical for AssistantPro's success in the Indian
 ### **Language and Communication Preferences**
 **Multilingual Interaction Patterns:**
 - 80% prefer native language for complex financial discussions
-- Code-switching between Hindi/English in voice commands
+- Code-switching between Hinglish in voice commands
 - Regional language preference for family-related financial conversations
 - English acceptance for technical and investment topics
 

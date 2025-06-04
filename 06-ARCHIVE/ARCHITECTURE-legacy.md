@@ -148,7 +148,7 @@ interface AIContext {
 - **Offline-First**: Core functionality without internet
 - **Privacy-First**: Local data encryption
 - **UPI Native**: Deep integration with Indian payment systems
-- **Multi-Language**: Hindi/English SMS parsing
+- **Multi-Language**: Hinglish SMS parsing
 
 ### **Sikshak (Education) - Adaptive Learning**
 

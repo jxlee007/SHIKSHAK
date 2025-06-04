@@ -15,7 +15,7 @@ Design a mobile app welcome screen for "AssistantPro" - an AI personal assistant
 - Cultural greeting text: "नमस्ते / Welcome" 
 - Large rounded CTA button: "शुरू करें / Get Started" positioned in bottom 25%
 - Skip option in top-right corner
-- Modern, clean typography with Hindi/English support
+- Modern, clean typography with Hinglish support
 - Mobile-first design, 375x812px (iPhone X dimensions)
 - Subtle animated elements suggestion (floating particles, gentle pulse)
 ```
@@ -42,7 +42,7 @@ Design a mobile permission request screen with card-based layout.
 ```
 Design a cultural preferences setup screen for Indian users.
 - Header: "Personalize Your Experience" 
-- Language selector: Large toggle buttons for Hindi/English
+- Language selector: Large toggle buttons for Hinglish
 - Regional India locations list with selectable regions (North/South/East/West)
 - Communication style cards: "Formal" vs "Casual" with examples
 - Festival calendar toggle with Indian festival icons
@@ -71,7 +71,7 @@ Design Elements:
 - Inactive state: Gray icons with subtle labels
 - Background: White with subtle top border and gradient
 - Icons: 24x24px, AI-themed designs showing platform integration
-- Typography: 11px for labels, supports Hindi/English mixed text
+- Typography: 11px for labels, supports Hinglish mixed text
 - Integration indicator: Subtle connecting lines showing AI foundation
 ```
 
@@ -122,7 +122,7 @@ Design a financial dashboard powered by conversational AI integration:
   - "Voice expense entry" → Saarika ASR input
   - "Get spending insights" → AI analysis via Soch
 - Integration indicators: Small AI icons showing Soch-powered features
-- Cultural elements: Hindi/English labels, Indian number formatting (lakhs/crores)
+- Cultural elements: Hinglish labels, Indian number formatting (lakhs/crores)
 - Smart categorization powered by cultural context understanding
 ```
 
@@ -133,7 +133,7 @@ Design transaction detail screen showcasing AI intelligence:
 - Transaction header with AI confidence score for categorization
 - "AI Analysis" section showing how Soch interpreted the transaction:
   - Original SMS text (if SMS-detected)
-  - Language detection results (Hindi/English mix)
+  - Language detection results (Hinglish mix)
   - Cultural context used for categorization
 - Voice note replay if transaction was added via voice command
 - AI suggestions for similar future transactions
@@ -293,7 +293,7 @@ Design a distraction-free reading interface for educational content.
 - Main content area:
   - Large, readable typography (16-18px)
   - Proper line spacing for comfortable reading
-  - Mixed Hindi/English text support
+  - Mixed Hinglish text support
   - Inline images with captions
   - Highlighted key terms or definitions
 - Reading controls at bottom:
@@ -395,7 +395,7 @@ Design a full-screen voice interaction interface.
 - Voice waveform visualization during speech
 - "Listening..." / "Processing..." status indicators
 - Transcribed text appears in real-time at bottom
-- Support for Hindi/English mixed speech display
+- Support for Hinglish mixed speech display
 - Cultural voice commands examples:
   - "मेरा खर्च दिखाओ / Show my expenses"
   - "आज कितना खर्च हुआ / How much did I spend today?"

@@ -27,7 +27,7 @@ AssistantPro is a revolutionary privacy-first, culturally-aware AI personal assi
 
 - **Foundation Layer**: Complete Sarvam AI integration (STT, TTS, Translation, Chat)
 - **Cross-Module Intelligence**: Unified AI context across all modules
-- **Cultural Processing**: Hindi/English with Indian context understanding
+- **Cultural Processing**: Hinglish with Indian context understanding
 - **Status**: ✅ Production-ready with 7 AI cookbooks
 
 #### **💰 Mudra (AI Personal Finance)**
@@ -113,7 +113,7 @@ graph TD
 **For Consumers**:
 - Culturally-aware AI assistant
 - Privacy-first financial tracking
-- Voice-enabled in Hindi/English
+- Voice-enabled in Hinglish
 - Works offline for core features
 
 **For B2B Customers**:

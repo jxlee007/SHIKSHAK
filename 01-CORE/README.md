@@ -21,11 +21,11 @@
 **Architecture**: Three interconnected AI modules sharing a unified Sarvam AI foundation with complete offline-first capabilities and seamless data flow between components.
 
 ### **🤖 Soch** - Conversational AI Engine (Core Platform)
-- **Foundation**: Powers all other features with cultural intelligence and emotional awareness
+- **Foundation**: Powers all other features with emotional intelligence and cultural awareness
 - **Technology Stack**: Complete Sarvam AI integration with 7 production-ready cookbooks
 - **Core Capabilities**: 
   - Speech-to-Text (Saarika & Saaras models) for voice interactions
-  - Text-to-Speech (Bulbul model) for natural Hindi/English responses
+  - Text-to-Speech (Bulbul model) for natural Hinglish responses
   - Language Detection, Translation & Transliteration (Mayura model)
   - Chat Completions with cultural context (Sarvam-M 24B parameter model)
 - **Cross-Module Integration**: 
@@ -37,7 +37,7 @@
 ### **💰 Mudra** - AI Financial Assistant (Phase 1 Priority)
 - **Core Innovation**: Privacy-first expense tracking with offline-first SMS-based transaction detection
 - **Soch Integration**: 
-  - Uses Soch's Mayura model for Hindi/English financial communication parsing
+  - Uses Soch's Mayura model for Hinglish financial communication parsing
   - Voice commands: "What did I spend on groceries?" processed through Soch's NLP
   - SMS transaction categorization using Soch's cultural context understanding
 - **Technology Stack**: UPI integration, GST compliance, automatic categorization via Sarvam AI
@@ -51,7 +51,7 @@
 - **Focus Areas**: Indian history, Mathematics, Science, Personal Development with cultural sensitivity
 - **Soch Integration**: 
   - Leverages Soch's emotional intelligence for age-appropriate communication
-  - Uses Bulbul TTS for natural Hindi/English educational content delivery
+  - Uses Bulbul TTS for natural Hinglish educational content delivery
   - Cultural awareness ensures regionally-appropriate educational approaches
 - **Mudra Integration**: 
   - Financial literacy education using anonymized real expense data from Mudra
@@ -106,7 +106,7 @@
 - ✅ **Cultural Intelligence Framework**: Indian market focus with regional adaptation
 - ✅ **Advanced AI Features**: Gender-aware translation, cultural numerals, regional speech processing
 - ✅ **Investment Integration Planning**: Zerodha Kite MCP integration roadmap for Phase 2
-- ✅ **Multi-Language Support**: Hindi/English processing with SMS/email parsing capabilities
+- ✅ **Multi-Language Support**: Hinglish processing with SMS/email parsing capabilities
 - 🚧 **React Native Foundation**: TypeScript-based mobile app structure (Ready for implementation)
 - 🚧 **Local AI Pipeline**: On-device processing with Sarvam AI integration (Blueprints complete)
 
@@ -114,7 +114,7 @@
 
 ### 🏆 Key Differentiators
 - **🔒 Complete Privacy**: All personal data processed and stored locally with AES-256 encryption
-- **🇮🇳 India-First Design**: Deep UPI integration, Hindi/English support, cultural awareness
+- **🇮🇳 India-First Design**: Deep UPI integration, Hinglish support, cultural awareness
 - **📱 Offline Functionality**: Core features work without internet through SMS scanning
 - **🤖 Emotional Intelligence**: Culturally-aware AI understanding Indian communication patterns
 - **🎯 Integrated AI Modules**: Financial + Educational + Conversational AI in unified platform
@@ -141,7 +141,7 @@
                     │         SHARED SERVICES                 │
                     │  🔐 Privacy-First Encryption            │
                     │  📱 React Native Foundation             │
-                    │  🗣️ Voice Interface (Hindi/English)     │
+                    │  🗣️ Voice Interface (Hinglish)     │
                     │  🌍 Cultural Context Management        │
                     │  💾 Local SQLite Database              │
                     └─────────────┬───────────────────────────┘
@@ -161,19 +161,7 @@
 │    Commands   │         │    Literacy   │         │               │
 └───────────────┘         └───────────────┘         └───────────────┘
 
-INTEGRATION EXAMPLES:
-━━━━━━━━━━━━━━━━━━━
-🗣️  "मुझे अपना खर्च दिखाओ" (Show me my expenses)
-    Soch → Mudra → Data Retrieval → Soch → Voice Response
 
-📚  "How can I save money?" 
-    Soch → Sikshak → Financial Education → Real Mudra Data Examples
-
-🔄  "Add ₹500 auto expense" 
-    Soch Voice Processing → Mudra Categorization → Confirmation
-
-🎯  Cross-Module Learning:
-    Mudra Spending Patterns → Sikshak Personalized Financial Education
 ```
 
 **Key Integration Benefits:**
@@ -191,8 +179,8 @@ INTEGRATION EXAMPLES:
 *Status: High Priority, MVP Phase 1*
 - **SMS/Email Scanning**: Automatic transaction detection and categorization
 - **Offline-First**: Core functionality via SMS scanning, enhanced by email when online
-- **Privacy**: All financial data encrypted locally, never shared externally
-- **Multi-language**: Hindi/English support with regional adaptation
+- **Privacy**: All financial data encrypted locally
+- **Multi-language**: Hinglish support with regional adaptation
 
 #### 🤖 **C-AI - Conversational AI with Emotional Intelligence**
 *Status: High Priority, MVP Phase 1 - Implementation Ready*
@@ -201,7 +189,7 @@ INTEGRATION EXAMPLES:
 - **🗺️ Regional Adaptation**: Communication styles for North, South, East, West India
 - **🗣️ Voice Processing Pipeline**: Complete speech-to-speech (Saarika ASR → Sarvam-M → Bulbul TTS)
 - **❤️ Emotional Recognition**: Voice tone analysis with culturally appropriate responses
-- **🔐 Privacy-First Emotions**: All emotional data processed locally, no cloud sharing
+- **🔐 Privacy-First Emotions**: All emotional data processed encrypted on cloud
 - **🙏 Honorific Usage**: Appropriate Sir/Madam, "ji" suffix, and hierarchical communication
 - **🎉 Festival Intelligence**: Context-aware responses during Indian festivals and cultural events
 - **📚 7 Ready Cookbooks**: Production-ready implementation guides for all AI services
@@ -211,22 +199,20 @@ INTEGRATION EXAMPLES:
 - **Personalized Learning**: Adaptive content based on age, learning style, and progress
 - **Indian Cultural Focus**: Emphasis on Indian history, arts, and cultural values
 - **Multi-demographic Support**: Specialized content for children, teens, and adults
-- **Financial Integration**: Educational content reinforced with real financial examples from Mudra
+- **Financial Integration**: Educational content reinforced with real financial examples
 
 ### 🔐 **Privacy-First Architecture**
 ```
-User Input → Local Processing → Encrypted Storage → Local AI → Actions
+User Input → AI Processing → Encrypted Storage → Local AI → Actions
                                        ↓
             Anonymous Metrics Only → Cloud Analytics → System Improvements
 ```
 
 **Key Privacy Features:**
-- **Local AI Processing**: All personal data analysis happens on-device
+- **AI Processing**: All personal data analysis happens on-cloud
 - **Hardware Encryption**: AES-256 with device security modules
-- **Zero-Knowledge Cloud**: Only anonymous operational metrics sent to cloud
 - **Comprehensive Device Access**: Full integration with maximum privacy protection
   
-```
 
 ### 🚀 Sarvam AI Integration
 
@@ -244,7 +230,7 @@ User Input → Local Processing → Encrypted Storage → Local AI → Actions
 | Cookbook | Technology | Purpose | Implementation Status |
 |----------|------------|---------|---------------------|
 | **Chat Completion** | Sarvam-M (24B) | Conversational AI and reasoning | ✅ Production Ready |
-| **Speech-to-Text** | Saarika ASR | Hindi/English voice recognition | ✅ Production Ready |
+| **Speech-to-Text** | Saarika ASR | Hinglish voice recognition | ✅ Production Ready |
 | **Speech Translation** | Saaras ASR | Multi-language speech translation | ✅ Production Ready |
 | **Text-to-Speech** | Bulbul TTS | Natural Indian voice synthesis | ✅ Production Ready |
 | **Text Translation** | Mayura | Advanced translation with cultural context | ✅ Production Ready |
@@ -295,14 +281,14 @@ User Input → Local Processing → Encrypted Storage → Local AI → Actions
 - **✅ Cultural Design Elements**: Indian-specific UI patterns with saffron/green color schemes
 - **✅ Google Sketch Ready**: Detailed prompts optimized for rapid UI generation
 - **✅ Privacy-First Visual Language**: Design patterns emphasizing data protection
-- **✅ Multi-Language Support**: Hindi/English interface design with Devanagari support
+- **✅ Multi-Language Support**: Hinglish interface design with Devanagari support
 - **✅ Accessibility Standards**: WCAG 2.1 AA compliance with 44px touch targets
 
 #### **Complete Screen Library**
 | Screen Category | Screens Available | Design Status | Cultural Adaptation |
 |-----------------|------------------|---------------|-------------------|
 | **Onboarding** | Welcome, Permissions, Cultural Setup | ✅ Complete | India-specific greetings, cultural colors |
-| **Navigation** | Bottom Tab Bar (4 tabs) | ✅ Complete | Rupee symbol, Hindi/English labels |
+| **Navigation** | Bottom Tab Bar (4 tabs) | ✅ Complete | Rupee symbol, Hinglish labels |
 | **Home/Chat** | AI Chat Interface, Voice Commands | ✅ Complete | Cultural greetings, festival awareness |
 | **Mudra Finance** | Dashboard, Transactions, Analytics | ✅ Complete | Indian number formatting, UPI patterns |
 | **Shikshak Learning** | Subject Browser, Reading Interface | ✅ Complete | Indian history focus, cultural content |
@@ -311,7 +297,7 @@ User Input → Local Processing → Encrypted Storage → Local AI → Actions
 
 #### **Design System Components**
 - **🎨 Color Palette**: Saffron Orange (#FF9933), India Green (#138808), Cultural accents
-- **📱 Typography**: Noto Sans Devanagari + Inter for Hindi/English support  
+- **📱 Typography**: Noto Sans Devanagari + Inter for Hinglish support  
 - **🔲 Components**: 48px buttons, 8px border radius, card-based layouts
 - **♿ Accessibility**: High contrast ratios, scalable text, voice navigation support
 - **📐 Responsive**: Android-first (5.5"-6.7"), iPhone compatibility included
@@ -328,7 +314,7 @@ User Input → Local Processing → Encrypted Storage → Local AI → Actions
 
 **Success Metrics:**
 - App loads in <3 seconds with secure initialization
-- Voice recognition accuracy >85% for Hindi/English
+- Voice recognition accuracy >85% for Hinglish
 - Basic AI responses within 2 seconds
 - Core permissions acceptance >80%
 
@@ -476,7 +462,7 @@ ls "Code documentations/backend/"            # Backend implementation
 
 #### **Technical Performance**
 - **App Launch**: <2s cold start time
-- **Voice Recognition**: >90% accuracy for Hindi/English
+- **Voice Recognition**: >90% accuracy for Hinglish
 - **Privacy Compliance**: 100% local data processing
 - **Offline Functionality**: Core features work without internet
 

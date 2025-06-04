@@ -15,7 +15,7 @@ Soch leverages the complete Sarvam AI platform to provide culturally-aware AI ca
 
 | Model | Purpose | Status | Integration |
 |-------|---------|--------|-------------|
-| **Saarika** | Speech-to-Text (Hindi/English) | ✅ Ready | Real-time & Batch |
+| **Saarika** | Speech-to-Text (Hinglish) | ✅ Ready | Real-time & Batch |
 | **Saaras** | Speech-to-Text with Translation | ✅ Ready | Cross-language support |
 | **Bulbul** | Text-to-Speech (Multiple voices) | ✅ Ready | Natural voice generation |
 | **Mayura** | Translation (22+ languages) | ✅ Ready | Multi-language support |

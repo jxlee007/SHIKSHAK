@@ -21,7 +21,7 @@
 
 ### **🔗 Integration with Mudra (AI Personal Finance)**
 - **SMS/Email Financial Data Parsing**: 
-  - Mayura model processes Hindi/English UPI transaction messages with 98%+ accuracy
+  - Mayura model processes Hinglish UPI transaction messages with 98%+ accuracy
   - Saarika ASR converts voice expense queries: "कितना खर्च किया groceries पर?" → structured financial data
   - Cultural context understanding for Indian banking terminology (lakhs, crores, GST, UPI)
 - **Voice Financial Commands**: 
@@ -38,7 +38,7 @@
   - Soch's emotional intelligence adapts teaching methods based on learner engagement and cultural background
   - Age-appropriate communication using demographic awareness and regional cultural patterns
 - **Voice-Based Educational Content**: 
-  - Bulbul TTS delivers natural Hindi/English educational content with proper pronunciation
+  - Bulbul TTS delivers natural Hinglish educational content with proper pronunciation
   - Interactive Q&A sessions with culturally-aware responses and examples
 - **Cross-Module Educational Enhancement**: 
   - Financial literacy education enhanced with real anonymized data from Mudra module
@@ -52,7 +52,7 @@
   - Seamless transitions: "Tell me about my spending" → financial data → "How can I budget better?" → educational content
   - Maintains conversation history and user preferences across all module interactions
 - **Cultural Continuity**: 
-  - Consistent Hindi/English communication patterns across financial queries and educational sessions
+  - Consistent Hinglish communication patterns across financial queries and educational sessions
   - Same emotional intelligence and respect for cultural values in all interactions
 - **Privacy-First Integration**: 
   - All AI processing maintains local encryption while enabling rich feature interconnectivity

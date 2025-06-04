@@ -64,7 +64,7 @@ AssistantPro is a privacy-first AI personal assistant platform designed specific
 **App Response**: 
 - **SMS Access**: "Enable financial transaction detection from your UPI messages" (powers Mudra module)
 - **Camera Access**: "Scan receipts with OCR capabilities" (enhanced by Soch's processing)
-- **Microphone Access**: "Voice commands in Hindi/English" (Saarika ASR integration)
+- **Microphone Access**: "Voice commands in Hinglish" (Saarika ASR integration)
 - **Email Access**: "Optional: Enhanced financial data from bank emails"
 
 **Key Touchpoint**: Granular permission explanations with clear benefits  
@@ -74,7 +74,7 @@ AssistantPro is a privacy-first AI personal assistant platform designed specific
 #### **Step 3: Cultural & Regional Customization (3-5 minutes)**
 **User Action**: Selects preferences  
 **App Response**:
-- **Language Selection**: Hindi/English/Regional via Soch platform
+- **Language Selection**: Hinglish/Regional via Soch platform
 - **Regional Adaptation**: North/South/East/West India for cultural nuances
 - **Communication Style**: Formal/casual preference
 - **Festival Calendar**: Personal celebration preferences for contextual responses
@@ -112,13 +112,13 @@ AssistantPro is a privacy-first AI personal assistant platform designed specific
 
 **Automatic Mode (30 seconds)**:
 1. **Background SMS Processing**: Overnight UPI transactions automatically detected
-2. **AI Categorization**: Soch's Mayura model parses Hindi/English SMS content with cultural context
+2. **AI Categorization**: Soch's Mayura model parses Hinglish SMS content with cultural context
 3. **Smart Notification**: "3 new transactions detected. Tap to review."
 4. **One-Tap Confirmation**: User confirms or corrects categorization
 
 **Voice Command Mode (45 seconds)**:
 1. **User Voice Input**: "Add ₹500 auto rickshaw expense"
-2. **ASR Processing**: Saarika ASR processes Hindi/English mixed command
+2. **ASR Processing**: Saarika ASR processes Hinglish mixed command
 3. **AI Integration**: Mudra module categorizes and stores transaction
 4. **Voice Confirmation**: Bulbul TTS responds: "Auto rickshaw expense of ₹500 added"
 
@@ -143,7 +143,7 @@ AssistantPro is a privacy-first AI personal assistant platform designed specific
 1. **User Request**: "How can I save more money?"
 2. **Data Integration**: Sikshak analyzes real spending patterns from Mudra
 3. **Personalized Advice**: Based on actual financial behavior and cultural context
-4. **Interactive Explanation**: Using Bulbul TTS for natural Hindi/English delivery
+4. **Interactive Explanation**: Using Bulbul TTS for natural Hinglish delivery
 
 **Cultural Learning Mode**:
 1. **Content Selection**: Indian history, arts, or mathematics

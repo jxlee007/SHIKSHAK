@@ -15,7 +15,7 @@
   - Leverages Soch's deep understanding of Indian communication patterns for age-appropriate, culturally-sensitive education
   - Regional adaptation capabilities ensure educational content respects local cultural values and learning styles
 - **Natural Voice Learning Interface**: 
-  - Bulbul TTS delivers educational content in natural Hindi/English with proper pronunciation and emotional inflection
+  - Bulbul TTS delivers educational content in natural Hinglish with proper pronunciation and emotional inflection
   - Interactive voice-based Q&A sessions enable hands-free learning experiences
 - **Adaptive Teaching Methods**: 
   - Soch's emotional intelligence analyzes learner engagement through voice tone and response patterns

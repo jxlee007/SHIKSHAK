@@ -26,7 +26,7 @@ The idea of using computers to help people learn things has been a dream of comp
   - Leverages Soch's deep understanding of Indian communication patterns for age-appropriate, culturally-sensitive education
   - Regional adaptation capabilities ensure educational content respects local cultural values and learning styles
 - **Natural Voice Learning Interface**: 
-  - Bulbul TTS delivers educational content in natural Hindi/English with proper pronunciation and emotional inflection
+  - Bulbul TTS delivers educational content in natural Hinglish with proper pronunciation and emotional inflection
   - Interactive voice-based Q&A sessions enable hands-free learning experiences
 - **Adaptive Teaching Methods**: 
   - Soch's emotional intelligence analyzes learner engagement through voice tone and response patterns
@@ -163,7 +163,7 @@ The idea of using computers to help people learn things has been a dream of comp
 - **Video Content**: Partnership with educational YouTube creators
 - **Interactive Elements**: 3D object manipulation and animation generation
 - **Cultural Content**: Integration of Indian cultural imagery and examples
-- **Voice Integration**: Natural Hindi/English narration via Bulbul TTS
+- **Voice Integration**: Natural Hinglish narration via Bulbul TTS
 
 ---
 
@@ -205,7 +205,7 @@ Sikshak: Generates personalized lesson
 ↓
 Mudra: Provides anonymized savings data examples
 ↓
-Bulbul TTS: Delivers natural Hindi/English explanation
+Bulbul TTS: Delivers natural Hinglish explanation
 ```
 
 ---
@@ -225,7 +225,7 @@ Bulbul TTS: Delivers natural Hindi/English explanation
 
 ### **Cultural Impact**
 - **Regional Satisfaction**: >4.0/5 across all Indian regions
-- **Language Accessibility**: >90% satisfaction with Hindi/English content
+- **Language Accessibility**: >90% satisfaction with Hinglish content
 - **Family Adoption**: >60% family recommendation rate
 
 ---

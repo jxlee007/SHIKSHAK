@@ -22,8 +22,10 @@
 │                  AI Orchestration Layer                     │
 │               (Soch - Core AI Platform)                     │
 │    ┌──────────────┬──────────────┬──────────────────────┐   │
-│    │ Sarvam AI    │ Voice        │ Cultural Context     │   │
-│    │ Integration  │ Processing   │ Management           │   │
+│    │ Voice        │              │                      │   │
+│    │ Processing   │ Emotional    │ Cultural Context     │   │
+│    │ (Sarvam AI   │ Inteligence  │ Management           │   │
+│    │ Integration) │              │                      │   │
 │    └──────────────┴──────────────┴──────────────────────┘   │
 └─────────────────────┬───────────────────────────────────────┘
                       │
@@ -130,7 +132,7 @@ interface AIContext {
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                  Mudra Finance Service                       │
+│                  Mudra Finance Service                      │
 │                                                             │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
 │  │ SMS Parser  │  │ Transaction │  │ Analytics Engine    │  │
@@ -138,8 +140,12 @@ interface AIContext {
 │  └─────────────┘  └─────────────┘  └─────────────────────┘  │
 │          │                │                    │            │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
-│  │ UPI         │  │ Data        │  │ Export Service      │  │
-│  │ Integration │  │ Encryption  │  │                     │  │
+│  │             │  │ Data        │  │ Export Service      │  │
+│  │             │  │ Encryption  │  │                     │  │
+│  │ Access SMS/ │  │             │  │                     │  │
+│  │ Email for   │  │             │  │                     │  │
+│  │ Scanning UP │  │             │  │                     │  │
+│  │Transactions │  │             │  │                     │  │
 │  └─────────────┘  └─────────────┘  └─────────────────────┘  │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -148,23 +154,38 @@ interface AIContext {
 - **Offline-First**: Core functionality without internet
 - **Privacy-First**: Local data encryption
 - **UPI Native**: Deep integration with Indian payment systems
-- **Multi-Language**: Hindi/English SMS parsing
+- **Multi-Language**: Hinglish SMS parsing
 
 ### **Sikshak (Education) - Adaptive Learning**
 
 ```
+```
 ┌─────────────────────────────────────────────────────────────┐
-│                Sikshak Education Service                     │
+│                Sikshak Education Service                    │
 │                                                             │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
-│  │ Learning    │  │ Cultural    │  │ Progress Tracking   │  │
-│  │ Engine      │  │ Adaptation  │  │                     │  │
+│  │ Learning    │  │ Cultural    │  │ Habitual Progress   │  │
+│  │ Engine      │  │ Adaptation  │  │    Tracking         │  │
 │  └─────────────┘  └─────────────┘  └─────────────────────┘  │
 │          │                │                    │            │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
 │  │ Financial   │  │ Assessment  │  │ Parent Dashboard    │  │
-│  │ Literacy    │  │ Engine      │  │                     │  │
+│  │ Context     │  │ Engine      │  │                     │  │
 │  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │            Content Partnership Module               │    │
+│  │  ┌─────────────────────┐  ┌─────────────────────┐   │    │
+│  │  │ Destination-Based   │  │ Collaborative       │   │    │
+│  │  │ Learning Platform   │  │ Content Creation    │   │    │
+│  │  │                     │  │ (Trustworthy        │   │    │
+│  │  │                     │  │ YouTubers - Indian/ │   │    │
+│  │  │                     │  │ International)      │   │    │
+│  │  └─────────────────────┘  └─────────────────────┘   │    │
+│  │              │                        │             │    │
+│  │              └────────────────────────┘             │    │
+│  │                                                     │    │
+│  └─────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────┘
 ```
 

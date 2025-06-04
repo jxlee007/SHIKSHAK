@@ -9,9 +9,9 @@
 
 ## 🎯 **Module Overview**
 
-The Mudra module **leverages the unified Soch AI platform** to automatically process financial data from SMS messages, emails, bank statements, and receipts. **Uses Soch's Mayura model for Hindi/English SMS parsing** and **Saarika ASR for voice expense queries**. 
+The Mudra module **leverages the unified Soch AI platform** to automatically process financial data from SMS messages, emails, bank statements, and receipts. **Uses Soch's Mayura model for Hinglish SMS parsing** and **Saarika ASR for voice expense queries**. 
 
-**Designed specifically for the Indian market** with native UPI integration, Hindi/English language support via Soch's cultural intelligence, GST compliance, and optimization for India's diverse smartphone ecosystem. 
+**Designed specifically for the Indian market** with native UPI integration, Hinglish language support via Soch's cultural intelligence, GST compliance, and optimization for India's diverse smartphone ecosystem. 
 
 **Core functionality operates completely offline** through local SMS scanning, making it resilient to internet connectivity issues common in emerging markets. **Voice commands processed through Soch enable natural financial conversations**: "What did I spend on groceries this month?"
 
@@ -34,7 +34,7 @@ The Mudra module **leverages the unified Soch AI platform** to automatically pro
 
 ### **Voice-Powered Financial Commands**
 - **Natural Language Processing**: "Add ₹500 auto rickshaw expense" → structured data entry
-- **Cultural Voice Understanding**: Hindi/English mixed commands via Saarika ASR
+- **Cultural Voice Understanding**: Hinglish mixed commands via Saarika ASR
 - **Hands-Free Operation**: Complete expense tracking without manual typing
 - **Voice Confirmation**: Bulbul TTS provides natural language transaction confirmations
 
@@ -74,8 +74,8 @@ The Mudra module **leverages the unified Soch AI platform** to automatically pro
 ## 🔗 **Integration with Soch AI Platform**
 
 ### **Sarvam AI Integration**
-- **Text Processing**: Uses Mayura model for Hindi/English SMS and email parsing
-- **Language Detection**: Automatic detection of financial communication language (Hindi/English/Regional)
+- **Text Processing**: Uses Mayura model for Hinglish SMS and email parsing
+- **Language Detection**: Automatic detection of financial communication language (Hinglish/Regional)
 - **Cultural Context Understanding**: Indian financial terminology, UPI references, and GST-related language
 - **Voice Commands**: Natural language financial queries processed through Soch's conversational engine
 - **Translation Capabilities**: Real-time translation of financial communications across supported languages
@@ -94,7 +94,7 @@ The Mudra module **leverages the unified Soch AI platform** to automatically pro
 - **Clean Dashboard**: Monthly spending summary with AI-powered insights
 - **Transaction Management**: Comprehensive list views with category filtering
 - **Visual Analytics**: Spending trends with Indian-appropriate data visualization
-- **Cultural Elements**: Hindi/English labels, Indian number formatting, cultural design elements
+- **Cultural Elements**: Hinglish labels, Indian number formatting, cultural design elements
 
 ### **Smart Categorization Interface**
 - **AI Confidence Indicators**: Shows confidence level of automatic categorization
@@ -134,8 +134,8 @@ The Mudra module **leverages the unified Soch AI platform** to automatically pro
 *As a Hindi-speaking user, I want to interact with the app in my preferred language using Soch's natural Hindi processing*
 
 **Acceptance Criteria**:
-- Hindi/English bilingual interface support
-- Voice commands processed in Hindi/English mix
+- Hinglish bilingual interface support
+- Voice commands processed in Hinglish mix
 - Cultural context understanding for Indian financial habits
 - Regional adaptation for different Indian cultural patterns
 
@@ -157,7 +157,7 @@ The Mudra module **leverages the unified Soch AI platform** to automatically pro
 - **Encryption**: AES-256 for all financial data protection
 - **SMS Parsing**: Advanced pattern recognition for Indian bank formats
 - **OCR Processing**: Receipt scanning with offline capability
-- **Voice Processing**: Saarika ASR integration for Hindi/English commands
+- **Voice Processing**: Saarika ASR integration for Hinglish commands
 
 ### **India-Specific Requirements**
 - **UPI SMS Parsing**: Algorithms for all major Indian banks

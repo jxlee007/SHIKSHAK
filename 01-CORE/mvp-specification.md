@@ -17,7 +17,7 @@ Create a revolutionary privacy-first, mobile-first AI personal assistant specifi
 - **Implementation Status**: ✅ 7 production-ready cookbooks with complete API documentation
 
 **💰 Mudra (AI Personal Finance)**: Automatic transaction analysis via SMS/email with offline-first architecture
-- **Soch Integration**: Uses Soch's language models for Hindi/English financial communication parsing
+- **Soch Integration**: Uses Soch's language models for Hinglish financial communication parsing
 - **Core Features**: UPI transaction detection, GST compliance, voice financial queries
 - **Implementation Status**: 🚧 Active development with complete UI designs and SMS parsing algorithms
 
@@ -44,7 +44,7 @@ Create a revolutionary privacy-first, mobile-first AI personal assistant specifi
 ```yaml
 Local LLM: qwen3 8B_K_M (quantized for mobile)
 Speech Processing: Whisper.cpp (local) + Sarvam-M via OpenRouter API
-Text Processing: Sarvam Mayura model for Hindi/English
+Text Processing: Sarvam Mayura model for Hinglish
 Vector Database: Chroma (local instance) / SQLite with vector extensions
 ML Framework: TensorFlow Lite / React Native ML Kit
 ```
@@ -84,7 +84,7 @@ Core Permissions:
 - **Sarvam AI (Primary Provider)**: Complete Indian language AI platform integration ✅ **Ready for Implementation**
   - **Chat Completions API**: Sarvam-M (24B parameter) model for conversational AI with cultural awareness
   - **Speech-to-Text Integration**: 
-    - Saarika ASR for high-accuracy Hindi/English transcription
+    - Saarika ASR for high-accuracy Hinglish transcription
     - Saaras ASR for domain-optimized speech translation
   - **Text-to-Speech**: Bulbul TTS for natural Indian language voice synthesis
   - **Text Processing**: Mayura model for translation, transliteration, and language detection
@@ -171,7 +171,7 @@ Core Permissions:
 - **Permission Transparency**: Validate permission explanations
 
 #### **Cultural Testing**
-- **Language Accuracy**: Hindi/English mixed text processing
+- **Language Accuracy**: Hinglish mixed text processing
 - **Cultural Sensitivity**: Appropriate honorific usage
 - **Regional Adaptation**: Test across North/South/East/West India
 
@@ -287,7 +287,7 @@ Step 2: Permission Setup (5-8 min)
   - Optional email access for enhanced financial data
 
 Step 3: Cultural & Regional Setup (3-5 min)
-  - Language preference (Hindi/English/Regional) via Soch platform
+  - Language preference (Hinglish/Regional) via Soch platform
   - Region selection (North/South/East/West India) for cultural adaptation
   - Cultural communication style preferences (formal/casual)
   - Festival and calendar preferences for educational content
@@ -308,13 +308,13 @@ Step 5: Financial Setup (2-3 min)
 ```yaml
 Automatic Mode (30 seconds):
   - Background SMS monitoring detects UPI transaction
-  - Soch's Mayura model parses Hindi/English SMS content
+  - Soch's Mayura model parses Hinglish SMS content
   - AI suggests category based on merchant and cultural context
   - User receives notification with one-tap confirmation
 
 Voice Command Mode (45 seconds):
   - User says: "Add ₹500 auto rickshaw expense" 
-  - Saarika ASR processes Hindi/English mixed command
+  - Saarika ASR processes Hinglish mixed command
   - Mudra module categorizes and stores transaction
   - Bulbul TTS confirms: "Auto rickshaw expense of ₹500 added"
 
@@ -331,7 +331,7 @@ Financial Literacy Mode:
   - User asks: "How can I save more money?"
   - Sikshak analyzes real spending patterns from Mudra
   - Provides personalized advice based on actual data
-  - Uses Bulbul TTS for natural Hindi/English explanation
+  - Uses Bulbul TTS for natural Hinglish explanation
 
 Interactive Learning Mode:
   - Sikshak suggests lesson based on user's financial behavior
@@ -427,7 +427,7 @@ Privacy & Security:
 
 Cultural Intelligence:
   - 90%+ cultural appropriateness rating
-  - 85%+ Hindi/English processing accuracy
+  - 85%+ Hinglish processing accuracy
   - 80%+ regional adaptation satisfaction
   - 75%+ festival awareness effectiveness
 ```

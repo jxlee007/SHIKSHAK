@@ -40,7 +40,7 @@ gantt
 #### **Month 1-2: Core AI Platform (Soch)**
 - ✅ **Sarvam AI Integration**: Complete API integration with all models
 - ✅ **Voice Processing Pipeline**: Speech-to-Text and Text-to-Speech
-- ✅ **Cultural Context Engine**: Hindi/English processing with Indian context
+- ✅ **Cultural Context Engine**: Hinglish processing with Indian context
 - ✅ **Mobile App Foundation**: React Native base with offline capabilities
 
 **Deliverables**:
@@ -50,7 +50,7 @@ gantt
 
 **Success Metrics**:
 - <2s voice response time
-- 95%+ Hindi/English accuracy
+- 95%+ Hinglish accuracy
 - 99.9% uptime for core AI services
 
 #### **Month 3-4: Financial Intelligence (Mudra)**
