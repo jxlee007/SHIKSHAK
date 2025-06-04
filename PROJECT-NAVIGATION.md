@@ -31,7 +31,14 @@
 ```
 ├── README.md                    # Single source of truth (ORIGINAL)
 ├── MVP-PLAN.md                  # Technical architecture (ORIGINAL)  
-└── product.md                   # Product requirements (ORIGINAL)
+├── product.md                   # Product requirements (ORIGINAL)
+├── technical-architecture.md    # System design & architecture ✅ MOVED
+├── development-roadmap.md       # Development timeline ✅ MOVED
+├── mvp-specification.md         # MVP specifications (ORIGINAL)
+├── project-overview.md          # Project overview (ORIGINAL)
+├── technical-stack.md           # Technical stack details (ORIGINAL)
+├── technical-requirements.md    # Technical requirements (ORIGINAL)
+└── integration-architecture.md  # Integration architecture (ORIGINAL)
 ```
 **Purpose**: Core documents every stakeholder should read first  
 **LLM Context**: Primary project understanding and strategic direction
@@ -83,24 +90,37 @@
 
 ### **05-REFERENCES/** - External API & Documentation
 ```
-├── API-references/              # Sarvam AI API docs (ORIGINAL)
+├── market-research/             # Comprehensive market analysis ✅ COMPLETE
+│   ├── README.md                # Market research overview
+│   ├── target-demographics.md   # User personas and demographics
+│   ├── market-opportunity.md    # TAM/SAM/SOM analysis
+│   ├── india-requirements.md    # India-specific requirements
+│   ├── competitive-analysis.md  # Competitive landscape ✅ NEW
+│   ├── user-behavior.md         # Behavioral patterns ✅ NEW
+│   └── success-metrics.md       # KPI framework ✅ NEW
+├── API-references/              # Implementation guides ✅ COMPLETE
+│   ├── README.md                # API navigation overview
+│   ├── authentication.md        # Auth implementation guide
+│   ├── rate-limits.md          # Rate limiting strategies
+│   └── error-handling.md       # Error handling framework
+├── sarvam-ai-docs/             # External Sarvam AI docs (ORIGINAL)
 │   ├── POST-Chat-Completions.md
 │   ├── POST-TTS.md
 │   ├── Speech-to-text/
 │   ├── Text/
-│   └── PDFs/
-├── Starter-Notebooks(Cookbook)/ # Production cookbooks (ORIGINAL)
-│   ├── Chat-Completion-API-Using-Sarvam-Model.md
-│   ├── STT-API-Tutorial-Using-Saarika-Model.md
-│   ├── Sarvam-Translate-API-using-Mayura-Model.md
-│   └── [5 more cookbook files]
-├── ASR/                         # Speech processing docs (ORIGINAL)
-├── Getting-started/             # Sarvam AI setup (ORIGINAL)
-├── Text-Processing/             # Text API documentation (ORIGINAL)
-└── Text-To-Speech/              # TTS documentation (ORIGINAL)
+│   ├── PDFs/
+│   ├── ASR/                    # Speech processing docs
+│   ├── Getting-started/        # Sarvam AI setup
+│   ├── Text-Processing/        # Text API documentation
+│   └── Text-To-Speech/         # TTS documentation
+└── Starter-Notebooks(Cookbook)/ # Production cookbooks (ORIGINAL)
+    ├── Chat-Completion-API-Using-Sarvam-Model.md
+    ├── STT-API-Tutorial-Using-Saarika-Model.md
+    ├── Sarvam-Translate-API-using-Mayura-Model.md
+    └── [5 more cookbook files]
 ```
-**Purpose**: Complete Sarvam AI integration documentation and cookbooks  
-**LLM Context**: How to implement external AI services and APIs
+**Purpose**: Complete market research analysis, implementation guides, and external API documentation  
+**LLM Context**: Market understanding, competitive analysis, and technical implementation resources
 
 ### **06-ARCHIVE/** - Historical Documents
 ```
@@ -118,9 +138,11 @@
 ### **Priority Reading Order for LLMs:**
 1. **`01-CORE/README.md`** - What is AssistantPro?
 2. **`01-CORE/MVP-PLAN.md`** - How is it built?
-3. **`02-FEATURES/Features/Soch (Conversational AI)/Soch.md`** - Core AI platform
-4. **`02-FEATURES/Features/Mudra.md`** - Financial AI implementation  
-5. **`05-REFERENCES/Starter-Notebooks(Cookbook)/`** - API implementation guides
+3. **`05-REFERENCES/market-research/README.md`** - Market analysis overview ✅ NEW
+4. **`02-FEATURES/Features/Soch (Conversational AI)/Soch.md`** - Core AI platform
+5. **`02-FEATURES/Features/Mudra.md`** - Financial AI implementation  
+6. **`05-REFERENCES/API-references/README.md`** - Implementation guides ✅ NEW
+7. **`05-REFERENCES/sarvam-ai-docs/Starter-Notebooks(Cookbook)/`** - API cookbooks
 
 ### **Context Markers for Different Content Types:**
 - **🎯 STRATEGIC**: 01-CORE/ documents - project vision and architecture
