@@ -1,3 +1,5 @@
+
+- magicpath ai for components 
 - use uv package manager and steamlit {for simple web interfaces}
 - oracle cloud for free server -> https://youtu.be/qVwo2P4uCZM?si=PYkFRXEGd9tJoTBi
 - mobbin for user journey
