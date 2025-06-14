@@ -1,3 +1,137 @@
+Here’s a lovable and compelling app creation prompt — perfect for presenting your Sarvam AI Companion to a team or using as a project kickoff brief:
+
+
+---
+
+💖 Project Prompt: “Sarvam Companion – Your Voice Buddy”
+
+> Build “Sarvam Companion” — a React Native voice-first assistant that:
+
+Listens to the user (using STT),
+
+Detects their language,
+
+Chats with memory and context,
+
+Parses documents or transcripts on request,
+
+Speaks back in a warm, human-like voice,
+
+Retains chat history locally,
+
+Converts voice-call recordings into actionable insights,
+
+All powered by Sarvam AI’s full API suite.
+
+
+
+
+
+---
+
+📋 Feature List & Sarvam API Integration
+
+Feature	Description & Sarvam API
+
+**🎙️ Speech-to-Text (STT)**	Record user voice, send to /speech-to-text (Saarika/Saaras model)  
+🌐 Language Identification	Run /text-lid to detect user’s language & script 
+💬 Conversational Chat	Send full context dialogues to /v1/chat/completions with sarvam-m 
+🔈 Text-to-Speech (TTS)	Convert assistant responses via /text-to-speech (Bulbul voices) 
+📝 Memory & History	Save each user & assistant message into local SQLite for continuity
+📄 Document Parsing	Allow users to upload docs and parse using /parse (structured output) 
+📊 Call Analytics (Optional)	Analyze voice-call files via /call-analytics for summary or insight extraction 
+🔄 Transcription + Translate	Optionally use /speech-to-text-translate for direct translation pipelines 
+🗣️ Transliteration & Text Translate (Optional)	/transliterate for script conversion, /translate for document & chat text across Indic languages 
+✨ Local Persistence	Use SQLite DB to store conversation history, memory, preferences
+
+
+
+---
+
+🧪 Example App Flow
+
+1. Mic/UI captures voice → STT → text + language ID.
+
+
+2. Chat: Pass conversation history + recent input to chat/completions.
+
+
+3. Memory: Save messages in SQLite, enabling context carryover.
+
+
+4. TTS: Speak chatbot reply using Bulbul model.
+
+
+5. Extras: Users can upload files to parse or record call snippets for analytics.
+
+
+6. Extend: Add translation/transliteration features under user settings.
+
+
+
+
+---
+
+🥰 Why It’s Lovable
+
+Voice-first, warm experience — a true companion, not just software.
+
+Multilingual & inclusive — understands and responds in 11 Indic languages.
+
+Context-aware — remembers prior conversations.
+
+Powerful features under one hood — voice, text, analytics, document parsing.
+
+Built for India — script conversion, colloquial translation, voice-call support.
+
+
+
+---
+
+📌 Next Steps
+
+1. Set up environment variables for SARVAM_API_KEY.
+
+
+2. Build UI screens: Chat interface, voice recording, upload page, settings.
+
+
+3. Integrate each Sarvam API one by one in functional modules.
+
+
+4. Design robust local DB to store history, user preferences, last-used language.
+
+
+5. Create end-to-end voice session: STT → Chat → TTS flow.
+
+
+6. Add optional call recording & analytics.
+
+
+7. Polish with animations, loading states, personalized voice avatars.
+
+
+
+
+---
+
+This prompt summarizes all key Sarvam APIs integrated into a meaningful, cohesive voice companion app:
+
+/speech-to-text, /speech-to-text-translate
+
+/text-lid, /transliterate, /translate
+
+/v1/chat/completions (sarvam‑m)
+
+/text-to-speech (Bulbul models)
+
+/parse for documents
+
+/call-analytics for voice insights
+
+
+Let me know if you'd like starter code for any module or help writing the meta-prompt for Samvaad agent configuration!
+
 
 - magicpath ai for components 
 - use uv package manager and steamlit {for simple web interfaces}
