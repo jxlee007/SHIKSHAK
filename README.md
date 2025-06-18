@@ -132,7 +132,9 @@ This prompt summarizes all key Sarvam APIs integrated into a meaningful, cohesiv
 
 Let me know if you'd like starter code for any module or help writing the meta-prompt for Samvaad agent configuration!
 
+---
 
+- https://www.perplexity.ai/search/there-is-any-ai-tour-for-getti-6J5Caa7nSM.CzQMDU81o2g
 - magicpath ai for components 
 - use uv package manager and steamlit {for simple web interfaces}
 - oracle cloud for free server -> https://youtu.be/qVwo2P4uCZM?si=PYkFRXEGd9tJoTBi
