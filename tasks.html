@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindCapture – Tasks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --background:#0f0f23; --foreground:#e2e8f0; --accent:#60a5fa; --panel:#1a1a2e; --muted:#2a2a4e; --border:#2a2a4e;
+      --transition-speed: 400ms;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--background); color:var(--foreground);}
+    main{margin-left:5rem; padding:1rem;}
+
+    /* Navbar (from navbar.md pattern) */
+    .navbar{position:fixed; top:0; left:0; width:5rem; height:100vh; background:var(--panel); transition: width var(--transition-speed) ease; overflow-x:hidden; z-index:100;}
+    .navbar:hover{width:16rem}
+    .navbar-nav{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; align-items:center; height:100%;}
+    .nav-item,.logo{width:100%}
+    .nav-link{display:flex; align-items:center; justify-content:space-between; gap:.75rem; height:5rem; color:var(--foreground); text-decoration:none; padding:0 1rem; transition:background 300ms; filter:grayscale(100%) opacity(.8);}    
+    .nav-link:hover{background:var(--accent); color:#fff; filter:none}
+    .link-text{display:none; margin-left:.5rem}
+    .navbar:hover .link-text{display:inline}
+    .icon{width:1.5rem; height:1.5rem;}
+    .nav-item.last{margin-top:auto}
+    .active-link{background:#22314f}
+
+    /* Page content */
+    .page-header{display:flex; align-items:center; justify-content:space-between; gap:12px; margin:8px 0 16px;}
+    .title{font-weight:700}
+    .filters{display:flex; gap:8px; flex-wrap:wrap}
+    .chip{background:var(--muted); border:1px solid #3a3a5e; border-radius:999px; padding:6px 10px; font-size:12px; cursor:pointer}
+    .chip.active{background:var(--accent); border-color:var(--accent); color:#fff}
+
+    .task-list{display:grid; gap:10px}
+    .task{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:12px; display:flex; align-items:center; gap:10px}
+    .badge{font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); opacity:.85}
+
+    @media (max-width:600px){
+      .navbar{bottom:0; top:auto; width:100vw; height:5rem;}
+      .navbar-nav{flex-direction:row; justify-content:center; align-items:center}
+      .logo{display:none}
+      .link-text{display:none !important}
+      main{margin-left:0; margin-bottom:5rem}
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <ul class="navbar-nav">
+      <li class="logo">
+        <a class="nav-link" href="prototype.html">
+          <span class="link-text">MindCapture</span>
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+        </a>
+      </li>
+      <li class="nav-item"><a class="nav-link" href="prototype.html"><span class="link-text">Mind Map</span><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M4 11h6v2H4v-2Zm10 0h6v2h-6v-2ZM7 4h2v6H7V4Zm0 10h2v6H7v-6Zm8-10h2v6h-2V4Zm0 10h2v6h-2v-6Z"/></svg></a></li>
+      <li class="nav-item"><a class="nav-link active-link" href="tasks.html"><span class="link-text">Tasks</span><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M9 11l-2 2-1-1-1 1 2 2 3-3-1-1Zm3-6h8v2h-8V5ZM4 5h6v2H4V5Zm0 6h6v2H4v-2Zm0 6h6v2H4v-2Zm8 0h8v2h-8v-2Zm0-6h8v2h-8v-2Z"/></svg></a></li>
+      <li class="nav-item"><a class="nav-link" href="todo.html"><span class="link-text">To‑Do</span><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M9 7h11v2H9V7ZM9 11h11v2H9v-2ZM9 15h11v2H9v-2ZM4 7h3v3H4V7Zm0 4h3v3H4v-3Zm0 4h3v3H4v-3Z"/></svg></a></li>
+      <li class="nav-item last"><a class="nav-link" href="#"><span class="link-text">Logout</span><svg class="icon" viewBox="0 0 24 24"><path fill="currentColor" d="M10 17v-3H3v-4h7V7l5 5-5 5Zm9 3H12v-2h7V6h-7V4h7a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2Z"/></svg></a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <h1 class="title">Tasks</h1>
+      <div class="filters">
+        <button class="chip active">All</button>
+        <button class="chip">Today</button>
+        <button class="chip">Overdue</button>
+        <button class="chip">Completed</button>
+      </div>
+    </div>
+
+    <section class="task-list">
+      <div class="task"><span class="badge">High</span> Turn ideas into to‑dos using AI suggestions</div>
+      <div class="task"><span class="badge">Medium</span> Equilibrium engine: detect plan gaps</div>
+      <div class="task"><span class="badge">Low</span> 1% Daily Progress visuals</div>
+    </section>
+  </main>
+
+  <script>
+    // simple chip toggles (visual)
+    document.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      ch.classList.add('active');
+    }));
+  </script>
+</body>
+</html>

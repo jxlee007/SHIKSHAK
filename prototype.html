@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindCapture – Low‑Fidelity Prototype</title>
+  <style>
+    :root {
+      --bg: #0f0f23;
+      --panel: #1a1a2e;
+      --muted: #2a2a4e;
+      --ink: #e2e8f0;
+      --primary: #60a5fa;
+      --accent: #8b5cf6;
+      --success: #10b981;
+      --warn: #f59e0b;
+      --border: #2a2a4e;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--ink); }
+
+    /* App Shell */
+    .app {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      grid-template-rows: 60px 1fr;
+      grid-template-areas:
+        "sidebar header"
+        "sidebar main";
+      height: 100vh;
+    }
+    .sidebar { grid-area: sidebar; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+    .header { grid-area: header; background: var(--panel); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+    .main { grid-area: main; display: flex; flex-direction: column; }
+
+    /* Sidebar */
+    .brand { padding: 16px; border-bottom: 1px solid var(--border); }
+    .brand .logo { color: var(--primary); font-weight: 700; }
+
+    .capture { padding: 12px 16px; border-bottom: 1px solid var(--border); display: grid; gap: 8px; }
+    .textarea { width: 100%; min-height: 80px; background: var(--muted); border: 1px solid #3a3a5e; border-radius: 8px; color: var(--ink); padding: 10px; resize: vertical; font-size: 14px; }
+    .btn-row { display: flex; gap: 8px; }
+    .btn { background: var(--primary); color: white; border: 0; border-radius: 8px; padding: 8px 12px; font-size: 12px; }
+    .btn.alt { background: #374151; }
+
+    .sidebar-section { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    .field { background: var(--muted); border: 1px solid #3a3a5e; border-radius: 8px; color: var(--ink); padding: 8px 10px; width: 100%; font-size: 14px; }
+    .list { margin-top: 10px; display: grid; gap: 6px; max-height: 180px; overflow: auto; }
+    .list-item { background: var(--muted); border: 1px solid #3a3a5e; border-radius: 8px; padding: 8px 10px; font-size: 13px; opacity: .9; }
+
+    /* Header */
+    .tabs { display: flex; gap: 6px; }
+    .tab { padding: 8px 10px; border-radius: 8px; background: var(--muted); border: 1px solid #3a3a5e; font-size: 13px; }
+    .tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .actions { display: flex; gap: 8px; }
+
+    /* Views */
+    .view { flex: 1; display: none; padding: 16px; overflow: auto; }
+    .view.active { display: block; }
+
+    /* Mind map mock */
+    .canvas { position: relative; height: calc(100vh - 60px - 32px); background: radial-gradient(circle at 50% 50%, #151528 0%, var(--bg) 100%); border: 1px dashed #334155; border-radius: 12px; }
+    .node { position: absolute; background: var(--muted); border: 2px solid var(--primary); color: var(--ink); padding: 10px 14px; border-radius: 14px; min-width: 120px; max-width: 240px; font-size: 13px; box-shadow: 0 4px 16px rgba(96,165,250,0.15); }
+    .node.task { border-color: var(--warn); }
+    .node.knowledge { border-color: var(--success); }
+    .node.idea { border-color: var(--accent); }
+    .chip { font-size: 10px; opacity: .7; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; display: block; }
+    .connect { position: absolute; height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent)); opacity: .5; }
+
+    /* Tasks */
+    .toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
+    .task-list { display: grid; gap: 8px; }
+    .task { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; }
+    .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); opacity: .8; }
+
+    /* Knowledge */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: grid; gap: 8px; }
+    .meta { font-size: 12px; opacity: .7; display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { background: #2f2f50; border: 1px solid #3a3a5e; padding: 2px 8px; border-radius: 999px; font-size: 11px; }
+
+    /* Insights */
+    .insight { background: linear-gradient(135deg, #8b5cf6, #a855f7); color: white; border-radius: 12px; padding: 12px; box-shadow: 0 8px 28px rgba(0,0,0,.35); }
+    .insights-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    .widget { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+
+    /* Floating panel & Modals */
+    .floating { position: fixed; right: 16px; bottom: 16px; width: 320px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: grid; gap: 8px; }
+
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; padding: 16px; }
+    .modal { width: 420px; max-width: 100%; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+    .modal h3 { margin: 0 0 8px 0; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; grid-template-rows: 60px auto 1fr; grid-template-areas: "header" "sidebar" "main"; }
+      .sidebar { border-right: 0; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">🧠 MindCapture</div>
+        <div style="font-size:12px;opacity:.7;display:flex;gap:6px;align-items:center;">
+          <span style="width:8px;height:8px;border-radius:50%;background:var(--success);"></span>
+          <span>Offline‑first PWA</span>
+        </div>
+      </div>
+
+      <!-- Capture -->
+      <section class="capture">
+        <textarea class="textarea" placeholder="Capture thoughts, tasks, or knowledge..."></textarea>
+        <div class="btn-row">
+          <button class="btn">📝 Add</button>
+          <button class="btn alt">🎙 Voice</button>
+          <button class="btn alt">📷 Image</button>
+          <button class="btn alt">📎 Attach</button>
+        </div>
+        <div style="font-size:11px;opacity:.65;">Auto transcription & inference when online</div>
+      </section>
+
+      <!-- Search & History -->
+      <section class="sidebar-section">
+        <input class="field" placeholder="Search chats, items, folders" />
+        <div class="list" aria-label="Recent Chats">
+          <div class="list-item">Chat • Morning plan</div>
+          <div class="list-item">Project • PWA research</div>
+          <div class="list-item">Topic • Learning graph</div>
+        </div>
+      </section>
+
+      <!-- Folders -->
+      <section class="sidebar-section">
+        <div style="font-weight:600;margin-bottom:8px;">Folders</div>
+        <div class="list">
+          <div class="list-item">📁 Personal</div>
+          <div class="list-item">📁 Work</div>
+          <div class="list-item">📁 Learning</div>
+        </div>
+      </section>
+    </aside>
+
+    <!-- Header -->
+    <header class="header">
+      <nav class="tabs" aria-label="Primary">
+        <span class="tab active">🗺️ Mind Map</span>
+        <span class="tab">✅ Tasks</span>
+        <span class="tab">📚 Knowledge</span>
+        <span class="tab">💡 Insights</span>
+      </nav>
+      <div class="actions">
+        <button class="tab">🌅 Briefing</button>
+        <button class="tab">🌙 Reflection</button>
+        <button class="tab">📤 Export</button>
+        <button class="tab">➕ Install</button>
+      </div>
+    </header>
+
+    <!-- Main Views -->
+    <main class="main">
+      <!-- Mind Map View -->
+      <section class="view active" aria-label="Mind Map">
+        <div class="canvas">
+          <!-- Static connections -->
+          <div class="connect" style="left:320px; top:160px; width:180px;"></div>
+          <div class="connect" style="left:320px; top:260px; width:220px;"></div>
+
+          <!-- Static nodes -->
+          <div class="node idea" style="left:160px; top:120px;">
+            <span class="chip">Idea</span>
+            Project: Offline‑first PWA
+          </div>
+          <div class="node task" style="left:360px; top:120px;">
+            <span class="chip">Task</span>
+            Draft PRD and UI scaffold
+          </div>
+          <div class="node knowledge" style="left:420px; top:220px;">
+            <span class="chip">Knowledge</span>
+            IndexedDB vs Cache Storage notes
+          </div>
+          <div class="node" style="left:220px; top:260px;">
+            <span class="chip">Item</span>
+            Mind map clustering ideas
+          </div>
+        </div>
+      </section>
+
+      <!-- Tasks View -->
+      <section class="view" aria-label="Tasks">
+        <div class="toolbar">
+          <button class="tab active">All</button>
+          <button class="tab">Today</button>
+          <button class="tab">Overdue</button>
+          <button class="tab">Completed</button>
+        </div>
+        <div class="task-list">
+          <div class="task">
+            <span class="badge">High</span>
+            Turn ideas into to‑dos using AI suggestions
+          </div>
+          <div class="task">
+            <span class="badge">Medium</span>
+            Equilibrium engine: detect plan gaps
+          </div>
+          <div class="task">
+            <span class="badge">Low</span>
+            1% Daily Progress visuals
+          </div>
+        </div>
+      </section>
+
+      <!-- Knowledge View -->
+      <section class="view" aria-label="Knowledge">
+        <div class="grid">
+          <article class="card">
+            <div style="font-weight:600;">PWA Offline Guide</div>
+            <div class="meta"><span class="tag">PDF</span><span class="tag">Saved</span><span class="tag">Offline</span></div>
+            <div style="font-size:13px;opacity:.85;">AI summary placeholder: key takeaways appear here.</div>
+          </article>
+          <article class="card">
+            <div style="font-weight:600;">Graph Search Patterns</div>
+            <div class="meta"><span class="tag">Article</span><span class="tag">Knowledge</span></div>
+            <div style="font-size:13px;opacity:.85;">Why did you save this? • For mind map engine research</div>
+          </article>
+          <article class="card">
+            <div style="font-weight:600;">Topic Cluster – Focus</div>
+            <div class="meta"><span class="tag">Cluster</span><span class="tag">AI</span></div>
+            <div style="font-size:13px;opacity:.85;">Related items and suggested links.</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Insights View -->
+      <section class="view" aria-label="Insights">
+        <div class="insights-grid">
+          <div class="insight">💡 Suggestion: Convert “PWA research notes” into 2 actionable tasks.</div>
+          <div class="widget">Streak: 4 days • 1% Daily Progress</div>
+          <div class="widget">Nudge: You started “Equilibrium Engine” — finish scope draft.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Floating Today Panel -->
+  <aside class="floating" aria-label="Today’s Focus">
+    <div style="font-weight:700; color: var(--primary);">Today’s Focus</div>
+    <div class="task">Prioritize 3 tasks • Visual only</div>
+    <div class="task">Schedule morning briefing</div>
+  </aside>
+
+  <!-- Morning Briefing Modal -->
+  <div class="modal-backdrop" style="display:block;" aria-hidden="true">
+    <div class="modal">
+      <h3>🌅 Morning Briefing</h3>
+      <p style="opacity:.85;">Top 3 for today (static example):</p>
+      <ul style="margin:8px 0 12px 18px; opacity:.9;">
+        <li>Draft PRD outline</li>
+        <li>Create UI scaffold</li>
+        <li>Review offline sync flow</li>
+      </ul>
+      <div style="display:flex; gap:8px; justify-content:flex-end;">
+        <button class="tab">Dismiss</button>
+        <button class="tab active">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Evening Reflection Modal (hidden visual stub) -->
+  <div class="modal-backdrop" aria-hidden="true" style="display:none;">
+    <div class="modal">
+      <h3>🌙 Evening Reflection</h3>
+      <p style="opacity:.85;">What did you do? What’s next for tomorrow?</p>
+      <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px;">
+        <button class="tab">Later</button>
+        <button class="tab active">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Basic UI interactions for prototype (no data/state persistence)
+    (function() {
+      const tabs = Array.from(document.querySelectorAll('.header .tabs .tab'));
+      const views = Array.from(document.querySelectorAll('.main .view'));
+      const todayPanel = document.querySelector('.floating');
+
+      // Modals (use first backdrop as Morning, second as Evening)
+      const modals = Array.from(document.querySelectorAll('.modal-backdrop'));
+      const morningModal = modals[0];
+      const eveningModal = modals[1];
+
+      // Header action buttons
+      const headerActions = Array.from(document.querySelectorAll('.header .actions .tab'));
+      const [btnBriefing, btnReflection, btnExport, btnInstall] = headerActions;
+
+      // View switching
+      function setActiveView(index) {
+        tabs.forEach((t, i) => t.classList.toggle('active', i === index));
+        views.forEach((v, i) => v.classList.toggle('active', i === index));
+      }
+
+      tabs.forEach((tabEl, i) => {
+        tabEl.addEventListener('click', () => setActiveView(i));
+      });
+
+      // Morning briefing modal controls
+      if (btnBriefing) btnBriefing.addEventListener('click', () => {
+        morningModal.style.display = 'flex';
+      });
+
+      // Evening reflection modal controls
+      if (btnReflection) btnReflection.addEventListener('click', () => {
+        eveningModal.style.display = 'flex';
+      });
+
+      // Close buttons inside modals (use their footer buttons)
+      document.body.addEventListener('click', (e) => {
+        const target = e.target;
+        // Close when clicking Dismiss/Got it in Morning modal
+        if (target instanceof HTMLElement && target.closest('.modal') && morningModal.contains(target)) {
+          if (target.textContent && (/Dismiss|Got it/i).test(target.textContent)) {
+            morningModal.style.display = 'none';
+          }
+        }
+        // Close when clicking Later/Save in Evening modal
+        if (target instanceof HTMLElement && target.closest('.modal') && eveningModal.contains(target)) {
+          if (target.textContent && (/Later|Save/i).test(target.textContent)) {
+            eveningModal.style.display = 'none';
+          }
+        }
+      });
+
+      // Click outside to close modal
+      modals.forEach((backdrop) => {
+        backdrop.addEventListener('click', (e) => {
+          if (e.target === backdrop) backdrop.style.display = 'none';
+        });
+      });
+
+      // Export (visual only)
+      if (btnExport) btnExport.addEventListener('click', () => {
+        // Simple visual feedback
+        btnExport.textContent = '✅ Exported';
+        setTimeout(() => (btnExport.textContent = '📤 Export'), 1200);
+      });
+
+      // Install (visual only)
+      if (btnInstall) btnInstall.addEventListener('click', () => {
+        btnInstall.textContent = '✔ Installed';
+        setTimeout(() => (btnInstall.textContent = '➕ Install'), 1200);
+      });
+
+      // Floating panel visibility toggle via keyboard (visual only)
+      // Press "t" to toggle Today panel
+      window.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === 't' && !e.ctrlKey && !e.metaKey) {
+          const isHidden = getComputedStyle(todayPanel).display === 'none';
+          todayPanel.style.display = isHidden ? 'grid' : 'none';
+        }
+      });
+
+      // Initialize defaults
+      setActiveView(0); // Mind Map
+      // Keep Today panel visible by default (as authored); ensure grid display
+      if (todayPanel) todayPanel.style.display = 'grid';
+    })();
+  </script>
+</body>
+</html>
