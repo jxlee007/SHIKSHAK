@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCapture - Your Personal Knowledge Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f0f23;
+            color: #e2e8f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #1a1a2e;
+            border-right: 1px solid #2a2a4e;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #2a2a4e;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+
+        .capture-section {
+            padding: 20px;
+            border-bottom: 1px solid #2a2a4e;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .quick-input {
+            width: 100%;
+            padding: 12px;
+            background: #2a2a4e;
+            border: 1px solid #3a3a5e;
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .quick-input:focus {
+            outline: none;
+            border-color: #60a5fa;
+        }
+
+        .input-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: #60a5fa;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #3b82f6;
+        }
+
+        .btn-secondary {
+            background: #374151;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .nav-section {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            background: #2a2a4e;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item:hover {
+            background: #3a3a5e;
+        }
+
+        .nav-item.active {
+            background: #60a5fa;
+            color: white;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            padding: 20px;
+            border-bottom: 1px solid #2a2a4e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mindmap-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #0f0f23 100%);
+        }
+
+        .mindmap-canvas {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: grab;
+        }
+
+        .mindmap-canvas:active {
+            cursor: grabbing;
+        }
+
+        .node {
+            position: absolute;
+            background: #2a2a4e;
+            border: 2px solid #60a5fa;
+            border-radius: 20px;
+            padding: 15px 20px;
+            min-width: 120px;
+            max-width: 250px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(96, 165, 250, 0.2);
+        }
+
+        .node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 30px rgba(96, 165, 250, 0.3);
+        }
+
+        .node.task {
+            border-color: #f59e0b;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.2);
+        }
+
+        .node.knowledge {
+            border-color: #10b981;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        .node.idea {
+            border-color: #8b5cf6;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+        }
+
+        .node-content {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .node-type {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #8b5cf6);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .floating-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1a1a2e;
+            border: 1px solid #2a2a4e;
+            border-radius: 12px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        .floating-panel.active {
+            display: block;
+        }
+
+        .panel-header {
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #60a5fa;
+        }
+
+        .task-item {
+            padding: 10px;
+            background: #2a2a4e;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-checkbox {
+            width: 16px;
+            height: 16px;
+        }
+
+        .morning-briefing {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .progress-ring {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #2a2a4e;
+            border-top: 4px solid #60a5fa;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-indicator.offline {
+            background: #ef4444;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e2e8f0;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -300px;
+                z-index: 1000;
+                height: 100vh;
+            }
+
+            .sidebar.open {
+                transform: translateX(300px);
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .main-content {
+                width: 100%;
+            }
+        }
+
+        .context-menu {
+            position: fixed;
+            background: #1a1a2e;
+            border: 1px solid #2a2a4e;
+            border-radius: 8px;
+            padding: 8px 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .context-menu-item {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .context-menu-item:hover {
+            background: #2a2a4e;
+        }
+
+        .ai-suggestion {
+            position: absolute;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🧠 MindCapture</div>
+                <div style="font-size: 12px; opacity: 0.7;">
+                    <span class="status-indicator" id="statusIndicator"></span>
+                    <span id="statusText">Online</span>
+                </div>
+            </div>
+
+            <div class="capture-section">
+                <div class="input-group">
+                    <textarea class="quick-input" id="quickInput" placeholder="Capture your thoughts, ideas, or tasks..."></textarea>
+                </div>
+                <div class="input-buttons">
+                    <button class="btn" onclick="captureInput()">📝 Add</button>
+                    <button class="btn btn-secondary" onclick="voiceCapture()">🎙️ Voice</button>
+                    <button class="btn btn-secondary" onclick="imageCapture()">📷 Image</button>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-item active" onclick="switchView('mindmap')">
+                    🗺️ Mind Map
+                </div>
+                <div class="nav-item" onclick="switchView('tasks')">
+                    ✅ Tasks
+                </div>
+                <div class="nav-item" onclick="switchView('knowledge')">
+                    📚 Knowledge Base
+                </div>
+                <div class="nav-item" onclick="switchView('insights')">
+                    💡 AI Insights
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="header">
+                <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+                <h1 id="viewTitle">Mind Map</h1>
+                <div>
+                    <button class="btn btn-secondary" onclick="showMorningBriefing()">🌅 Briefing</button>
+                    <button class="btn" onclick="exportData()">📤 Export</button>
+                </div>
+            </header>
+
+            <div class="mindmap-container" id="mindmapContainer">
+                <div class="mindmap-canvas" id="mindmapCanvas">
+                    <!-- Nodes will be dynamically added here -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="floating-panel" id="taskPanel">
+        <div class="panel-header">Today's Focus</div>
+        <div id="taskList">
+            <!-- Tasks will be dynamically added here -->
+        </div>
+    </div>
+
+    <div class="floating-panel" id="morningPanel">
+        <div class="morning-briefing">
+            <h3>🌅 Good Morning!</h3>
+            <p>Here's what's on your plate today:</p>
+            <div id="morningTasks"></div>
+            <button class="btn" onclick="hideMorningBriefing()" style="margin-top: 15px;">Got it!</button>
+        </div>
+    </div>
+
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="contextAction('edit')">✏️ Edit</div>
+        <div class="context-menu-item" onclick="contextAction('task')">✅ Make Task</div>
+        <div class="context-menu-item" onclick="contextAction('connect')">🔗 Connect</div>
+        <div class="context-menu-item" onclick="contextAction('delete')">🗑️ Delete</div>
+    </div>
+
+    <script>
+        // App State
+        let appState = {
+            nodes: [],
+            connections: [],
+            currentView: 'mindmap',
+            selectedNode: null,
+            isOnline: navigator.onLine,
+            offsetX: 0,
+            offsetY: 0,
+            isDragging: false,
+            dragNode: null,
+            nodeCounter: 0
+        };
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            loadSampleData();
+            updateOnlineStatus();
+        });
+
+        function initializeApp() {
+            // Service Worker registration (simplified)
+            if ('serviceWorker' in navigator) {
+                console.log('PWA capabilities detected');
+            }
+
+            // Online/Offline detection
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+
+            // Canvas event listeners
+            const canvas = document.getElementById('mindmapCanvas');
+            canvas.addEventListener('mousedown', startDrag);
+            canvas.addEventListener('mousemove', drag);
+            canvas.addEventListener('mouseup', endDrag);
+            canvas.addEventListener('contextmenu', showContextMenu);
+
+            // Hide context menu on click
+            document.addEventListener('click', hideContextMenu);
+        }
+
+        function updateOnlineStatus() {
+            const indicator = document.getElementById('statusIndicator');
+            const text = document.getElementById('statusText');
+            
+            if (navigator.onLine) {
+                indicator.classList.remove('offline');
+                text.textContent = 'Online';
+                appState.isOnline = true;
+                processOfflineQueue();
+            } else {
+                indicator.classList.add('offline');
+                text.textContent = 'Offline';
+                appState.isOnline = false;
+            }
+        }
+
+        function loadSampleData() {
+            const sampleNodes = [
+                { id: 1, x: 300, y: 200, content: 'Project Ideas', type: 'idea', category: 'central' },
+                { id: 2, x: 150, y: 100, content: 'Build PWA for knowledge capture', type: 'task', category: 'project' },
+                { id: 3, x: 450, y: 120, content: 'Learn about mind mapping techniques', type: 'knowledge', category: 'learning' },
+                { id: 4, x: 200, y: 320, content: 'AI-powered task suggestions', type: 'idea', category: 'feature' },
+                { id: 5, x: 400, y: 300, content: 'Offline-first architecture research', type: 'knowledge', category: 'technical' }
+            ];
+
+            appState.nodes = sampleNodes;
+            appState.nodeCounter = sampleNodes.length;
+            renderMindMap();
+            updateTaskPanel();
+        }
+
+        function captureInput() {
+            const input = document.getElementById('quickInput');
+            const content = input.value.trim();
+            
+            if (!content) return;
+
+            const newNode = {
+                id: ++appState.nodeCounter,
+                x: Math.random() * 400 + 200,
+                y: Math.random() * 300 + 150,
+                content: content,
+                type: detectInputType(content),
+                category: 'user-input',
+                timestamp: new Date().toISOString()
+            };
+
+            appState.nodes.push(newNode);
+            input.value = '';
+            
+            renderMindMap();
+            updateTaskPanel();
+            
+            // Show AI suggestion
+            setTimeout(() => showAISuggestion(newNode), 1000);
+        }
+
+        function detectInputType(content) {
+            const taskKeywords = ['todo', 'task', 'do', 'remember to', 'need to', 'should', 'must'];
+            const knowledgeKeywords = ['learn', 'research', 'study', 'read about', 'understand'];
+            
+            const lowerContent = content.toLowerCase();
+            
+            if (taskKeywords.some(keyword => lowerContent.includes(keyword))) {
+                return 'task';
+            } else if (knowledgeKeywords.some(keyword => lowerContent.includes(keyword))) {
+                return 'knowledge';
+            } else {
+                return 'idea';
+            }
+        }
+
+        function showAISuggestion(node) {
+            const suggestion = document.createElement('div');
+            suggestion.className = 'ai-suggestion';
+            suggestion.style.left = (node.x + 100) + 'px';
+            suggestion.style.top = (node.y - 30) + 'px';
+            
+            let suggestionText = '';
+            switch (node.type) {
+                case 'task':
+                    suggestionText = '💡 Should this have a due date?';
+                    break;
+                case 'knowledge':
+                    suggestionText = '💡 Want to find related resources?';
+                    break;
+                default:
+                    suggestionText = '💡 Turn this into an action item?';
+            }
+            
+            suggestion.textContent = suggestionText;
+            document.getElementById('mindmapCanvas').appendChild(suggestion);
+            
+            setTimeout(() => {
+                if (suggestion.parentNode) {
+                    suggestion.parentNode.removeChild(suggestion);
+                }
+            }, 3000);
+        }
+
+        function voiceCapture() {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert('Voice capture not supported in this browser');
+                return;
+            }
+
+            const recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+
+            recognition.onstart = function() {
+                document.getElementById('quickInput').placeholder = '🎙️ Listening...';
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('quickInput').value = transcript;
+                document.getElementById('quickInput').placeholder = 'Capture your thoughts, ideas, or tasks...';
+            };
+
+            recognition.onerror = function() {
+                document.getElementById('quickInput').placeholder = 'Voice capture failed. Try again.';
+            };
+
+            recognition.start();
+        }
+
+        function imageCapture() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    // Simulate OCR processing
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const content = `📷 Image captured: ${file.name}\n[OCR would extract text here]`;
+                        document.getElementById('quickInput').value = content;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            
+            input.click();
+        }
+
+        function renderMindMap() {
+            const canvas = document.getElementById('mindmapCanvas');
+            canvas.innerHTML = '';
+
+            // Render connections first
+            appState.connections.forEach(conn => {
+                const connection = document.createElement('div');
+                connection.className = 'connection';
+                // Simplified connection rendering
+                canvas.appendChild(connection);
+            });
+
+            // Render nodes
+            appState.nodes.forEach(node => {
+                const nodeElement = document.createElement('div');
+                nodeElement.className = `node ${node.type}`;
+                nodeElement.style.left = node.x + 'px';
+                nodeElement.style.top = node.y + 'px';
+                nodeElement.dataset.nodeId = node.id;
+
+                nodeElement.innerHTML = `
+                    <div class="node-type">${node.type}</div>
+                    <div class="node-content">${node.content}</div>
+                `;
+
+                nodeElement.addEventListener('mousedown', (e) => {
+                    e.stopPropagation();
+                    startNodeDrag(e, node);
+                });
+
+                nodeElement.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectNode(node);
+                });
+
+                canvas.appendChild(nodeElement);
+            });
+        }
+
+        function startNodeDrag(e, node) {
+            appState.dragNode = node;
+            appState.dragOffsetX = e.clientX - node.x;
+            appState.dragOffsetY = e.clientY - node.y;
+        }
+
+        function startDrag(e) {
+            if (!appState.dragNode) {
+                appState.isDragging = true;
+                appState.lastX = e.clientX;
+                appState.lastY = e.clientY;
+            }
+        }
+
+        function drag(e) {
+            if (appState.dragNode) {
+                appState.dragNode.x = e.clientX - appState.dragOffsetX;
+                appState.dragNode.y = e.clientY - appState.dragOffsetY;
+                renderMindMap();
+            } else if (appState.isDragging) {
+                const deltaX = e.clientX - appState.lastX;
+                const deltaY = e.clientY - appState.lastY;
+                
+                appState.nodes.forEach(node => {
+                    node.x += deltaX;
+                    node.y += deltaY;
+                });
+                
+                appState.lastX = e.clientX;
+                appState.lastY = e.clientY;
+                renderMindMap();
+            }
+        }
+
+        function endDrag() {
+            appState.isDragging = false;
+            appState.dragNode = null;
+        }
+
+        function selectNode(node) {
+            appState.selectedNode = node;
+            // Visual feedback for selection could be added here
+        }
+
+        function showContextMenu(e) {
+            e.preventDefault();
+            const menu = document.getElementById('contextMenu');
+            menu.style.left = e.clientX + 'px';
+            menu.style.top = e.clientY + 'px';
+            menu.style.display = 'block';
+        }
+
+        function hideContextMenu() {
+            document.getElementById('contextMenu').style.display = 'none';
+        }
+
+        function contextAction(action) {
+            if (!appState.selectedNode) return;
+            
+            switch (action) {
+                case 'edit':
+                    const newContent = prompt('Edit content:', appState.selectedNode.content);
+                    if (newContent) {
+                        appState.selectedNode.content = newContent;
+                        renderMindMap();
+                    }
+                    break;
+                case 'task':
+                    appState.selectedNode.type = 'task';
+                    renderMindMap();
+                    updateTaskPanel();
+                    break;
+                case 'delete':
+                    appState.nodes = appState.nodes.filter(n => n.id !== appState.selectedNode.id);
+                    renderMindMap();
+                    updateTaskPanel();
+                    break;
+            }
+            hideContextMenu();
+        }
+
+        function switchView(view) {
+            appState.currentView = view;
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update view title
+            const titles = {
+                'mindmap': 'Mind Map',
+                'tasks': 'Task Management',
+                'knowledge': 'Knowledge Base',
+                'insights': 'AI Insights'
+            };
+            document.getElementById('viewTitle').textContent = titles[view];
+            
+            // Show/hide relevant content
+            if (view === 'tasks') {
+                document.getElementById('taskPanel').classList.add('active');
+            } else {
+                document.getElementById('taskPanel').classList.remove('active');
+            }
+        }
+
+        function updateTaskPanel() {
+            const taskNodes = appState.nodes.filter(node => node.type === 'task');
+            const taskList = document.getElementById('taskList');
+            
+            taskList.innerHTML = taskNodes.map(task => `
+                <div class="task-item">
+                    <input type="checkbox" class="task-checkbox">
+                    <span>${task.content}</span>
+                </div>
+            `).join('');
+        }
+
+        function showMorningBriefing() {
+            const panel = document.getElementById('morningPanel');
+            const taskNodes = appState.nodes.filter(node => node.type === 'task').slice(0, 3);
+            
+            const morningTasks = document.getElementById('morningTasks');
+            morningTasks.innerHTML = taskNodes.map(task => `
+                • ${task.content}
+            `).join('<br>');
+            
+            panel.classList.add('active');
+        }
+
+        function hideMorningBriefing() {
+            document.getElementById('morningPanel').classList.remove('active');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        function exportData() {
+            const data = {
+                nodes: appState.nodes,
+                connections: appState.connections,
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'mindcapture-export.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function processOfflineQueue() {
+            // Simulate processing offline captured content
+            if (appState.isOnline) {
+                console.log('Processing offline queue...');
+                // Here would be the actual sync logic
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key) {
+                    case 'n':
+                        e.preventDefault();
+                        document.getElementById('quickInput').focus();
+                        break;
+                    case 'e':
+                        e.preventDefault();
+                        exportData();
+                        break;
+                }
+            }
+        });
+
+        // Auto-save (localStorage simulation)
+        setInterval(() => {
+            localStorage.setItem('mindcapture-data', JSON.stringify(appState));
+        }, 5000);
+
+        // Load saved data on startup
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('mindcapture-data');
+            if (saved) {
+                const data = JSON.parse(saved);
+                appState = { ...appState, ...data };
+                renderMindMap();
+                updateTaskPanel();
+            }
+        });
+    </script>
+</body>
+</html>
