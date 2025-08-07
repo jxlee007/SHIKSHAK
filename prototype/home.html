@@ -78,9 +78,11 @@
     .lane{background:var(--panel); border-radius:16px; padding:1rem .5rem; flex:1; min-width:180px; display:flex; flex-direction:column;}
     .lane-title{font-weight:700; font-size:1.1rem; margin-bottom:.75rem; color:var(--primary); letter-spacing:.5px;}
     .task-list{display:flex; flex-direction:column; gap:10px;}
-    .task{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:0; display:flex; align-items:center; gap:10px; transition:opacity .3s;}
+    .task{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:0; display:flex; align-items:center; gap:10px; transition:opacity .3s, transform .2s; cursor:move;}
     .task[data-status="completed"]{opacity:.5; text-decoration:line-through;}
     .task.hide{display:none !important;}
+    .task.dragging{transform:scale(1.05); opacity:0.8; z-index:1000; box-shadow:0 8px 16px rgba(0,0,0,0.3);}
+    .lane.drag-over{background:var(--muted); border:2px dashed var(--primary);}
     .badge{font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); opacity:.85}
 
     /* To-Do View Styles (from todo.html) */
@@ -203,19 +205,19 @@
           <div class="lane" data-priority="High">
             <div class="lane-title">High</div>
             <div class="task-list">
-              <div class="task" data-priority="High" data-status="active" data-date="2025-08-07"><span class="badge">High</span> Turn ideas into to‑dos using AI suggestions</div>
+              <div class="task" draggable="true" data-priority="High" data-status="active" data-date="2025-08-07"><span class="badge">High</span> Turn ideas into to‑dos using AI suggestions</div>
             </div>
           </div>
           <div class="lane" data-priority="Medium">
             <div class="lane-title">Medium</div>
             <div class="task-list">
-              <div class="task" data-priority="Medium" data-status="active" data-date="2025-08-07"><span class="badge">Medium</span> Equilibrium engine: detect plan gaps</div>
+              <div class="task" draggable="true" data-priority="Medium" data-status="active" data-date="2025-08-07"><span class="badge">Medium</span> Equilibrium engine: detect plan gaps</div>
             </div>
           </div>
           <div class="lane" data-priority="Low">
             <div class="lane-title">Low</div>
             <div class="task-list">
-              <div class="task" data-priority="Low" data-status="active" data-date="2025-08-07"><span class="badge">Low</span> 1% Daily Progress visuals</div>
+              <div class="task" draggable="true" data-priority="Low" data-status="active" data-date="2025-08-07"><span class="badge">Low</span> 1% Daily Progress visuals</div>
             </div>
           </div>
         </section>
@@ -375,6 +377,9 @@
         });
       });
 
+      // Task Drag and Drop Logic
+      initializeTaskDragDrop();
+
       // Header actions
       const headerActions = Array.from(document.querySelectorAll('.header .actions .tab'));
       const [btnBriefing, btnReflection, btnExport, btnInstall] = headerActions;
@@ -406,6 +411,112 @@
           panel.style.display = isHidden ? 'grid' : 'none';
         }
       });
+    }
+
+    function initializeTaskDragDrop() {
+      const tasks = document.querySelectorAll('.task[draggable="true"]');
+      const lanes = document.querySelectorAll('.lane');
+
+      tasks.forEach(task => {
+        task.addEventListener('dragstart', handleTaskDragStart);
+        task.addEventListener('dragend', handleTaskDragEnd);
+      });
+
+      lanes.forEach(lane => {
+        lane.addEventListener('dragover', handleLaneDragOver);
+        lane.addEventListener('drop', handleLaneDrop);
+        lane.addEventListener('dragenter', handleLaneDragEnter);
+        lane.addEventListener('dragleave', handleLaneDragLeave);
+      });
+    }
+
+    function handleTaskDragStart(e) {
+      e.dataTransfer.setData('text/plain', e.target.outerHTML);
+      e.dataTransfer.setData('application/task-id', e.target.dataset.priority + '-' + Date.now());
+      e.target.classList.add('dragging');
+      
+      // Store reference to the dragged element
+      window.draggedTask = e.target;
+    }
+
+    function handleTaskDragEnd(e) {
+      e.target.classList.remove('dragging');
+      window.draggedTask = null;
+    }
+
+    function handleLaneDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    }
+
+    function handleLaneDragEnter(e) {
+      e.preventDefault();
+      if (e.target.classList.contains('lane') || e.target.closest('.lane')) {
+        const lane = e.target.closest('.lane') || e.target;
+        lane.classList.add('drag-over');
+      }
+    }
+
+    function handleLaneDragLeave(e) {
+      if (e.target.classList.contains('lane') || e.target.closest('.lane')) {
+        const lane = e.target.closest('.lane') || e.target;
+        // Only remove drag-over if we're actually leaving the lane
+        if (!lane.contains(e.relatedTarget)) {
+          lane.classList.remove('drag-over');
+        }
+      }
+    }
+
+    function handleLaneDrop(e) {
+      e.preventDefault();
+      const lane = e.target.closest('.lane') || e.target;
+      lane.classList.remove('drag-over');
+      
+      if (!window.draggedTask) return;
+      
+      const newPriority = lane.dataset.priority;
+      const oldPriority = window.draggedTask.dataset.priority;
+      
+      if (newPriority !== oldPriority) {
+        // Update task priority
+        window.draggedTask.dataset.priority = newPriority;
+        
+        // Update badge text and class
+        const badge = window.draggedTask.querySelector('.badge');
+        if (badge) {
+          badge.textContent = newPriority;
+        }
+        
+        // Move task to new lane
+        const taskList = lane.querySelector('.task-list');
+        if (taskList) {
+          taskList.appendChild(window.draggedTask);
+        }
+        
+        // Show success feedback
+        showTaskMoveNotification(oldPriority, newPriority);
+        
+        // Update task panel if it's visible
+        updateTaskPanel();
+      }
+    }
+
+    function showTaskMoveNotification(oldPriority, newPriority) {
+      const notification = document.createElement('div');
+      notification.className = 'insight';
+      notification.style.position = 'fixed';
+      notification.style.top = '80px';
+      notification.style.right = '16px';
+      notification.style.zIndex = '1000';
+      notification.textContent = `✅ Task moved from ${oldPriority} to ${newPriority} priority`;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 3000);
     }
 
     function updateOnlineStatus() {
@@ -644,6 +755,8 @@
           break;
         case 'task':
           appState.selectedNode.type = 'task';
+          // Also add to task lanes with medium priority by default
+          addTaskToLanes(appState.selectedNode.content, 'Medium');
           renderMindMap();
           updateTaskPanel();
           break;
@@ -670,14 +783,64 @@
     }
 
     function updateTaskPanel() {
+      // Get tasks from both mind map nodes and DOM task lanes
       const taskNodes = appState.nodes.filter(node => node.type === 'task');
+      const domTasks = Array.from(document.querySelectorAll('.lanes .task')).map(taskEl => ({
+        content: taskEl.textContent.replace(/^(High|Medium|Low)\s*/, '').trim(),
+        priority: taskEl.dataset.priority,
+        status: taskEl.dataset.status,
+        element: taskEl
+      }));
+      
       const taskList = document.getElementById('taskList');
-      taskList.innerHTML = taskNodes.map(task => `
-        <div class="task">
-          <input type="checkbox" style="margin-right:8px;">
+      
+      // Combine mind map tasks and DOM tasks
+      const allTasks = [
+        ...taskNodes.map(task => ({
+          content: task.content,
+          priority: 'Mind Map',
+          status: 'active',
+          element: null
+        })),
+        ...domTasks
+      ];
+      
+      taskList.innerHTML = allTasks.map(task => `
+        <div class="task" style="border-left: 3px solid ${getPriorityColor(task.priority)};">
+          <input type="checkbox" style="margin-right:8px;" ${task.status === 'completed' ? 'checked' : ''}>
+          <span style="font-size:12px; opacity:0.7;">[${task.priority}]</span>
           <span>${task.content}</span>
         </div>
       `).join('');
+    }
+
+    function getPriorityColor(priority) {
+      switch(priority) {
+        case 'High': return '#ef4444';
+        case 'Medium': return '#f59e0b';
+        case 'Low': return '#10b981';
+        default: return 'var(--primary)';
+      }
+    }
+
+    function addTaskToLanes(content, priority = 'Medium') {
+      const lane = document.querySelector(`.lane[data-priority="${priority}"]`);
+      if (lane) {
+        const taskList = lane.querySelector('.task-list');
+        const taskElement = document.createElement('div');
+        taskElement.className = 'task';
+        taskElement.draggable = true;
+        taskElement.dataset.priority = priority;
+        taskElement.dataset.status = 'active';
+        taskElement.dataset.date = new Date().toISOString().slice(0, 10);
+        taskElement.innerHTML = `<span class="badge">${priority}</span> ${content}`;
+        
+        // Add drag event listeners to the new task
+        taskElement.addEventListener('dragstart', handleTaskDragStart);
+        taskElement.addEventListener('dragend', handleTaskDragEnd);
+        
+        taskList.appendChild(taskElement);
+      }
     }
 
     function showMorningBriefing() {
