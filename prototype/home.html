@@ -68,11 +68,29 @@
     .chip { font-size: 10px; opacity: .7; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 4px; display: block; }
     .connect { position: absolute; height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent)); opacity: .5; }
 
-    /* Tasks */
-    .toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
-    .task-list { display: grid; gap: 8px; }
-    .task { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; }
-    .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); opacity: .8; }
+    /* Tasks View Styles (from tasks.html) */
+    .page-header{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 16px;}
+    .title{font-weight:700}
+    .filters{display:flex; gap:8px; flex-wrap:wrap}
+    .chip-filter{background:var(--muted); border:1px solid #3a3a5e; border-radius:999px; padding:6px 10px; font-size:12px; cursor:pointer}
+    .chip-filter.active{background:var(--primary); border-color:var(--primary); color:#fff}
+    .lanes{display:flex; gap:18px; margin-top:1.5rem;}
+    .lane{background:var(--panel); border-radius:16px; padding:1rem .5rem; flex:1; min-width:180px; display:flex; flex-direction:column;}
+    .lane-title{font-weight:700; font-size:1.1rem; margin-bottom:.75rem; color:var(--primary); letter-spacing:.5px;}
+    .task-list{display:flex; flex-direction:column; gap:10px;}
+    .task{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:0; display:flex; align-items:center; gap:10px; transition:opacity .3s;}
+    .task[data-status="completed"]{opacity:.5; text-decoration:line-through;}
+    .task.hide{display:none !important;}
+    .badge{font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); opacity:.85}
+
+    /* To-Do View Styles (from todo.html) */
+    .board{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;}
+    .column{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:12px; display:grid; gap:8px;}
+    .column h3{margin:0 0 6px 0; color:var(--primary)}
+    .card{background:var(--muted); border:1px solid #3a3a5e; border-radius:10px; padding:10px; font-size:14px}
+    @media (max-width:1100px){ .board{grid-template-columns:repeat(2, 1fr);} }
+    @media (max-width:700px){ .board{grid-template-columns:1fr;} }
+
 
     /* Knowledge */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
@@ -149,6 +167,7 @@
       <nav class="tabs" aria-label="Primary">
         <span class="tab active">🗺️ Mind Map</span>
         <span class="tab">✅ Tasks</span>
+        <span class="tab">📋 To-Do</span>
         <span class="tab">📚 Knowledge</span>
         <span class="tab">💡 Insights</span>
       </nav>
@@ -171,26 +190,55 @@
 
       <!-- Tasks View -->
       <section class="view" aria-label="Tasks">
-        <div class="toolbar">
-          <button class="tab active">All</button>
-          <button class="tab">Today</button>
-          <button class="tab">Overdue</button>
-          <button class="tab">Completed</button>
-        </div>
-        <div class="task-list">
-          <div class="task">
-            <span class="badge">High</span>
-            Turn ideas into to‑dos using AI suggestions
-          </div>
-          <div class="task">
-            <span class="badge">Medium</span>
-            Equilibrium engine: detect plan gaps
-          </div>
-          <div class="task">
-            <span class="badge">Low</span>
-            1% Daily Progress visuals
+        <div class="page-header">
+          <h1 class="title">Tasks</h1>
+          <div class="filters">
+            <button class="chip-filter active" data-filter="all">All</button>
+            <button class="chip-filter" data-filter="today">Today</button>
+            <button class="chip-filter" data-filter="overdue">Overdue</button>
+            <button class="chip-filter" data-filter="completed">Completed</button>
           </div>
         </div>
+        <section class="lanes">
+          <div class="lane" data-priority="High">
+            <div class="lane-title">High</div>
+            <div class="task-list">
+              <div class="task" data-priority="High" data-status="active" data-date="2025-08-07"><span class="badge">High</span> Turn ideas into to‑dos using AI suggestions</div>
+            </div>
+          </div>
+          <div class="lane" data-priority="Medium">
+            <div class="lane-title">Medium</div>
+            <div class="task-list">
+              <div class="task" data-priority="Medium" data-status="active" data-date="2025-08-07"><span class="badge">Medium</span> Equilibrium engine: detect plan gaps</div>
+            </div>
+          </div>
+          <div class="lane" data-priority="Low">
+            <div class="lane-title">Low</div>
+            <div class="task-list">
+              <div class="task" data-priority="Low" data-status="active" data-date="2025-08-07"><span class="badge">Low</span> 1% Daily Progress visuals</div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- To-Do View -->
+      <section class="view" aria-label="To-Do">
+        <h1 style="margin:0 0 16px 0;">To‑Do Board</h1>
+        <section class="board">
+          <div class="column">
+            <h3>Backlog</h3>
+            <div class="card">Explore offline caching strategies</div>
+            <div class="card">Draft node clustering rules</div>
+          </div>
+          <div class="column">
+            <h3>In Progress</h3>
+            <div class="card">Create UI scaffold</div>
+          </div>
+          <div class="column">
+            <h3>Done</h3>
+            <div class="card">Write PRD outline</div>
+          </div>
+        </section>
       </section>
 
       <!-- Knowledge View -->
@@ -299,6 +347,32 @@
       const views = Array.from(document.querySelectorAll('.main .view'));
       tabs.forEach((tabEl, i) => {
         tabEl.addEventListener('click', () => setActiveView(i));
+      });
+
+      // Task Filter Logic
+      const chips = document.querySelectorAll('.chip-filter');
+      const tasks = document.querySelectorAll('.task');
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          const filter = chip.getAttribute('data-filter');
+          tasks.forEach(task => {
+            task.classList.remove('hide');
+            if (filter === 'all') {
+              task.classList.remove('hide');
+            } else if (filter === 'today') {
+              const today = new Date().toISOString().slice(0, 10);
+              if (task.getAttribute('data-date') !== today) task.classList.add('hide');
+            } else if (filter === 'overdue') {
+              const today = new Date().toISOString().slice(0, 10);
+              const taskDate = task.getAttribute('data-date');
+              if (!taskDate || taskDate >= today) task.classList.add('hide');
+            } else if (filter === 'completed') {
+              if (task.getAttribute('data-status') !== 'completed') task.classList.add('hide');
+            }
+          });
+        });
       });
 
       // Header actions
@@ -588,7 +662,7 @@
       tabs.forEach((t, i) => t.classList.toggle('active', i === index));
       views.forEach((v, i) => v.classList.toggle('active', i === index));
       // Show/hide relevant content
-      if (index === 1) {
+      if (index === 1) { // Original Tasks view, now floating panel
         document.getElementById('taskPanel').style.display = 'grid';
       } else {
         document.getElementById('taskPanel').style.display = 'none';
