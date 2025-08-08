@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MindScape – Home</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Tailwind runtime config for dark theme colors */
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sidebar: '#1f2937', // gray-800
+            sidebarHover: '#374151', // gray-700
+            accent: {
+              primary: '#3b82f6',
+              danger: '#ef4444',
+              warn: '#f59e0b'
+            }
+          },
+          boxShadow: {
+            soft: '0 2px 4px -2px rgba(0,0,0,0.2), 0 4px 8px -1px rgba(0,0,0,0.15)'
+          },
+          transitionProperty: {
+            'spacing-transform': 'margin, padding, transform'
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Heroicons & Lucide (icons) -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-sidebar-bg: #1f2937;
+      --color-sidebar-hover: #374151;
+      --transition-base: 300ms cubic-bezier(.4,0,.2,1);
+    }
+    html, body { font-family: 'Inter', system-ui, sans-serif; }
+    body.sidebar-open @media (min-width: 1024px) { /* just placeholder for readability */ }
+    /* Sidebar transitions */
+    .sidebar-transition { transition: transform var(--transition-base), width var(--transition-base); }
+    /* Chat name truncation */
+    .chat-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    /* Scrollbar styling */
+    .thin-scrollbar::-webkit-scrollbar { width: 8px; }
+    .thin-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .thin-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+    .thin-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+    /* Dropdown animation */
+    .menu-enter { opacity: 0; transform: scale(.95); }
+    .menu-enter-active { opacity: 1; transform: scale(1); transition: opacity var(--transition-base), transform var(--transition-base); }
+    .menu-leave { opacity: 1; transform: scale(1); }
+    .menu-leave-active { opacity: 0; transform: scale(.95); transition: opacity var(--transition-base), transform var(--transition-base); }
+    /* Modal animations */
+    .modal-overlay { backdrop-filter: blur(6px); }
+    .modal-hidden { opacity: 0; pointer-events: none; }
+    .modal-visible { opacity: 1; }
+    .modal-panel { transform: scale(.96); opacity: 0; transition: opacity var(--transition-base), transform var(--transition-base); }
+    .modal-panel.show { opacity: 1; transform: scale(1); }
+    /* Utility for focus ring override */
+    .focus-outline:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+    /* Hover subtle scale */
+    .hover-grow { transition: transform 160ms ease, background-color 160ms ease; }
+    .hover-grow:hover { transform: translateY(-1px); }
+    /* Sidebar push on desktop */
+    body.lg-sidebar-open main#content { margin-left: 18rem; transition: margin var(--transition-base); }
+    @media (max-width: 1023.5px) {
+      body.lg-sidebar-open main#content { margin-left: 0; }
+    }
+    /* Overlay for mobile sidebar */
+    #sidebar-backdrop { transition: opacity var(--transition-base); }
+    #sidebar-backdrop.hidden { opacity:0; pointer-events:none; }
+    #sidebar-backdrop.visible { opacity:1; }
+    /* Overflow menu within chats */
+    .chat-item:hover .chat-menu-btn { opacity: 1; }
+    .chat-menu-btn { opacity: 0; transition: opacity 150ms ease; }
+  </style>
+</head>
+<body class="h-full bg-gray-900 text-gray-100 antialiased">
+  <!-- Mobile & Desktop Sidebar Toggle / Top Bar -->
+  <header class="flex items-center gap-2 px-4 h-14 border-b border-gray-800 bg-gray-900/70 backdrop-blur sticky top-0 z-30">
+    <button id="sidebarToggle" aria-label="Toggle sidebar" aria-expanded="false" class="flex items-center justify-center w-10 h-10 rounded-md hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 transition" title="Toggle sidebar">
+      <i data-lucide="panel-left" class="w-5 h-5"></i>
+    </button>
+    <h1 class="font-semibold tracking-tight text-lg select-none">MindScape</h1>
+    <div class="ml-auto flex items-center gap-2">
+      <!-- Placeholder for future global actions -->
+    </div>
+  </header>
+
+  <!-- Sidebar Backdrop (mobile) -->
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-black/40 hidden md:hidden z-40"></div>
+
+  <!-- Sidebar -->
+  <aside id="appSidebar" class="fixed top-0 left-0 h-full w-72 bg-sidebar shadow-soft border-r border-gray-800 flex flex-col sidebar-transition -translate-x-full lg:translate-x-0 z-50" aria-label="Primary">
+    <!-- Top nav section -->
+    <div class="pt-16 px-3 pb-2 space-y-2 border-b border-gray-700/60">
+      <button id="newChatBtn" class="w-full flex items-center gap-2 px-3 py-2 rounded-md bg-blue-600 hover:bg-blue-500 active:bg-blue-700 transition text-sm font-medium focus-outline focus-visible:outline-blue-500 hover-grow" aria-label="Start a new chat">
+        <i data-lucide="plus" class="w-4 h-4"></i>
+        <span>New Chat</span>
+      </button>
+      <button id="searchOpenBtn" class="group w-full flex items-center gap-2 px-3 py-2 rounded-md hover:bg-sidebarHover transition text-sm font-medium focus-outline" aria-label="Search chats (Ctrl+K)" title="Search chats (Ctrl+K)">
+        <i data-lucide="search" class="w-4 h-4 text-gray-300"></i>
+        <span class="flex-1 text-left">Search chats</span>
+        <kbd class="hidden group-hover:inline-flex text-[10px] font-medium px-1.5 py-0.5 rounded bg-gray-700 text-gray-200 border border-gray-600">Ctrl K</kbd>
+      </button>
+    </div>
+    <!-- Middle features -->
+    <nav class="px-3 py-3 space-y-1" aria-label="Features">
+      <button class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebarHover transition text-sm focus-outline" data-feature="narrative" aria-label="Narrative OS">
+        <i data-lucide="play-circle" class="w-5 h-5 text-gray-300"></i>
+        <span class="flex-1 text-left">Narrative OS</span>
+      </button>
+      <button class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebarHover transition text-sm focus-outline" data-feature="knowledge" aria-label="Knowledge & Insights">
+        <i data-lucide="grid" class="w-5 h-5 text-gray-300"></i>
+        <span class="flex-1 text-left">Knowledge / Insights</span>
+      </button>
+      <button class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebarHover transition text-sm focus-outline" data-feature="folders" aria-label="Folders">
+        <i data-lucide="book" class="w-5 h-5 text-gray-300"></i>
+        <span class="flex-1 text-left">Folders</span>
+      </button>
+    </nav>
+    <!-- Chats history -->
+    <section class="flex-1 min-h-0 flex flex-col" aria-label="Chat history">
+      <header class="flex items-center justify-between px-3 py-2 text-xs uppercase tracking-wide text-gray-400 font-medium">
+        <span>Chats</span>
+        <span id="chatCount" class="text-gray-500 text-[11px] bg-gray-700/50 rounded px-1.5 py-0.5">0</span>
+      </header>
+      <div id="chatListContainer" class="flex-1 overflow-y-auto thin-scrollbar px-2 pb-4" role="list" aria-label="Chats list">
+        <ul id="chatList" class="space-y-1 text-sm"></ul>
+      </div>
+    </section>
+    <!-- Bottom user account -->
+    <div class="border-t border-gray-700/60 p-3">
+      <button id="userMenuBtn" class="w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-sidebarHover transition text-left focus-outline" aria-haspopup="true" aria-expanded="false" aria-label="User menu">
+        <img src="https://avatars.githubusercontent.com/u/1?v=4" alt="User avatar" class="w-8 h-8 rounded-full object-cover border border-gray-600" />
+        <div class="flex-1 min-w-0">
+          <p class="font-medium text-sm truncate">Jimmy Falcon</p>
+          <p class="text-[11px] text-gray-400">Free Plan</p>
+        </div>
+        <i data-lucide="chevron-up" class="w-4 h-4 rotate-180 transition user-menu-chevron"></i>
+      </button>
+      <div id="userDropdown" class="mt-2 origin-bottom-left bg-gray-800 border border-gray-700 rounded-md shadow-soft p-1 divide-y divide-gray-700 hidden" role="menu" aria-label="User menu options">
+        <div class="px-3 py-2 text-xs text-gray-300">jimmy.falcon@example.com</div>
+        <div class="py-1 space-y-0.5">
+          <button class="menu-item" data-action="upgrade">Upgrade Plan</button>
+          <button class="menu-item" data-action="settings">Settings</button>
+          <button class="menu-item" data-action="help">Help</button>
+        </div>
+        <div class="pt-1">
+          <button class="menu-item text-red-400 hover:text-red-300 focus-visible:outline-red-500" data-action="logout">Log Out</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content area -->
+  <main id="content" class="relative min-h-[calc(100vh-3.5rem)] pt-4 px-4 transition-spacing-transform">
+    <div class="max-w-4xl mx-auto space-y-8">
+      <section>
+        <h2 class="text-2xl font-semibold mb-2">Welcome back 👋</h2>
+        <p class="text-gray-300 leading-relaxed">Select or create a chat from the sidebar to get started. Use <kbd class="px-1 py-0.5 bg-gray-800 border border-gray-700 rounded text-xs">Ctrl</kbd> + <kbd class="px-1 py-0.5 bg-gray-800 border border-gray-700 rounded text-xs">K</kbd> anytime to quickly search your chats.</p>
+      </section>
+      <section class="space-y-4">
+        <h3 class="text-lg font-medium">Activity</h3>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="rounded-lg border border-gray-800 bg-gray-800/40 p-4 shadow-soft">
+            <p class="text-sm text-gray-400">No recent activity.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Search Modal -->
+  <div id="searchModal" class="fixed inset-0 z-[100] modal-overlay flex items-start justify-center pt-24 md:pt-40 px-4 modal-hidden">
+    <div class="absolute inset-0 bg-black/60" data-modal-close></div>
+    <div class="relative w-full max-w-xl bg-gray-800 border border-gray-700 rounded-xl shadow-soft overflow-hidden modal-panel" role="dialog" aria-modal="true" aria-labelledby="searchDialogTitle">
+      <div class="border-b border-gray-700 flex items-center px-3">
+        <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
+        <input id="searchInput" type="text" placeholder="Search chats..." class="flex-1 bg-transparent px-3 py-3 focus:outline-none text-sm" aria-label="Search chats input" />
+        <kbd class="hidden md:inline-flex text-[10px] font-medium px-1.5 py-0.5 rounded bg-gray-700 text-gray-200 border border-gray-600">Esc</kbd>
+      </div>
+      <ul id="searchResults" class="max-h-80 overflow-y-auto thin-scrollbar divide-y divide-gray-700" role="listbox" aria-label="Search results"></ul>
+      <div class="p-2 text-[11px] text-gray-500 flex justify-between">
+        <span>Use ↑ ↓ to navigate • Enter to open</span>
+        <span><kbd class="px-1 bg-gray-700 rounded">Esc</kbd> close</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Templates (hidden) -->
+  <template id="chatItemTemplate">
+    <li class="chat-item group relative" role="listitem">
+      <button class="chat-btn w-full flex items-center gap-2 px-3 py-2 rounded-md text-left hover:bg-sidebarHover transition focus-outline" data-chat-action="activate" title="Open chat">
+        <span class="pin-indicator hidden text-yellow-400"><i data-lucide="star" class="w-4 h-4 fill-yellow-400 stroke-yellow-400"></i></span>
+        <span class="chat-name flex-1"></span>
+      </button>
+      <div class="absolute inset-y-0 right-1 flex items-center">
+        <button class="chat-menu-btn w-7 h-7 flex items-center justify-center rounded hover:bg-gray-700 text-gray-300 focus-outline" data-chat-action="menu" aria-haspopup="true" aria-label="Open chat menu">
+          <i data-lucide="more-horizontal" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div class="chat-menu hidden absolute top-full right-2 mt-1 w-40 bg-gray-800 border border-gray-700 rounded-md shadow-soft z-10 p-1" role="menu" aria-label="Chat options">
+        <button class="chat-menu-item" data-menu="pin"></button>
+        <button class="chat-menu-item" data-menu="rename">Rename</button>
+        <button class="chat-menu-item" data-menu="archive">Archive</button>
+        <button class="chat-menu-item text-red-400 hover:text-red-300 focus-visible:outline-red-500" data-menu="delete">Delete</button>
+      </div>
+    </li>
+  </template>
+
+  <template id="searchResultTemplate">
+    <li class="result-item cursor-pointer flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-700/60 focus:bg-gray-700/60" role="option">
+      <i data-lucide="message-square" class="w-4 h-4 text-gray-400"></i>
+      <span class="flex-1 truncate"></span>
+      <span class="text-[10px] text-gray-500"></span>
+    </li>
+  </template>
+
+  <!-- Reusable styles for menu items -->
+  <style>
+    .menu-item, .chat-menu-item { width:100%; text-align:left; display:block; font-size:13px; padding:.5rem .625rem; border-radius:.375rem; color:#e5e7eb; background:transparent; transition:background-color 140ms ease, color 140ms ease; }
+    .menu-item:hover, .chat-menu-item:hover { background:#374151; }
+    .menu-item:focus-visible, .chat-menu-item:focus-visible { outline:2px solid #3b82f6; outline-offset:2px; }
+    .chat-btn.active { background:#374151; }
+  </style>
+
+  <!-- Main Script -->
+  <script>
+  ;(() => {
+    // ===== State =====
+    const state = {
+      chats: [],
+      activeChatId: null,
+      sidebarOpen: true,
+      searchIndex: [],
+      searchHighlightIndex: -1
+    }
+
+    const LS_KEYS = { SIDEBAR: 'ms_sidebar_open', CHATS: 'ms_chats', ACTIVE: 'ms_active_chat' }
+
+    // Default seed chats
+    const seedChats = [
+      'Generate PWA prompt',
+      'Dummy text',
+      'Tool comparison analysis',
+      'Dummy text',
+      'Product name suggestion',
+      'Dummy text',
+      'Opencode tmux integration',
+      '*Dummy text '
+    ]
+
+    // ===== Elements =====
+    const els = {
+      sidebar: document.getElementById('appSidebar'),
+      sidebarToggle: document.getElementById('sidebarToggle'),
+      newChatBtn: document.getElementById('newChatBtn'),
+      chatList: document.getElementById('chatList'),
+      chatCount: document.getElementById('chatCount'),
+      searchOpenBtn: document.getElementById('searchOpenBtn'),
+      searchModal: document.getElementById('searchModal'),
+      searchInput: document.getElementById('searchInput'),
+      searchResults: document.getElementById('searchResults'),
+      userMenuBtn: document.getElementById('userMenuBtn'),
+      userDropdown: document.getElementById('userDropdown'),
+      sidebarBackdrop: document.getElementById('sidebar-backdrop')
+    }
+
+    // ===== Utilities =====
+    function uuid() { return 'c_' + Math.random().toString(36).slice(2, 10) }
+    function saveLocal() {
+      localStorage.setItem(LS_KEYS.CHATS, JSON.stringify(state.chats))
+      localStorage.setItem(LS_KEYS.ACTIVE, state.activeChatId || '')
+    }
+    function loadLocal() {
+      try {
+        const s = JSON.parse(localStorage.getItem(LS_KEYS.CHATS) || 'null')
+        if (Array.isArray(s) && s.length) state.chats = s
+        else state.chats = seedChats.map(name => ({ id: uuid(), name: name.trim(), pinned: name.startsWith('*'), archived: false }))
+        state.activeChatId = localStorage.getItem(LS_KEYS.ACTIVE) || (state.chats[0]?.id || null)
+        const sb = localStorage.getItem(LS_KEYS.SIDEBAR)
+        state.sidebarOpen = sb === null ? true : sb === 'true'
+      } catch (e) { console.error('LoadLocal error', e) }
+    }
+    function persistSidebar() { localStorage.setItem(LS_KEYS.SIDEBAR, String(state.sidebarOpen)) }
+    function sortChats() {
+      state.chats.sort((a,b) => (b.pinned?1:0) - (a.pinned?1:0)) // pinned first
+    }
+    function fmtDate(ts) { const d = new Date(ts); return d.toLocaleDateString(undefined,{month:'short',day:'numeric'}) }
+    function escapeHTML(s){ return s.replace(/[&<>"]+/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])) }
+
+    // ===== Rendering =====
+    function renderChats() {
+      sortChats()
+      els.chatList.innerHTML = ''
+      const tpl = document.getElementById('chatItemTemplate')
+      state.chats.filter(c=>!c.archived).forEach(chat => {
+        const clone = tpl.content.firstElementChild.cloneNode(true)
+        clone.dataset.id = chat.id
+        const btn = clone.querySelector('.chat-btn')
+        const nameSpan = clone.querySelector('.chat-name')
+        nameSpan.textContent = chat.name
+        if (chat.id === state.activeChatId) btn.classList.add('active')
+        if (chat.pinned) {
+          clone.querySelector('.pin-indicator').classList.remove('hidden')
+          clone.querySelector('[data-menu="pin"]').textContent = 'Unpin'
+        } else {
+          clone.querySelector('[data-menu="pin"]').textContent = 'Pin'
+        }
+        els.chatList.appendChild(clone)
+      })
+      els.chatCount.textContent = state.chats.filter(c=>!c.archived).length
+      lucide.createIcons()
+    }
+
+    function rebuildSearchIndex() {
+      state.searchIndex = state.chats.filter(c=>!c.archived).map(c => ({ id: c.id, name: c.name.toLowerCase(), display: c.name }))
+    }
+
+    function filterSearch(q) {
+      const term = q.toLowerCase().trim()
+      if (!term) return state.searchIndex.slice(0, 50)
+      return state.searchIndex.filter(r => r.name.includes(term)).slice(0, 50)
+    }
+
+    function renderSearchResults(list) {
+      els.searchResults.innerHTML = ''
+      const tpl = document.getElementById('searchResultTemplate')
+      list.forEach((r,i) => {
+        const node = tpl.content.firstElementChild.cloneNode(true)
+        node.dataset.id = r.id
+        node.querySelector('span.flex-1').textContent = r.display
+        node.querySelector('span.text-[10px]').textContent = ''
+        if (i === state.searchHighlightIndex) node.classList.add('bg-gray-700')
+        els.searchResults.appendChild(node)
+      })
+      lucide.createIcons()
+    }
+
+    // ===== Sidebar =====
+    function applySidebarState(animated = true) {
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches
+      if (state.sidebarOpen) {
+        els.sidebar.classList.remove('-translate-x-full')
+        document.body.classList.add('lg-sidebar-open')
+        els.sidebarToggle.setAttribute('aria-expanded','true')
+        if (!isDesktop) showBackdrop(true)
+      } else {
+        els.sidebar.classList.add('-translate-x-full')
+        document.body.classList.remove('lg-sidebar-open')
+        els.sidebarToggle.setAttribute('aria-expanded','false')
+        showBackdrop(false)
+      }
+      if (!animated) els.sidebar.classList.add('!transition-none')
+      else setTimeout(()=>els.sidebar.classList.remove('!transition-none'),10)
+    }
+
+    function toggleSidebar(force) {
+      if (typeof force === 'boolean') state.sidebarOpen = force
+      else state.sidebarOpen = !state.sidebarOpen
+      applySidebarState()
+      persistSidebar()
+    }
+
+    function showBackdrop(show) {
+      if (show) {
+        els.sidebarBackdrop.classList.remove('hidden')
+        requestAnimationFrame(()=>els.sidebarBackdrop.classList.add('visible'))
+      } else {
+        els.sidebarBackdrop.classList.remove('visible')
+        els.sidebarBackdrop.addEventListener('transitionend', function h(){
+          els.sidebarBackdrop.classList.add('hidden'); els.sidebarBackdrop.removeEventListener('transitionend', h)
+        })
+      }
+    }
+
+    // ===== User Menu =====
+    let userMenuOpen = false
+    function toggleUserMenu(force) {
+      userMenuOpen = typeof force==='boolean'? force : !userMenuOpen
+      const dd = els.userDropdown
+      if (userMenuOpen) {
+        dd.classList.remove('hidden')
+        dd.classList.add('menu-enter')
+        requestAnimationFrame(()=>{
+          dd.classList.add('menu-enter-active'); dd.classList.remove('menu-enter')
+        })
+        els.userMenuBtn.setAttribute('aria-expanded','true')
+        els.userMenuBtn.querySelector('.user-menu-chevron').classList.remove('rotate-180')
+      } else {
+        dd.classList.add('menu-leave')
+        dd.classList.remove('menu-enter-active')
+        dd.classList.add('menu-leave-active')
+        els.userMenuBtn.setAttribute('aria-expanded','false')
+        els.userMenuBtn.querySelector('.user-menu-chevron').classList.add('rotate-180')
+        dd.addEventListener('transitionend', function hide(){
+          dd.classList.add('hidden'); dd.classList.remove('menu-leave','menu-leave-active'); dd.removeEventListener('transitionend', hide)
+        }, { once: true })
+      }
+    }
+
+    // ===== Chat Operations =====
+    function addChat(name='Untitled Chat') {
+      const chat = { id: uuid(), name: name.trim() || 'Untitled Chat', pinned: false, archived: false, created: Date.now() }
+      state.chats.unshift(chat)
+      state.activeChatId = chat.id
+      saveLocal(); rebuildSearchIndex(); renderChats()
+    }
+    function activateChat(id) {
+      state.activeChatId = id
+      saveLocal(); renderChats()
+    }
+    function pinChat(id, pin) {
+      const c = state.chats.find(c=>c.id===id); if (!c) return
+      c.pinned = pin
+      saveLocal(); renderChats(); rebuildSearchIndex()
+    }
+    function renameChat(id) {
+      const c = state.chats.find(c=>c.id===id); if (!c) return
+      const newName = prompt('Rename chat', c.name)
+      if (newName && newName.trim()) { c.name = newName.trim(); saveLocal(); renderChats(); rebuildSearchIndex() }
+    }
+    function archiveChat(id) {
+      const c = state.chats.find(c=>c.id===id); if (!c) return
+      if (confirm('Archive this chat?')) { c.archived = true; if (state.activeChatId === id) state.activeChatId = state.chats.find(x=>!x.archived)?.id || null; saveLocal(); renderChats(); rebuildSearchIndex() }
+    }
+    function deleteChat(id) {
+      const idx = state.chats.findIndex(c=>c.id===id); if (idx<0) return
+      if (confirm('Delete this chat permanently?')) { state.chats.splice(idx,1); if (state.activeChatId===id) state.activeChatId = state.chats[0]?.id || null; saveLocal(); renderChats(); rebuildSearchIndex() }
+    }
+
+    // ===== Search Modal =====
+    let searchOpen = false
+    let currentResults = []
+    function openSearch() {
+      searchOpen = true; state.searchHighlightIndex = 0
+      els.searchModal.classList.remove('modal-hidden')
+      requestAnimationFrame(()=>{
+        els.searchModal.classList.add('modal-visible'); els.searchModal.querySelector('.modal-panel').classList.add('show')
+      })
+      els.searchInput.focus(); performSearch('')
+    }
+    function closeSearch() {
+      searchOpen = false
+      els.searchModal.classList.remove('modal-visible'); els.searchModal.querySelector('.modal-panel').classList.remove('show')
+      els.searchModal.addEventListener('transitionend', function h(){ els.searchModal.classList.add('modal-hidden'); els.searchModal.removeEventListener('transitionend', h)}, { once: true })
+    }
+    function performSearch(q) {
+      currentResults = filterSearch(q)
+      renderSearchResults(currentResults)
+    }
+    function moveSearchHighlight(dir) {
+      if (!currentResults.length) return
+      state.searchHighlightIndex = (state.searchHighlightIndex + dir + currentResults.length) % currentResults.length
+      renderSearchResults(currentResults)
+    }
+    function activateHighlighted() {
+      if (!currentResults.length) return
+      const item = currentResults[state.searchHighlightIndex]
+      if (item) { activateChat(item.id); closeSearch() }
+    }
+
+    // ===== Event Delegation =====
+    function bindEvents() {
+      // Sidebar toggle
+      els.sidebarToggle.addEventListener('click', () => toggleSidebar())
+      els.sidebarBackdrop.addEventListener('click', ()=> toggleSidebar(false))
+      // New chat
+      els.newChatBtn.addEventListener('click', () => addChat('New Chat'))
+      // Search open
+      els.searchOpenBtn.addEventListener('click', openSearch)
+      // User menu
+      els.userMenuBtn.addEventListener('click', () => toggleUserMenu())
+      document.addEventListener('click', e => {
+        if (userMenuOpen && !els.userDropdown.contains(e.target) && !els.userMenuBtn.contains(e.target)) toggleUserMenu(false)
+      })
+      // Chats interactions (delegation)
+      els.chatList.addEventListener('click', e => {
+        const li = e.target.closest('.chat-item'); if (!li) return
+        const id = li.dataset.id
+        const actionBtn = e.target.closest('[data-chat-action]')
+        if (actionBtn) {
+          const action = actionBtn.dataset.chatAction
+          if (action === 'activate') activateChat(id)
+          if (action === 'menu') toggleChatMenu(li)
+        }
+        const menuItem = e.target.closest('.chat-menu-item')
+        if (menuItem) {
+          const menuAction = menuItem.dataset.menu
+            if (menuAction === 'pin') {
+              const c = state.chats.find(c=>c.id===id); pinChat(id, !c.pinned)
+            }
+            if (menuAction === 'rename') renameChat(id)
+            if (menuAction === 'archive') archiveChat(id)
+            if (menuAction === 'delete') deleteChat(id)
+          hideAllChatMenus()
+        }
+      })
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.chat-item')) hideAllChatMenus()
+      })
+      // Resize -> ensure sidebar behavior consistency
+      window.addEventListener('resize', () => applySidebarState())
+      // Keyboard shortcuts
+      document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==='k') { e.preventDefault(); if (!searchOpen) openSearch(); else closeSearch() }
+        if (e.key === 'Escape') { if (searchOpen) closeSearch(); hideAllChatMenus(); if (userMenuOpen) toggleUserMenu(false) }
+      })
+      // Search modal interactions
+      els.searchInput.addEventListener('input', e => performSearch(e.target.value))
+      els.searchResults.addEventListener('click', e => {
+        const item = e.target.closest('.result-item'); if (!item) return
+        activateChat(item.dataset.id); closeSearch()
+      })
+      els.searchModal.addEventListener('click', e => { if (e.target.dataset.modalClose !== undefined) closeSearch() })
+      document.addEventListener('keydown', e => {
+        if (!searchOpen) return
+        if (['ArrowDown','ArrowUp','Enter'].includes(e.key)) { e.preventDefault() }
+        if (e.key==='ArrowDown') moveSearchHighlight(1)
+        if (e.key==='ArrowUp') moveSearchHighlight(-1)
+        if (e.key==='Enter') activateHighlighted()
+      })
+    }
+
+    function toggleChatMenu(li) {
+      const menu = li.querySelector('.chat-menu')
+      const isOpen = !menu.classList.contains('hidden')
+      hideAllChatMenus()
+      if (!isOpen) {
+        menu.classList.remove('hidden')
+        menu.classList.add('menu-enter')
+        requestAnimationFrame(()=>{ menu.classList.add('menu-enter-active'); menu.classList.remove('menu-enter') })
+      }
+    }
+    function hideAllChatMenus() {
+      document.querySelectorAll('.chat-menu').forEach(m => {
+        if (!m.classList.contains('hidden')) {
+          m.classList.add('menu-leave'); m.classList.add('menu-leave-active'); m.classList.remove('menu-enter-active')
+          m.addEventListener('transitionend', function h(){ m.classList.add('hidden'); m.classList.remove('menu-leave','menu-leave-active'); m.removeEventListener('transitionend', h) }, { once: true })
+        }
+      })
+    }
+
+    // ===== Initialization =====
+    function init() {
+      loadLocal(); renderChats(); rebuildSearchIndex(); applySidebarState(false); bindEvents(); lucide.createIcons();
+    }
+    init()
+  })()
+  </script>
+</body>
+</html>
