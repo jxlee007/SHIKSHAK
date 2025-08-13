@@ -1,0 +1,193 @@
+# MINDSCAPE PROTOTYPE - COMPONENT LIST
+
+├── GLOBAL STRUCTURE
+│   ├── App Container
+│   │   ├── HTML Document
+│   │   ├── Theme Configuration (Tailwind)
+│   │   └── Global Styles
+│   ├── Offline Indicator
+│   │   ├── Status Dot (Yellow)
+│   │   └── "Working offline" Text
+│   └── Body Classes
+│       ├── sidebar-open
+│       ├── sidebar-closed
+│       └── focus-mode
+│
+├── HEADER COMPONENTS
+│   ├── Top Bar/Header
+│   │   ├── Sidebar Toggle Button
+│   │   │   └── Panel Left Icon
+│   │   ├── App Title ("MindScape")
+│   │   └── Right Action Group
+│   │       ├── Focus Mode Toggle
+│   │       │   └── Maximize/Minimize Icon
+│   │       └── Quick Capture Button
+│   │           └── Plus Icon
+│   └── Mobile Sidebar Backdrop
+│
+├── SIDEBAR COMPONENTS
+│   ├── Sidebar Container
+│   │   ├── Top Navigation Section
+│   │   │   ├── New Chat Button
+│   │   │   │   ├── Plus Icon
+│   │   │   │   └── "New Chat" Text
+│   │   │   └── Search Button
+│   │   │       ├── Search Icon
+│   │   │       ├── "Search chats" Text
+│   │   │       └── Ctrl+K Shortcut Badge
+│   │   │
+│   │   ├── Middle Features Section
+│   │   │   ├── Mind Map Button
+│   │   │   │   ├── Map Icon
+│   │   │   │   └── "Mind Map" Text
+│   │   │   ├── Tasks Button
+│   │   │   │   ├── List Icon
+│   │   │   │   └── "Tasks" Text
+│   │   │   ├── Knowledge Base Button
+│   │   │   │   ├── Book Open Icon
+│   │   │   │   └── "Knowledge Base" Text
+│   │   │   └── Daily Rituals Button
+│   │   │       ├── Sun Icon
+│   │   │       └── "Daily Rituals" Text
+│   │   │
+│   │   ├── Chat History Section
+│   │   │   ├── Chat List Header
+│   │   │   │   ├── "Recent Chats" Text
+│   │   │   │   └── Chat Count Badge
+│   │   │   └── Chat List Container
+│   │   │       └── Chat Items (5 examples)
+│   │   │           ├── Chat Button
+│   │   │           │   ├── Pin Indicator (Star)
+│   │   │           │   └── Chat Name
+│   │   │           ├── Chat Menu Button
+│   │   │           │   └── More Horizontal Icon
+│   │   │           └── Chat Menu (hidden by default)
+│   │   │               ├── Pin Option
+│   │   │               ├── Rename Option
+│   │   │               ├── Archive Option
+│   │   │               └── Delete Option
+│   │   │
+│   │   └── User Account Section
+│   │       ├── User Profile Button
+│   │       │   ├── User Avatar
+│   │       │   ├── User Name & Plan
+│   │       │   └── Chevron Icon
+│   │       └── User Dropdown Menu (hidden by default)
+│   │           ├── Email Display
+│   │           ├── Upgrade Plan Option
+│   │           ├── Settings Option
+│   │           ├── Help Center Option
+│   │           └── Log Out Option
+│   └── Sidebar Transitions
+│       ├── Mobile Overlay Animation
+│       └── Desktop Push Content Animation
+│
+├── MAIN CONTENT AREA
+│   ├── Today's Focus Panel (Floating)
+│   │   ├── Panel Header
+│   │   │   ├── Calendar Icon
+│   │   │   ├── "Today's Focus" Text
+│   │   │   └── Close Button
+│   │   └── Focus Tasks List
+│   │       ├── Task Item (Product Strategy)
+│   │       ├── Task Item (Research AI Tools)
+│   │       ├── Task Item (Schedule Team Meeting)
+│   │       └── Add Task Button
+│   │
+│   └── View Container
+│       ├── View Navigation Controls
+│       │   ├── View Title
+│       │   └── View Action Buttons
+│       │
+│       ├── MIND MAP VIEW
+│       │   ├── Knowledge Graph Header
+│       │   ├── Mind Map Canvas
+│       │   │   ├── Connection Lines (SVG)
+│       │   │   └── Mind Map Nodes (6 examples)
+│       │   │       ├── Node Content
+│       │   │       │   ├── Type Badge (Project, Research, Task, etc.)
+│       │   │       │   ├── Node Title
+│       │   │       │   ├── Node Content Preview
+│       │   │       │   └── Metadata (Date, Message Count)
+│       │   │       └── Node Clusters (3 color-coded)
+│       │   └── Mind Map Metrics (3 cards)
+│       │       ├── Total Nodes
+│       │       ├── Connections
+│       │       └── Active Today
+│       │
+│       ├── TASKS VIEW
+│       │   ├── Task Management Header
+│       │   └── Task Swimlanes (3 priority levels)
+│       │       ├── High Priority Swimlane
+│       │       │   └── Task Cards (3 examples)
+│       │       ├── Medium Priority Swimlane
+│       │       │   └── Task Cards (3 examples)
+│       │       └── Low Priority Swimlane
+│       │           └── Task Cards (2 examples)
+│       │
+│       ├── KNOWLEDGE BASE VIEW
+│       │   ├── Knowledge Base Header
+│       │   └── Knowledge Grid (6 resource cards)
+│       │       ├── Article Cards
+│       │       ├── Video Cards
+│       │       ├── PDF Cards
+│       │       └── Note Cards
+│       │
+│       └── DAILY RITUALS VIEW
+│           ├── Morning Briefing Section
+│           │   ├── Priority Card
+│           │   ├── Knowledge Focus Card
+│           │   ├── Today's Task Card
+│           │   └── Small Win Card
+│           └── Evening Reflection Section
+│               ├── Accomplishments Card
+│               └── Insights Card
+│
+├── MODAL COMPONENTS
+│   ├── Quick Capture Modal
+│   │   ├── Modal Header
+│   │   │   ├── Title ("Quick Capture")
+│   │   │   └── Close Button
+│   │   ├── Capture Input (Textarea)
+│   │   ├── Capture Type Buttons (4 options)
+│   │   │   ├── Thought (Lightbulb)
+│   │   │   ├── Task (List)
+│   │   │   ├── Note (File Text)
+│   │   │   └── Idea (Sparkles)
+│   │   ├── Attachment Area
+│   │   │   ├── Cloud Upload Icon
+│   │   │   └── Browse Files Button
+│   │   └── Action Buttons
+│   │       ├── Cancel Button
+│   │       └── Save & Process Button
+│   │
+│   └── Search Modal
+│       ├── Search Input Container
+│       │   ├── Search Icon
+│       │   └── Search Input Field
+│       ├── Search Results List
+│       │   └── Result Items (5 examples)
+│       └── Keyboard Instructions
+│
+├── UTILITY COMPONENTS
+│   ├── Lucide Icons System
+│   ├── Thin Scrollbar Styling
+│   ├── View Transitions
+│   │   ├── View Enter Animation
+│   │   └── View Exit Animation
+│   ├── Modal Transitions
+│   │   ├── Modal Panel Animation
+│   │   └── Overlay Blur Effect
+│   ├── Focus Outline Styling
+│   ├── Hover Effects
+│   │   ├── Sidebar Hover States
+│   │   └── Button Hover States
+│   └── Responsive Layout System
+│       ├── Mobile First Design
+│       └── Desktop Breakpoints
+│
+└── STATE MANAGEMENT
+    ├── Sidebar State (localStorage)
+    ├── Current View State (localStorage)
+    ├── Focus Mode State
+    └── Offline Mode Detection
