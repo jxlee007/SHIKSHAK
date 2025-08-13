@@ -1,36 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MindCapture – Tasks</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: #0f0f23;
-      color: #e2e8f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .container {
-      text-align: center;
-      padding: 2rem;
-      background-color: #1a1a2e;
-      border-radius: 1rem;
-    }
-    a {
-      color: #60a5fa;
-    }
-  </style>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>MindCapture – Tasks</title>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+      <style>
+            :root {
+                  --bg: #0f0f23;
+                  --panel: #1a1a2e;
+                  --muted: #2a2a4e;
+                  --ink: #e2e8f0;
+                  --primary: #60a5fa;
+                  --accent: #8b5cf6;
+                  --success: #10b981;
+                  --warn: #f59e0b;
+                  --border: #2a2a4e;
+            }
+
+            body {
+                  margin: 0;
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  background: var(--bg);
+                  color: var(--ink);
+            }
+
+            .page-header {
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  gap: 12px;
+                  margin-bottom: 16px;
+            }
+
+            .title {
+                  font-weight: 700
+            }
+
+            .filters {
+                  display: flex;
+                  gap: 8px;
+                  flex-wrap: wrap
+            }
+
+            .chip-filter {
+                  background: var(--muted);
+                  border: 1px solid #3a3a5e;
+                  border-radius: 999px;
+                  padding: 6px 10px;
+                  font-size: 12px;
+                  cursor: pointer
+            }
+
+            .chip-filter.active {
+                  background: var(--primary);
+                  border-color: var(--primary);
+                  color: #fff
+            }
+
+            .lanes {
+                  display: flex;
+                  gap: 18px;
+                  margin-top: 1.5rem;
+            }
+
+            .lane {
+                  background: var(--panel);
+                  border-radius: 16px;
+                  padding: 1rem .5rem;
+                  flex: 1;
+                  min-width: 180px;
+                  display: flex;
+                  flex-direction: column;
+            }
+
+            .lane-title {
+                  font-weight: 700;
+                  font-size: 1.1rem;
+                  margin-bottom: .75rem;
+                  color: var(--primary);
+                  letter-spacing: .5px;
+            }
+
+            .task-list {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 10px;
+            }
+
+            .task {
+                  background: var(--panel);
+                  border: 1px solid var(--border);
+                  border-radius: 12px;
+                  padding: 12px;
+                  margin-bottom: 0;
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  transition: opacity .3s, transform .2s;
+                  cursor: move;
+            }
+
+            .task[data-status="completed"] {
+                  opacity: .5;
+                  text-decoration: line-through;
+            }
+
+            .task.hide {
+                  display: none !important;
+            }
+
+            .task.dragging {
+                  transform: scale(1.05);
+                  opacity: 0.8;
+                  z-index: 1000;
+                  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            }
+
+            .lane.drag-over {
+                  background: var(--muted);
+                  border: 2px dashed var(--primary);
+            }
+
+            .badge {
+                  font-size: 11px;
+                  padding: 2px 8px;
+                  border-radius: 999px;
+                  border: 1px solid var(--border);
+                  opacity: .85
+            }
+
+            .lane-header-actions {
+                  display: flex;
+                  gap: 6px;
+                  align-items: center;
+            }
+
+            .lane-gear {
+                  cursor: pointer;
+                  opacity: .6;
+                  font-size: 12px;
+            }
+
+            .lane-gear:hover {
+                  opacity: 1;
+            }
+      </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Tasks View Integrated</h1>
-    <p>The content of this page has been merged into the main prototype.</p>
-    <p><a href="home.html">Go to main prototype</a></p>
-  </div>
+      <div class="max-w-6xl mx-auto py-10 px-4">
+            <div class="page-header">
+                  <div class="title text-2xl">🗂️ Tasks</div>
+                  <div class="filters">
+                        <span class="chip-filter active" data-filter="all">All</span>
+                        <span class="chip-filter" data-filter="Low">Low</span>
+                        <span class="chip-filter" data-filter="Medium">Medium</span>
+                        <span class="chip-filter" data-filter="High">High</span>
+                  </div>
+            </div>
+            <div class="lanes">
+                  <div class="lane" data-lane="todo">
+                        <div class="lane-title" id="lane-title-todo">To-Do <span class="badge" id="todo-count">0</span>
+                              <span class="lane-header-actions"><span class="lane-gear"
+                                          onclick="customizeLane('todo')"><i data-lucide="settings"></i></span></span>
+                        </div>
+                        <div class="task-list" id="todo-list"></div>
+                  </div>
+                  <div class="lane" data-lane="in-progress">
+                        <div class="lane-title" id="lane-title-inprogress">In Progress <span class="badge"
+                                    id="inprogress-count">0</span>
+                              <span class="lane-header-actions"><span class="lane-gear"
+                                          onclick="customizeLane('in-progress')"><i
+                                                data-lucide="settings"></i></span></span>
+                        </div>
+                        <div class="task-list" id="inprogress-list"></div>
+                  </div>
+                  <div class="lane" data-lane="completed">
+                        <div class="lane-title" id="lane-title-completed">Completed <span class="badge"
+                                    id="completed-count">0</span>
+                              <span class="lane-header-actions"><span class="lane-gear"
+                                          onclick="customizeLane('completed')"><i
+                                                data-lucide="settings"></i></span></span>
+                        </div>
+                        <div class="task-list" id="completed-list"></div>
+                  </div>
+            </div>
+            <div class="mt-8">
+                  <input id="newTaskInput"
+                        class="border border-gray-700 rounded-lg px-4 py-2 w-full bg-gray-900 text-white"
+                        placeholder="Add a new task..." />
+                  <button id="addTaskBtn" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg">Add Task</button>
+            </div>
+      </div>
+      <script>
+            // Simple Tasks State
+
+            let tasks = [
+                  { id: 1, content: "Review project requirements", status: "todo", priority: "Medium" },
+                  { id: 2, content: "Design wireframes", status: "in-progress", priority: "High" },
+                  { id: 3, content: "Set up dev environment", status: "completed", priority: "Low" }
+            ];
+
+
+
+            function getPriorityColor(priority) {
+                  switch (priority) {
+                        case "High": return "bg-red-600";
+                        case "Medium": return "bg-yellow-500";
+                        case "Low": return "bg-green-600";
+                        default: return "bg-gray-600";
+                  }
+            }
+
+
+
+            function renderTasks(filter = "all") {
+                  const lanes = {
+                        todo: document.getElementById("todo-list"),
+                        "in-progress": document.getElementById("inprogress-list"),
+                        completed: document.getElementById("completed-list")
+                  };
+                  Object.values(lanes).forEach(lane => lane.innerHTML = "");
+                  let filtered = filter === "all" ? tasks : tasks.filter(t => t.priority === filter);
+                  let counts = { todo: 0, "in-progress": 0, completed: 0 };
+                  filtered.forEach(task => {
+                        const el = document.createElement("div");
+                        el.className = "task" + (task.status === "completed" ? " opacity-50" : "");
+                        el.setAttribute("draggable", "true");
+                        el.dataset.id = task.id;
+                        el.dataset.status = task.status;
+                        el.innerHTML = `
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          <span>${task.content}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <span class="badge ${getPriorityColor(task.priority)} text-white ml-2" style="cursor:pointer;" onclick="changePriority(${task.id})">${task.priority}</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              <button onclick=\"toggleTaskStatus(${task.id})\" class=\"ml-auto px-2 py-1 rounded bg-green-600 text-white\">${task.status === "completed" ? "↩" : "✔"}</button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      `;
+
+                        // Drag events
+                        el.addEventListener("dragstart", function (e) {
+                              e.dataTransfer.setData("text/plain", task.id);
+                              el.classList.add("dragging");
+                              el.dataset.oldStatus = task.status;
+                        });
+                        el.addEventListener("dragend", function (e) {
+                              el.classList.remove("dragging");
+                        });
+
+                        lanes[task.status].appendChild(el);
+                        counts[task.status]++;
+                  });
+                  document.getElementById("todo-count").textContent = counts.todo;
+                  document.getElementById("inprogress-count").textContent = counts["in-progress"];
+                  document.getElementById("completed-count").textContent = counts.completed;
+                  lucide.createIcons();
+            }
+
+            function toggleTaskStatus(id) {
+                  const task = tasks.find(t => t.id === id);
+                  if (!task) return;
+                  if (task.status === "completed") {
+                        task.status = "todo";
+                  } else {
+                        task.status = "completed";
+                  }
+                  renderTasks(currentFilter);
+            }
+
+
+            let currentFilter = "all";
+            document.querySelectorAll(".chip-filter").forEach(el => {
+                  el.addEventListener("click", function () {
+                        document.querySelectorAll(".chip-filter").forEach(e => e.classList.remove("active"));
+                        this.classList.add("active");
+                        currentFilter = this.dataset.filter;
+                        renderTasks(currentFilter);
+                  });
+            });
+
+
+            // Priority select for new task
+            let newTaskPriority = "Medium";
+            const prioritySelect = document.createElement("select");
+            prioritySelect.className = "border border-gray-700 rounded-lg px-2 py-2 bg-gray-900 text-white ml-2";
+            ["Low", "Medium", "High"].forEach(p => {
+                  const opt = document.createElement("option");
+                  opt.value = p;
+                  opt.textContent = p;
+                  if (p === "Medium") opt.selected = true;
+                  prioritySelect.appendChild(opt);
+            });
+            prioritySelect.addEventListener("change", function () {
+                  newTaskPriority = this.value;
+            });
+            const inputDiv = document.getElementById("addTaskBtn").parentNode;
+            inputDiv.insertBefore(prioritySelect, document.getElementById("addTaskBtn"));
+
+            document.getElementById("addTaskBtn").addEventListener("click", function () {
+                  const input = document.getElementById("newTaskInput");
+                  const val = input.value.trim();
+                  if (!val) return;
+                  tasks.push({ id: Date.now(), content: val, status: "todo", priority: newTaskPriority });
+                  input.value = "";
+                  renderTasks(currentFilter);
+            });
+
+            // Change priority handler
+            window.changePriority = function (id) {
+                  const task = tasks.find(t => t.id === id);
+                  if (!task) return;
+                  const priorities = ["Low", "Medium", "High"];
+                  let idx = priorities.indexOf(task.priority);
+                  task.priority = priorities[(idx + 1) % priorities.length];
+                  renderTasks(currentFilter);
+            }
+
+
+            // Lane drag-over/drop events with notification
+            function showTaskMoveNotification(oldStatus, newStatus) {
+                  const msg = `Task moved from ${formatLaneName(oldStatus)} to ${formatLaneName(newStatus)}`;
+                  let toast = document.createElement('div');
+                  toast.textContent = msg;
+                  toast.style.position = 'fixed';
+                  toast.style.bottom = '32px';
+                  toast.style.right = '32px';
+                  toast.style.background = '#1a1a2e';
+                  toast.style.color = '#fff';
+                  toast.style.padding = '12px 20px';
+                  toast.style.borderRadius = '10px';
+                  toast.style.boxShadow = '0 4px 16px rgba(0,0,0,0.2)';
+                  toast.style.zIndex = 9999;
+                  document.body.appendChild(toast);
+                  setTimeout(() => toast.remove(), 2200);
+            }
+
+            function formatLaneName(status) {
+                  if (status === 'todo') return 'To-Do';
+                  if (status === 'in-progress') return 'In Progress';
+                  if (status === 'completed') return 'Completed';
+                  return status;
+            }
+
+            ["todo", "in-progress", "completed"].forEach(laneName => {
+                  const lane = document.querySelector(`.lane[data-lane='${laneName}']`);
+                  if (!lane) return;
+                  lane.addEventListener("dragover", function (e) {
+                        e.preventDefault();
+                        lane.classList.add("drag-over");
+                  });
+                  lane.addEventListener("dragleave", function (e) {
+                        lane.classList.remove("drag-over");
+                  });
+                  lane.addEventListener("drop", function (e) {
+                        e.preventDefault();
+                        lane.classList.remove("drag-over");
+                        const id = parseInt(e.dataTransfer.getData("text/plain"));
+                        const task = tasks.find(t => t.id === id);
+                        if (task && task.status !== laneName) {
+                              const oldStatus = task.status;
+                              task.status = laneName;
+                              renderTasks(currentFilter);
+                              showTaskMoveNotification(oldStatus, laneName);
+                        }
+                  });
+            });
+            // Lane customization: rename lane
+            window.customizeLane = function (laneName) {
+                  const laneTitleId = laneName === 'in-progress' ? 'lane-title-inprogress' : `lane-title-${laneName}`;
+                  const laneTitleEl = document.getElementById(laneTitleId);
+                  if (!laneTitleEl) return;
+                  const currentText = laneTitleEl.childNodes[0].textContent.trim();
+                  const newName = prompt(`Rename lane (${currentText}):`, currentText);
+                  if (newName && newName.trim() && newName !== currentText) {
+                        laneTitleEl.childNodes[0].textContent = newName + ' ';
+                  }
+            }
+
+            renderTasks();
+      </script>
 </body>
-</html>
+
+</html>>

@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MindCapture – Low‑Fidelity Prototype</title>
+  <!-- Tailwind & Icon libs injected to support enhanced sidebar (scoped by utility classes) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="manifest" href="manifest.webmanifest" />
   <style>
     :root {
       --bg: #0f0f23;
@@ -23,31 +27,286 @@
     /* App Shell */
     .app {
       display: grid;
-      grid-template-columns: 300px 1fr;
+      grid-template-columns: var(--sidebar-width, 320px) 1fr;
       grid-template-rows: 60px 1fr;
       grid-template-areas:
         "sidebar header"
         "sidebar main";
       height: 100vh;
     }
-    .sidebar { grid-area: sidebar; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
+    .sidebar { 
+      grid-area: sidebar; 
+      background: var(--panel); 
+      border-right: 1px solid var(--border); 
+      display: flex; 
+      flex-direction: column; 
+      position: relative;
+      min-width: 280px;
+      max-width: 400px;
+    }
     .header { grid-area: header; background: var(--panel); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
     .main { grid-area: main; display: flex; flex-direction: column; }
 
-    /* Sidebar */
-    .brand { padding: 16px; border-bottom: 1px solid var(--border); }
-    .brand .logo { color: var(--primary); font-weight: 700; }
+    /* Enhanced Sidebar */
+    .brand { 
+      padding: 20px 16px 16px 16px; 
+      border-bottom: 1px solid var(--border); 
+      background: linear-gradient(135deg, var(--panel) 0%, #1f1f3a 100%);
+    }
+    .brand .logo { 
+      color: var(--primary); 
+      font-weight: 700; 
+      font-size: 18px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-    .capture { padding: 12px 16px; border-bottom: 1px solid var(--border); display: grid; gap: 8px; }
-    .textarea { width: 100%; min-height: 80px; background: var(--muted); border: 1px solid #3a3a5e; border-radius: 8px; color: var(--ink); padding: 10px; resize: vertical; font-size: 14px; }
-    .btn-row { display: flex; gap: 8px; }
-    .btn { background: var(--primary); color: white; border: 0; border-radius: 8px; padding: 8px 12px; font-size: 12px; }
-    .btn.alt { background: #374151; }
+    .capture { 
+      padding: 16px; 
+      border-bottom: 1px solid var(--border); 
+      display: grid; 
+      gap: 12px; 
+      background: rgba(96, 165, 250, 0.02);
+    }
+    .capture-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .capture-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .capture-counter {
+      background: var(--muted);
+      color: var(--ink);
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      opacity: 0.7;
+    }
+    .textarea { 
+      width: 100%; 
+      min-height: 90px; 
+      background: var(--bg); 
+      border: 2px solid #2a2a4e; 
+      border-radius: 12px; 
+      color: var(--ink); 
+      padding: 12px; 
+      resize: vertical; 
+      font-size: 14px; 
+      transition: border-color 0.2s ease;
+      font-family: inherit;
+    }
+    .textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+    }
+    .btn-row { 
+      display: grid; 
+      grid-template-columns: 1fr auto auto auto; 
+      gap: 8px; 
+    }
+    .btn { 
+      background: var(--primary); 
+      color: white; 
+      border: 0; 
+      border-radius: 10px; 
+      padding: 10px 12px; 
+      font-size: 12px; 
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn:hover { 
+      background: #4f8ff7; 
+      transform: translateY(-1px);
+    }
+    .btn.alt { 
+      background: #374151; 
+      padding: 10px;
+    }
+    .btn.alt:hover { 
+      background: #4b5563; 
+    }
 
-    .sidebar-section { padding: 12px 16px; border-bottom: 1px solid var(--border); }
-    .field { background: var(--muted); border: 1px solid #3a3a5e; border-radius: 8px; color: var(--ink); padding: 8px 10px; width: 100%; font-size: 14px; }
-    .list { margin-top: 10px; display: grid; gap: 6px; max-height: 180px; overflow: auto; }
-    .list-item { background: var(--muted); border: 1px solid #3a3a5e; border-radius: 8px; padding: 8px 10px; font-size: 13px; opacity: .9; }
+    .sidebar-section { 
+      padding: 16px; 
+      border-bottom: 1px solid var(--border); 
+      position: relative;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .section-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--ink);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-toggle {
+      color: var(--ink);
+      opacity: 0.5;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      font-size: 12px;
+    }
+    .section-toggle:hover {
+      opacity: 0.8;
+    }
+    .section-content {
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    .section-content.collapsed {
+      max-height: 0;
+      opacity: 0;
+      margin-bottom: -12px;
+    }
+    .field { 
+      background: var(--bg); 
+      border: 2px solid #2a2a4e; 
+      border-radius: 10px; 
+      color: var(--ink); 
+      padding: 10px 12px; 
+      width: 100%; 
+      font-size: 14px; 
+      transition: border-color 0.2s ease;
+    }
+    .field:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+    }
+    .list { 
+      margin-top: 12px; 
+      display: grid; 
+      gap: 8px; 
+      max-height: 200px; 
+      overflow: auto; 
+    }
+    .list-item { 
+      background: var(--bg); 
+      border: 1px solid #2a2a4e; 
+      border-radius: 10px; 
+      padding: 12px; 
+      font-size: 13px; 
+      opacity: 0.9; 
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .list-item:hover {
+      opacity: 1;
+      border-color: var(--primary);
+      background: rgba(96, 165, 250, 0.05);
+      transform: translateX(4px);
+    }
+    .list-item.active {
+      background: rgba(96, 165, 250, 0.1);
+      border-color: var(--primary);
+    }
+    .folder-icon {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+    .folder-name {
+      flex: 1;
+      font-weight: 500;
+    }
+    .folder-count {
+      background: var(--muted);
+      color: var(--ink);
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      opacity: 0.7;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .quick-action {
+      background: var(--bg);
+      border: 1px solid #2a2a4e;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 12px;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .quick-action:hover {
+      border-color: var(--primary);
+      background: rgba(96, 165, 250, 0.05);
+    }
+
+    /* Recent Activity */
+    .recent-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+    .recent-item:hover {
+      background: rgba(96, 165, 250, 0.05);
+      border-color: var(--primary);
+    }
+    .recent-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+    .recent-content {
+      flex: 1;
+      overflow: hidden;
+    }
+    .recent-title {
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .recent-meta {
+      opacity: 0.6;
+      font-size: 11px;
+    }
 
     /* Header */
     .tabs { display: flex; gap: 6px; }
@@ -111,11 +370,107 @@
     .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; padding: 16px; }
     .modal { width: 420px; max-width: 100%; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
     .modal h3 { margin: 0 0 8px 0; }
+  /* Onboarding Overlay */
+  .onboarding-overlay { position:fixed; inset:0; background:rgba(15,15,35,.92); backdrop-filter:blur(4px); display:none; flex-direction:column; padding:40px; z-index:2000; color:var(--ink); }
+  .onboarding-step { max-width:640px; margin:0 auto; display:none; }
+  .onboarding-step.active { display:block; animation:fadeIn .4s ease; }
+  .onboarding-nav { display:flex; gap:8px; margin-top:18px; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px);} to {opacity:1; transform:translateY(0);} }
+  /* Search Modal */
+  .search-modal { position:fixed; inset:0; display:none; align-items:flex-start; justify-content:center; padding-top:120px; background:rgba(0,0,0,.55); backdrop-filter:blur(6px); z-index:1800; }
+  .search-panel { width:640px; max-width:calc(100% - 32px); background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:0 20px 40px -8px rgba(0,0,0,.5); }
+  .search-results { max-height:320px; overflow:auto; }
+  .search-item { padding:8px 14px; font-size:13px; border-bottom:1px solid #22263c; cursor:pointer; display:flex; gap:8px; align-items:center; }
+  .search-item:hover, .search-item.active { background:var(--muted); }
+  /* Lane customization indicator */
+  .lane-header-actions { display:flex; gap:6px; align-items:center; }
+  .lane-gear { cursor:pointer; opacity:.6; font-size:12px; }
+  .lane-gear:hover { opacity:1; }
 
-    /* Responsive */
+    /* Menu item hover effects */
+    .menu-item:hover {
+      background: rgba(96, 165, 250, 0.1) !important;
+    }
+
+    /* Scrollbar styling */
+    .thin-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: var(--muted) transparent;
+    }
+    .thin-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .thin-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .thin-scrollbar::-webkit-scrollbar-thumb {
+      background: var(--muted);
+      border-radius: 3px;
+    }
+    .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: var(--border);
+    }
+
+    /* Enhanced animations */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-10px); }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .sidebar-section.animating {
+      animation: slideIn 0.3s ease;
+    }
+
+    /* Responsive sidebar improvements */
     @media (max-width: 900px) {
-      .app { grid-template-columns: 1fr; grid-template-rows: 60px auto 1fr; grid-template-areas: "header" "sidebar" "main"; }
-      .sidebar { border-right: 0; border-bottom: 1px solid var(--border); }
+      .app { 
+        grid-template-columns: 1fr; 
+        grid-template-rows: 60px auto 1fr; 
+        grid-template-areas: "header" "sidebar" "main"; 
+      }
+      .sidebar { 
+        border-right: 0; 
+        border-bottom: 1px solid var(--border); 
+        max-height: 40vh;
+        overflow-y: auto;
+      }
+      .sidebar-section {
+        padding: 12px 16px;
+      }
+      .section-content.collapsed {
+        display: none;
+      }
+      .capture {
+        padding: 12px 16px;
+      }
+      .btn-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .btn {
+        justify-content: center;
+      }
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Focus states for accessibility */
+    .list-item:focus,
+    .quick-action:focus,
+    .recent-item:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
   </style>
 </head>
@@ -124,42 +479,95 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="brand">
-        <div class="logo">🧠 MindCapture</div>
-        <div style="font-size:12px;opacity:.7;display:flex;gap:6px;align-items:center;">
-          <span id="statusIndicator" style="width:8px;height:8px;border-radius:50%;background:var(--success);"></span>
-          <span id="statusText">Online</span>
+        <div class="logo">
+          🧠 <span>MindCapture</span>
+        </div>
+        <div style="font-size:12px;opacity:.7;display:flex;gap:6px;align-items:center;justify-content:space-between;">
+          <div style="display:flex;gap:6px;align-items:center;">
+            <span id="statusIndicator" style="width:8px;height:8px;border-radius:50%;background:var(--success);"></span>
+            <span id="statusText">Online</span>
+            <span id="offlineBadge" style="display:none; background:#ef4444; color:#fff; font-size:10px; padding:2px 5px; border-radius:8px; font-weight:600;">0</span>
+          </div>
+          <div style="display:flex;gap:4px;">
+            <kbd style="font-size:10px;background:var(--muted);padding:1px 4px;border-radius:4px;">Ctrl+N</kbd>
+          </div>
         </div>
       </div>
 
-      <!-- Capture -->
-      <section class="capture">
-        <textarea class="textarea" id="quickInput" placeholder="Capture thoughts, tasks, or knowledge..."></textarea>
-        <div class="btn-row">
-          <button class="btn" onclick="captureInput()">📝 Add</button>
-          <button class="btn alt" onclick="voiceCapture()">🎙 Voice</button>
-          <button class="btn alt" onclick="imageCapture()">📷 Image</button>
-          <button class="btn alt">📎 Attach</button>
-        </div>
-        <div style="font-size:11px;opacity:.65;">Auto transcription & inference when online</div>
-      </section>
+      <!-- Panel Split Toggle -->
+      <div style="padding: 16px; border-bottom: 1px solid var(--border);">
+        <button style="background: var(--muted); border: 1px solid var(--border); color: var(--ink); padding: 8px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; width: 100%;" onclick="togglePanelSplit()" title="Toggle panel layout">
+          ⚏ Panel Split Toggle
+        </button>
+      </div>
       
-      <!-- Folders -->
+      <!-- New Chat and Search -->
+      <div style="padding:16px; border-bottom:1px solid var(--border); display:grid; gap:10px;">
+        <button id="newChatBtn" class="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 active:bg-blue-700 transition text-sm font-medium" onclick="openQuickCaptureModal()">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>New Chat</span>
+        </button>
+        <button id="searchOpenBtn" class="group w-full flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-[#374151] transition text-sm font-medium" title="Search chats (Ctrl+K)" onclick="openSearch()">
+          <i data-lucide="search" class="w-4 h-4 text-gray-300"></i>
+          <span class="flex-1 text-left">Search Chats</span>
+          <kbd class="hidden group-hover:inline-flex text-[10px] font-medium px-1.5 py-0.5 rounded bg-gray-700 text-gray-200 border border-gray-600">Ctrl K</kbd>
+        </button>
+      </div>
+      
+      <!-- Enhanced Folders Section -->
       <section class="sidebar-section">
-        <div style="font-weight:600;margin-bottom:8px;">Folders</div>
-        <div class="list">
-          <div class="list-item">📁 Personal</div>
-          <div class="list-item">📁 Work</div>
-          <div class="list-item">📁 Learning</div>
+        <div class="section-header" onclick="toggleSection('folders')">
+          <div class="section-title">
+            📁 Folders
+          </div>
+          <div class="section-toggle">▼</div>
+        </div>
+        <div class="section-content" id="foldersContent">
+          <div class="list" id="foldersList">
+            <div class="list-item" data-folder="narrative-os">
+              <span class="folder-icon">⭕</span>
+              <span class="folder-name">Narrative OS</span>
+              <span style="margin-left: auto; color: var(--ink); opacity: 0.6;">
+                <i data-lucide="chevron-right" class="w-3 h-3" style="transform: rotate(90deg);"></i>
+              </span>
+            </div>
+            <div class="list-item" data-folder="knowledge-base">
+              <span class="folder-icon">📕</span>
+              <span class="folder-name">Knowledge-base</span>
+            </div>
+            <div class="list-item" data-folder="routine">
+              <span class="folder-icon">☀️</span>
+              <span class="folder-name">Routine</span>
+            </div>
+          </div>
         </div>
       </section>
-      
-      <!-- Search & History -->
-      <section class="sidebar-section">
-        <input class="field" placeholder="Search chats, items, folders" />
-        <div class="list" aria-label="Recent Chats">
-          <div class="list-item">Chat • Morning plan</div>
-          <div class="list-item">Project • PWA research</div>
-          <div class="list-item">Topic • Learning graph</div>
+
+      <!-- Enhanced Chat & Search (Conversations Section) -->
+      <section class="sidebar-section" style="padding:0; border:0; display:flex; flex-direction:column; flex:1; min-height:0;">
+        <header style="font-size:11px; letter-spacing:.5px; text-transform:uppercase; opacity:.7; display:flex; align-items:center; justify-content:space-between; padding:12px 16px;">
+          <span>Conversations</span>
+          <span id="chatCount" style="background:#2a2a4e; padding:2px 6px; border-radius:6px; font-size:10px;">0</span>
+        </header>
+        <div id="chatListContainer" class="thin-scrollbar" style="flex:1; overflow:auto; padding:0 8px 12px 8px;" role="list" aria-label="Chats list">
+          <ul id="chatList" style="list-style:none; margin:0; padding:0; display:grid; gap:4px; font-size:13px;"></ul>
+        </div>
+        <div style="border-top:1px solid var(--border); padding:12px;">
+          <button id="userMenuBtn" class="w-full flex items-center gap-3 text-left px-3 py-2.5 rounded-lg hover:bg-[#2a2a4e] transition" aria-haspopup="true" aria-expanded="false">
+            <img src="https://avatars.githubusercontent.com/u/1?v=4" alt="User avatar" style="width:32px;height:32px; border-radius:50%; object-fit:cover; border:1px solid #3a3a5e;" />
+            <div style="flex:1; min-width:0;">
+              <p style="margin:0; font-weight:600; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Jimmy Falcon</p>
+              <p style="margin:0; font-size:11px; opacity:.6;">Free Plan</p>
+            </div>
+            <i data-lucide="chevron-up" class="w-4 h-4 rotate-180 transition user-menu-chevron"></i>
+          </button>
+          <div id="userDropdown" class="hidden" style="margin-top:8px; background:#1f2538; border:1px solid #2a2a4e; border-radius:10px; padding:6px; font-size:13px; display:grid; gap:4px;">
+            <div style="font-size:11px; opacity:.75; padding:6px 8px;">jimmy.falcon@example.com</div>
+            <button class="menu-item" data-action="upgrade" style="text-align:left; background:transparent; border:0; color:#e2e8f0; padding:8px; border-radius:6px; transition:background 0.2s;">Upgrade Plan</button>
+            <button class="menu-item" data-action="settings" style="text-align:left; background:transparent; border:0; color:#e2e8f0; padding:8px; border-radius:6px; transition:background 0.2s;">Settings</button>
+            <button class="menu-item" data-action="help" style="text-align:left; background:transparent; border:0; color:#e2e8f0; padding:8px; border-radius:6px; transition:background 0.2s;">Help</button>
+            <button class="menu-item" data-action="logout" style="text-align:left; background:transparent; border:0; color:#ef4444; padding:8px; border-radius:6px; transition:background 0.2s;">Log Out</button>
+          </div>
         </div>
       </section>
     </aside>
@@ -203,22 +611,26 @@
         </div>
         <section class="lanes">
           <div class="lane" data-priority="High">
-            <div class="lane-title">High</div>
+            <div class="lane-title"><span class="lane-name">High</span> <span class="lane-gear" title="Customize lane" onclick="customizeLane(this)">⚙</span></div>
             <div class="task-list">
               <div class="task" draggable="true" data-priority="High" data-status="active" data-date="2025-08-07"><span class="badge">High</span> Turn ideas into to‑dos using AI suggestions</div>
             </div>
           </div>
           <div class="lane" data-priority="Medium">
-            <div class="lane-title">Medium</div>
+            <div class="lane-title"><span class="lane-name">Medium</span> <span class="lane-gear" title="Customize lane" onclick="customizeLane(this)">⚙</span></div>
             <div class="task-list">
               <div class="task" draggable="true" data-priority="Medium" data-status="active" data-date="2025-08-07"><span class="badge">Medium</span> Equilibrium engine: detect plan gaps</div>
             </div>
           </div>
           <div class="lane" data-priority="Low">
-            <div class="lane-title">Low</div>
+            <div class="lane-title"><span class="lane-name">Low</span> <span class="lane-gear" title="Customize lane" onclick="customizeLane(this)">⚙</span></div>
             <div class="task-list">
               <div class="task" draggable="true" data-priority="Low" data-status="active" data-date="2025-08-07"><span class="badge">Low</span> 1% Daily Progress visuals</div>
             </div>
+          </div>
+          <div class="lane" data-priority="Someday" style="display:none;">
+            <div class="lane-title"><span class="lane-name">Someday</span> <span class="lane-gear" title="Customize lane" onclick="customizeLane(this)">⚙</span></div>
+            <div class="task-list"></div>
           </div>
         </section>
       </section>
@@ -267,9 +679,9 @@
       <!-- Insights View -->
       <section class="view" aria-label="Insights">
         <div class="insights-grid">
-          <div class="insight">💡 Suggestion: Convert “PWA research notes” into 2 actionable tasks.</div>
-          <div class="widget">Streak: 4 days • 1% Daily Progress</div>
-          <div class="widget">Nudge: You started “Equilibrium Engine” — finish scope draft.</div>
+          <div class="insight" id="aiSuggestionBox">💡 Suggestion: Convert “PWA research notes” into 2 actionable tasks.</div>
+          <div class="widget" id="progressWidget">Streak: <span id="streakCount">0</span> days • <span id="progressPercent">0%</span> Daily Progress</div>
+          <div class="widget" id="nudgeWidget">Nudge: You started “Equilibrium Engine” — finish scope draft.</div>
         </div>
       </section>
     </main>
@@ -280,6 +692,25 @@
     <div style="font-weight:700; color: var(--primary);">Today’s Focus</div>
     <div id="taskList"></div>
   </aside>
+
+  <!-- Quick Capture Modal -->
+  <div class="modal-backdrop" id="quickCaptureModal" style="display:none;" aria-hidden="true">
+    <div class="modal">
+      <h3>💭 Quick Capture</h3>
+      <p style="opacity:.85;">Capture your thoughts, tasks, or ideas:</p>
+      <textarea id="quickCaptureInput" class="textarea" style="min-height:90px;" placeholder="Type your thoughts here..."></textarea>
+      <div style="display:flex; gap:8px; justify-content:space-between; margin-top:8px;">
+        <div style="display:flex; gap:4px;">
+          <button class="btn alt" onclick="voiceCaptureModal()" title="Voice Capture">🎙</button>
+          <button class="btn alt" onclick="imageCaptureModal()" title="Image Capture">📷</button>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="tab" onclick="closeQuickCaptureModal()">Cancel</button>
+          <button class="btn" onclick="addFromQuickCapture()">📝 Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Morning Briefing Modal -->
   <div class="modal-backdrop" id="morningPanel" style="display:none;" aria-hidden="true">
@@ -293,19 +724,394 @@
     </div>
   </div>
 
-  <!-- Evening Reflection Modal (hidden visual stub) -->
-  <div class="modal-backdrop" aria-hidden="true" style="display:none;">
+  <!-- Evening Reflection Modal -->
+  <div class="modal-backdrop" id="eveningPanel" aria-hidden="true" style="display:none;">
     <div class="modal">
       <h3>🌙 Evening Reflection</h3>
-      <p style="opacity:.85;">What did you do? What’s next for tomorrow?</p>
+      <p style="opacity:.85;">What did you accomplish? Any blockers? Plan one priority for tomorrow.</p>
+      <textarea id="eveningInput" class="textarea" style="min-height:90px;" placeholder="Reflection..."></textarea>
+      <input id="tomorrowFocus" class="field" placeholder="Tomorrow's #1 focus" />
       <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px;">
-        <button class="tab">Later</button>
-        <button class="tab active">Save</button>
+        <button class="tab" onclick="hideEveningReflection()">Later</button>
+        <button class="tab active" onclick="saveEveningReflection()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="search-modal" id="searchModal" aria-hidden="true">
+    <div class="search-panel">
+      <div style="display:flex; align-items:center; border-bottom:1px solid var(--border); padding:4px 8px;">
+        <i data-lucide="search" class="w-4 h-4" style="opacity:.6;"></i>
+        <input id="searchInput" placeholder="Search chats... (Esc to close)" style="flex:1; background:transparent; border:0; padding:10px 8px; color:var(--ink); font-size:14px;" />
+        <kbd style="font-size:10px; background:var(--muted); padding:2px 6px; border-radius:6px; opacity:.7;">Ctrl K</kbd>
+      </div>
+      <div id="searchResults" class="search-results"></div>
+      <div style="font-size:11px; opacity:.55; padding:6px 10px;">↑↓ navigate • Enter open • Esc close</div>
+    </div>
+  </div>
+
+  <!-- Onboarding Overlay -->
+  <div class="onboarding-overlay" id="onboarding" aria-hidden="true">
+    <div class="onboarding-step active" data-step="0">
+      <h2 style="margin-top:0;">Welcome to MindCapture</h2>
+      <p style="opacity:.8;">Capture anything on the left. Ideas become nodes. Tasks flow into priorities. Insights guide you.</p>
+      <div class="onboarding-nav">
+        <button class="tab active" onclick="nextOnboardingStep()">Next →</button>
+        <button class="tab" onclick="dismissOnboarding()">Skip</button>
+      </div>
+    </div>
+    <div class="onboarding-step" data-step="1">
+      <h2 style="margin-top:0;">Mind Map & Tasks</h2>
+      <p style="opacity:.8;">Drag the canvas to pan; drag nodes to reposition. Convert nodes to tasks via right‑click.</p>
+      <div class="onboarding-nav">
+        <button class="tab" onclick="prevOnboardingStep()">← Back</button>
+        <button class="tab active" onclick="nextOnboardingStep()">Next →</button>
+      </div>
+    </div>
+    <div class="onboarding-step" data-step="2">
+      <h2 style="margin-top:0;">Daily Progress</h2>
+      <p style="opacity:.8;">Complete tasks to build your streak. The 1% metric nudges small wins daily.</p>
+      <div class="onboarding-nav">
+        <button class="tab" onclick="prevOnboardingStep()">← Back</button>
+        <button class="tab active" onclick="dismissOnboarding()">Start</button>
       </div>
     </div>
   </div>
 
   <script>
+    /* ===== Enhanced Sidebar (Chats/Search/User Menu) – isolated to avoid conflicts ===== */
+    (function(){
+      const els = {
+        newChatBtn: document.getElementById('newChatBtn'),
+        searchOpenBtn: document.getElementById('searchOpenBtn'),
+        chatList: document.getElementById('chatList'),
+        chatCount: document.getElementById('chatCount'),
+        userMenuBtn: document.getElementById('userMenuBtn'),
+        userDropdown: document.getElementById('userDropdown'),
+        searchModal: document.getElementById('searchModal'),
+        searchInput: document.getElementById('searchInput'),
+        searchResults: document.getElementById('searchResults')
+      };
+      if(!els.chatList) return;
+      const LS_KEYS = { CHATS:'mc_chats', ACTIVE:'mc_active_chat' };
+      const seed = ['Morning plan','PWA research','Learning graph'];
+      let state = { chats:[], active:null, userMenuOpen:false, searchIndex:[], searchHighlight:-1 };
+      function uuid(){ return 'c_'+Math.random().toString(36).slice(2,10);}  
+      function load(){
+        try { const s = JSON.parse(localStorage.getItem(LS_KEYS.CHATS)||'null'); state.chats = Array.isArray(s)&&s.length?s:seed.map(n=>({id:uuid(), name:n})); } catch(e){ state.chats = seed.map(n=>({id:uuid(), name:n})); }
+        state.active = localStorage.getItem(LS_KEYS.ACTIVE) || state.chats[0]?.id;
+      }
+      function save(){ localStorage.setItem(LS_KEYS.CHATS, JSON.stringify(state.chats)); localStorage.setItem(LS_KEYS.ACTIVE, state.active||''); }
+      function buildSearchIndex(){ state.searchIndex = state.chats.map(c=>({ id:c.id, name:c.name.toLowerCase(), display:c.name })); }
+      function render(){
+        els.chatList.innerHTML='';
+        state.chats.forEach(c=>{
+          const li=document.createElement('li');
+          li.className='chat-item';
+          li.innerHTML=`<button class=\"chat-btn\" style=\"all:unset; display:flex; gap:6px; align-items:center; width:100%; padding:6px 8px; border-radius:8px; cursor:pointer; ${'${c.id===state.active?"background:var(--muted);":""}'}\">\n              <span class=\"chat-name\" style=\"flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:13px;\">${'${c.name}'}<\/span>\n            <\/button>`;
+          li.dataset.id=c.id;
+          els.chatList.appendChild(li);
+        });
+        els.chatCount.textContent=state.chats.length;
+        buildSearchIndex();
+        if(window.lucide) lucide.createIcons();
+      }
+      function openSearch(){ if(!els.searchModal) return; els.searchModal.style.display='flex'; els.searchModal.setAttribute('aria-hidden','false'); els.searchInput.value=''; state.searchHighlight=-1; renderSearchResults(state.searchIndex.slice(0,30)); requestAnimationFrame(()=> els.searchInput.focus()); }
+      function closeSearch(){ if(!els.searchModal) return; els.searchModal.style.display='none'; els.searchModal.setAttribute('aria-hidden','true'); }
+      function filterSearch(q){ const t=q.toLowerCase().trim(); return !t?state.searchIndex.slice(0,50): state.searchIndex.filter(r=> r.name.includes(t)).slice(0,50); }
+      function renderSearchResults(list){ if(!els.searchResults) return; els.searchResults.innerHTML=''; list.forEach((r,i)=>{ const div=document.createElement('div'); div.className='search-item'+(i===state.searchHighlight?' active':''); div.textContent=r.display; div.dataset.id=r.id; els.searchResults.appendChild(div);}); }
+      function moveSearchHighlight(dir){ const items=[...els.searchResults.children]; if(!items.length) return; state.searchHighlight = (state.searchHighlight + dir + items.length)%items.length; items.forEach((el,i)=> el.classList.toggle('active', i===state.searchHighlight)); }
+      function activateHighlighted(){ const items=[...els.searchResults.children]; if(state.searchHighlight>=0 && items[state.searchHighlight]){ activate(items[state.searchHighlight].dataset.id); closeSearch(); } }
+      function addChat(name='New Chat'){ const chat={id:uuid(), name:name.trim()||'Untitled'}; state.chats.unshift(chat); state.active=chat.id; save(); render(); }
+      function activate(id){ state.active=id; save(); render(); }
+      function toggleUserMenu(force){ state.userMenuOpen = typeof force==='boolean'?force:!state.userMenuOpen; els.userDropdown.classList.toggle('hidden', !state.userMenuOpen); const chev=els.userMenuBtn?.querySelector('.user-menu-chevron'); if(chev){ chev.classList.toggle('rotate-180', !state.userMenuOpen);} }
+      function maybeHandleGlobalSearchShortcut(e){ if((e.ctrlKey||e.metaKey)&& e.key.toLowerCase()==='k'){ e.preventDefault(); if(els.searchModal.style.display==='flex') closeSearch(); else openSearch(); }}
+      function bind(){
+        // Remove the old newChatBtn event listener as it now uses onclick="openQuickCaptureModal()"
+        els.chatList.addEventListener('click', e=>{ const li=e.target.closest('li.chat-item'); if(!li) return; activate(li.dataset.id); });
+        els.userMenuBtn?.addEventListener('click', ()=> toggleUserMenu());
+        document.addEventListener('click', e=>{ if(state.userMenuOpen && !els.userDropdown.contains(e.target) && !els.userMenuBtn.contains(e.target)) toggleUserMenu(false); });
+        els.searchOpenBtn?.addEventListener('click', ()=> openSearch());
+        els.searchInput?.addEventListener('input', e=>{ state.searchHighlight=0; renderSearchResults(filterSearch(e.target.value)); });
+        els.searchResults?.addEventListener('click', e=>{ const item=e.target.closest('.search-item'); if(!item) return; activate(item.dataset.id); closeSearch(); });
+        document.addEventListener('keydown', e=>{ maybeHandleGlobalSearchShortcut(e); if(els.searchModal && els.searchModal.style.display==='flex'){ if(e.key==='Escape'){ closeSearch(); } if(e.key==='ArrowDown'){ moveSearchHighlight(1);} if(e.key==='ArrowUp'){ moveSearchHighlight(-1);} if(e.key==='Enter'){ activateHighlighted(); } } });
+      }
+      load(); render(); bind();
+      
+      // Expose openSearch globally for onclick usage
+      window.openSearch = openSearch;
+    })();
+
+    // Enhanced Sidebar Functionality
+    let captureCount = 0;
+    let collapsedSections = new Set();
+    let currentCaptureType = null;
+
+    // Section toggle functionality
+    function toggleSection(sectionId) {
+      const content = document.getElementById(sectionId + 'Content');
+      const toggle = document.querySelector(`[onclick="toggleSection('${sectionId}')"] .section-toggle`);
+      
+      if (collapsedSections.has(sectionId)) {
+        // Expand
+        content.classList.remove('collapsed');
+        toggle.textContent = '▼';
+        collapsedSections.delete(sectionId);
+      } else {
+        // Collapse
+        content.classList.add('collapsed');
+        toggle.textContent = '▶';
+        collapsedSections.add(sectionId);
+      }
+      
+      // Save state
+      localStorage.setItem('mc_collapsed_sections', JSON.stringify([...collapsedSections]));
+    }
+
+    // Load collapsed sections state
+    function loadSectionStates() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('mc_collapsed_sections') || '[]');
+        saved.forEach(sectionId => {
+          collapsedSections.add(sectionId);
+          const content = document.getElementById(sectionId + 'Content');
+          const toggle = document.querySelector(`[onclick="toggleSection('${sectionId}')"] .section-toggle`);
+          if (content && toggle) {
+            content.classList.add('collapsed');
+            toggle.textContent = '▶';
+          }
+        });
+      } catch (e) {
+        console.warn('Failed to load section states:', e);
+      }
+    }
+
+    // Enhanced capture functionality
+    function toggleCaptureOptions() {
+      const options = document.getElementById('captureOptions');
+      if (options.style.display === 'none') {
+        options.style.display = 'block';
+        options.style.animation = 'slideIn 0.3s ease';
+      } else {
+        options.style.display = 'none';
+      }
+    }
+
+    function setCaptureType(type) {
+      currentCaptureType = type;
+      const input = document.getElementById('quickInput');
+      const placeholders = {
+        task: 'What do you need to accomplish?',
+        idea: 'What idea came to mind?',
+        knowledge: 'What did you learn or want to research?'
+      };
+      input.placeholder = placeholders[type] || 'Capture thoughts, tasks, or knowledge...';
+      input.focus();
+      
+      // Hide options after selection
+      document.getElementById('captureOptions').style.display = 'none';
+      
+      // Add visual feedback
+      const typeButtons = document.querySelectorAll('.quick-action');
+      typeButtons.forEach(btn => btn.style.background = 'var(--bg)');
+      event.target.style.background = 'rgba(96, 165, 250, 0.1)';
+    }
+
+    // Update capture counter
+    function updateCaptureCounter() {
+      captureCount++;
+      document.getElementById('captureCounter').textContent = `${captureCount} today`;
+      
+      // Animate counter
+      const counter = document.getElementById('captureCounter');
+      counter.style.animation = 'pulse 0.5s ease';
+      setTimeout(() => counter.style.animation = '', 500);
+    }
+
+    // Enhanced folder management
+    function createFolder() {
+      const name = prompt('Folder name:');
+      if (name && name.trim()) {
+        const foldersList = document.getElementById('foldersList');
+        const newFolder = document.createElement('div');
+        newFolder.className = 'list-item';
+        newFolder.dataset.folder = name.toLowerCase().replace(/\s+/g, '-');
+        newFolder.innerHTML = `
+          <span class="folder-icon">📁</span>
+          <span class="folder-name">${name.trim()}</span>
+          <span class="folder-count">0</span>
+        `;
+        foldersList.appendChild(newFolder);
+        
+        // Add click handler
+        newFolder.addEventListener('click', () => selectFolder(newFolder));
+        
+        // Show success feedback
+        showToast(`Folder "${name}" created!`);
+      }
+    }
+
+    function manageFolders() {
+      showToast('Folder management features coming soon!');
+    }
+
+    function selectFolder(folderElement) {
+      // Remove active class from all folders
+      document.querySelectorAll('.list-item').forEach(item => item.classList.remove('active'));
+      // Add active class to selected folder
+      folderElement.classList.add('active');
+      
+      // Update context
+      const folderName = folderElement.querySelector('.folder-name').textContent;
+      showToast(`Switched to ${folderName} folder`);
+    }
+
+    // Enhanced recent activity
+    function updateRecentActivity(type, content) {
+      const recentList = document.getElementById('recentList');
+      const icons = {
+        task: { icon: '✅', color: 'var(--warn)' },
+        idea: { icon: '💡', color: 'var(--accent)' },
+        knowledge: { icon: '📚', color: 'var(--success)' }
+      };
+      
+      const iconData = icons[type] || { icon: '📝', color: 'var(--primary)' };
+      const timeAgo = 'Just now';
+      
+      const recentItem = document.createElement('div');
+      recentItem.className = 'recent-item';
+      recentItem.style.animation = 'slideIn 0.3s ease';
+      recentItem.innerHTML = `
+        <div class="recent-icon" style="background:${iconData.color};color:white;">${iconData.icon}</div>
+        <div class="recent-content">
+          <div class="recent-title">${content.substring(0, 30)}${content.length > 30 ? '...' : ''}</div>
+          <div class="recent-meta">${timeAgo} • ${type.charAt(0).toUpperCase() + type.slice(1)}</div>
+        </div>
+      `;
+      
+      // Add to top of list
+      recentList.insertBefore(recentItem, recentList.firstChild);
+      
+      // Keep only last 5 items
+      while (recentList.children.length > 5) {
+        recentList.removeChild(recentList.lastChild);
+      }
+    }
+
+    // Toast notification system
+    function showToast(message, duration = 3000) {
+      const toast = document.createElement('div');
+      toast.className = 'insight';
+      toast.style.position = 'fixed';
+      toast.style.top = '20px';
+      toast.style.right = '20px';
+      toast.style.zIndex = '2000';
+      toast.style.animation = 'slideIn 0.3s ease';
+      toast.textContent = message;
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, duration);
+    }
+
+    // Folder search functionality
+    function initFolderSearch() {
+      const searchInput = document.getElementById('folderSearch');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase();
+          const folders = document.querySelectorAll('#foldersList .list-item');
+          
+          folders.forEach(folder => {
+            const name = folder.querySelector('.folder-name').textContent.toLowerCase();
+            if (name.includes(query)) {
+              folder.style.display = 'flex';
+            } else {
+              folder.style.display = 'none';
+            }
+          });
+        });
+      }
+    }
+
+    // Task panel toggle
+    function toggleTaskPanel() {
+      const panel = document.getElementById('taskPanel');
+      const isHidden = getComputedStyle(panel).display === 'none';
+      panel.style.display = isHidden ? 'grid' : 'none';
+      showToast(isHidden ? 'Task panel opened' : 'Task panel closed');
+    }
+
+    // Initialize enhanced sidebar
+    function initEnhancedSidebar() {
+      loadSectionStates();
+      initFolderSearch();
+      
+      // Add folder click handlers
+      document.querySelectorAll('#foldersList .list-item').forEach(folder => {
+        folder.addEventListener('click', () => selectFolder(folder));
+      });
+      
+      // Load today's capture count
+      const today = new Date().toISOString().slice(0, 10);
+      const savedCount = localStorage.getItem(`mc_capture_count_${today}`);
+      if (savedCount) {
+        captureCount = parseInt(savedCount, 10) || 0;
+        document.getElementById('captureCounter').textContent = `${captureCount} today`;
+      }
+    }
+
+    // Enhanced capture input function
+    function captureInput() {
+      const input = document.getElementById('quickInput');
+      const content = input.value.trim();
+      if (!content) return;
+
+      // Determine type
+      const detectedType = currentCaptureType || detectInputType(content);
+      
+      const newNode = {
+        id: ++appState.nodeCounter,
+        x: Math.random() * 400 + 200,
+        y: Math.random() * 300 + 150,
+        content: content,
+        type: detectedType,
+        category: 'user-input',
+        timestamp: new Date().toISOString()
+      };
+      
+      appState.nodes.push(newNode);
+      
+      if (!appState.isOnline) { 
+        appState.offlineQueue.push(newNode); 
+        updateOfflineBadge(); 
+      }
+      
+      input.value = '';
+      currentCaptureType = null;
+      input.placeholder = 'Capture thoughts, tasks, or knowledge...';
+      
+      renderMindMap();
+      updateTaskPanel();
+      updateCaptureCounter();
+      updateRecentActivity(detectedType, content);
+      
+      // Save capture count
+      const today = new Date().toISOString().slice(0, 10);
+      localStorage.setItem(`mc_capture_count_${today}`, captureCount.toString());
+      
+      setTimeout(() => showAISuggestion(newNode), 1000);
+    }
+
+    // Initialize on DOM load
+    document.addEventListener('DOMContentLoaded', function() {
+      initEnhancedSidebar();
+    });
+
     // App State for dynamic mind map and tasks
     let appState = {
       nodes: [],
@@ -317,7 +1123,13 @@
       offsetY: 0,
       isDragging: false,
       dragNode: null,
-      nodeCounter: 0
+      nodeCounter: 0,
+      reflections: [],
+      streak: 0,
+      lastCompletionDate: null,
+      dailyTarget: 5,
+      offlineQueue: [],
+      swimlanes: { High:{ name:'High', color:'#ef4444'}, Medium:{ name:'Medium', color:'#f59e0b'}, Low:{ name:'Low', color:'#10b981'}, Someday:{ name:'Someday', color:'#6366f1'} }
     };
 
     // Initialize app
@@ -327,6 +1139,9 @@
       updateOnlineStatus();
       setActiveView(0);
       document.getElementById('taskPanel').style.display = 'grid';
+  initOnboarding();
+  registerServiceWorker();
+  scheduleReminderChecks();
     });
 
     function initializeApp() {
@@ -383,8 +1198,9 @@
       // Header actions
       const headerActions = Array.from(document.querySelectorAll('.header .actions .tab'));
       const [btnBriefing, btnReflection, btnExport, btnInstall] = headerActions;
-      if (btnBriefing) btnBriefing.addEventListener('click', showMorningBriefing);
-      if (btnExport) btnExport.addEventListener('click', exportData);
+  if (btnBriefing) btnBriefing.addEventListener('click', showMorningBriefing);
+  if (btnReflection) btnReflection.addEventListener('click', showEveningReflection);
+  if (btnExport) btnExport.addEventListener('click', exportData);
       if (btnInstall) btnInstall.addEventListener('click', () => {
         btnInstall.textContent = '✔ Installed';
         setTimeout(() => (btnInstall.textContent = '➕ Install'), 1200);
@@ -526,11 +1342,13 @@
         indicator.style.background = 'var(--success)';
         text.textContent = 'Online';
         appState.isOnline = true;
-        processOfflineQueue();
+  processOfflineQueue();
+  updateOfflineBadge();
       } else {
         indicator.style.background = '#ef4444';
         text.textContent = 'Offline';
         appState.isOnline = false;
+  updateOfflineBadge();
       }
     }
 
@@ -562,6 +1380,7 @@
         timestamp: new Date().toISOString()
       };
       appState.nodes.push(newNode);
+  if(!appState.isOnline){ appState.offlineQueue.push(newNode); updateOfflineBadge(); }
       input.value = '';
       renderMindMap();
       updateTaskPanel();
@@ -869,29 +1688,284 @@
       a.click();
       URL.revokeObjectURL(url);
     }
+    function showEveningReflection(){
+      const panel = document.getElementById('eveningPanel');
+      document.getElementById('eveningInput').value='';
+      document.getElementById('tomorrowFocus').value='';
+      panel.style.display='flex';
+    }
+    function hideEveningReflection(){ document.getElementById('eveningPanel').style.display='none'; }
+    function saveEveningReflection(){
+      const content = document.getElementById('eveningInput').value.trim();
+      const focus = document.getElementById('tomorrowFocus').value.trim();
+      if(content){ appState.reflections.push({ date:new Date().toISOString(), content, focus }); }
+      hideEveningReflection();
+      persistAppState();
+    }
 
-    function processOfflineQueue() {
-      if (appState.isOnline) {
-        // Simulate processing offline captured content
-        // Here would be the actual sync logic
+    function toggleTaskCompletion(cb){
+      const taskEl = cb.closest('.task');
+      const content = decodeURIComponent(taskEl.dataset.taskContent || '');
+      document.querySelectorAll('.lanes .task').forEach(t=>{
+        if(t.textContent.includes(content)){
+          if(cb.checked){ t.dataset.status='completed'; t.style.opacity=.5; t.style.textDecoration='line-through'; }
+          else { t.dataset.status='active'; t.style.opacity=1; t.style.textDecoration='none'; }
+        }
+      });
+      appState.nodes.forEach(n=>{ if(n.type==='task' && n.content===content){ n.status = cb.checked?'completed':'active'; if(cb.checked && !n.timestamp) n.timestamp=new Date().toISOString(); }});
+      if(cb.checked) registerTaskCompletion();
+      persistAppState();
+      updateTaskPanel();
+    }
+
+    function registerTaskCompletion(){
+      const today = new Date().toISOString().slice(0,10);
+      if(appState.lastCompletionDate !== today){
+        if(appState.lastCompletionDate){ appState.streak += 1; }
+        appState.lastCompletionDate = today;
+      }
+      updateProgressMetrics();
+    }
+
+    function updateProgressMetrics(){
+      const today = new Date().toISOString().slice(0,10);
+      const completedToday = appState.nodes.filter(n=> n.type==='task' && n.status==='completed' && (n.timestamp||'').startsWith(today)).length;
+      const percent = Math.min(100, Math.round((completedToday / appState.dailyTarget)*100));
+      const streakEl = document.getElementById('streakCount');
+      const pctEl = document.getElementById('progressPercent');
+      if(streakEl) streakEl.textContent = appState.streak;
+      if(pctEl) pctEl.textContent = percent + '%';
+    }
+
+    function customizeLane(el){
+      const lane = el.closest('.lane'); if(!lane) return;
+      const current = lane.querySelector('.lane-name').textContent.trim();
+      const newName = prompt('Lane name:', current) || current;
+      lane.querySelector('.lane-name').textContent = newName;
+      const key = lane.dataset.priority; if(appState.swimlanes[key]){ appState.swimlanes[key].name = newName; }
+      persistAppState();
+    }
+
+    function updateOfflineBadge(){
+      const badge = document.getElementById('offlineBadge');
+      if(appState.offlineQueue.length && !appState.isOnline){
+        badge.style.display='inline-flex';
+        badge.textContent=appState.offlineQueue.length;
+      } else {
+        badge.style.display='none';
       }
     }
 
-    // Auto-save (localStorage simulation)
-    setInterval(() => {
-      localStorage.setItem('mindcapture-data', JSON.stringify(appState));
-    }, 5000);
+    function processOfflineQueue(){
+      if(appState.isOnline && appState.offlineQueue.length){
+        appState.offlineQueue = [];
+        updateOfflineBadge();
+        showTransientInsight('🔄 Offline items synced');
+      }
+    }
+
+    function showTransientInsight(msg){
+      const box = document.createElement('div');
+      box.className='insight';
+      box.style.position='fixed'; box.style.bottom='16px'; box.style.right='16px'; box.style.zIndex=1500; box.textContent=msg;
+      document.body.appendChild(box); setTimeout(()=> box.remove(), 3000);
+    }
+
+    function scheduleReminderChecks(){ setInterval(runReminderAndEquilibriumChecks, 60000); }
+    function runReminderAndEquilibriumChecks(){
+      const now = Date.now();
+      const candidate = appState.nodes.find(n=> n.type==='task' && n.status!=='completed' && now - new Date(n.timestamp||now).getTime() > 2*60*1000);
+      if(candidate){ showTransientInsight('⚖ Equilibrium: Re-engage with "'+candidate.content.slice(0,40)+'"'); }
+    }
+
+    function initOnboarding(){ if(localStorage.getItem('mc_onboarded')) return; const ob=document.getElementById('onboarding'); if(ob) ob.style.display='flex'; }
+    function nextOnboardingStep(){ advanceOnboarding(1); }
+    function prevOnboardingStep(){ advanceOnboarding(-1); }
+    function advanceOnboarding(dir){ const steps=[...document.querySelectorAll('.onboarding-step')]; let idx=steps.findIndex(s=> s.classList.contains('active')); if(idx<0) idx=0; steps[idx].classList.remove('active'); idx=Math.min(Math.max(0, idx+dir), steps.length-1); steps[idx].classList.add('active'); }
+    function dismissOnboarding(){ const ob=document.getElementById('onboarding'); if(ob) ob.style.display='none'; localStorage.setItem('mc_onboarded','1'); }
+
+    function persistAppState(){ localStorage.setItem('mindcapture-data', JSON.stringify(appState)); }
+    function registerServiceWorker(){ if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); } }
+
+    // Auto-save
+    setInterval(() => { persistAppState(); }, 5000);
 
     // Load saved data on startup
     window.addEventListener('load', () => {
       const saved = localStorage.getItem('mindcapture-data');
       if (saved) {
-        const data = JSON.parse(saved);
-        appState = { ...appState, ...data };
+        try { const data = JSON.parse(saved); appState = { ...appState, ...data }; } catch(e) {}
         renderMindMap();
         updateTaskPanel();
+        updateProgressMetrics();
       }
     });
+
+    // Quick Capture Modal Functions
+    function openQuickCaptureModal() {
+      const modal = document.getElementById('quickCaptureModal');
+      const input = document.getElementById('quickCaptureInput');
+      if (modal && input) {
+        modal.style.display = 'flex';
+        modal.setAttribute('aria-hidden', 'false');
+        input.value = '';
+        requestAnimationFrame(() => input.focus());
+        
+        // Add escape key handler
+        const handleEscape = (e) => {
+          if (e.key === 'Escape') {
+            closeQuickCaptureModal();
+            document.removeEventListener('keydown', handleEscape);
+          }
+        };
+        document.addEventListener('keydown', handleEscape);
+      }
+    }
+
+    function closeQuickCaptureModal() {
+      const modal = document.getElementById('quickCaptureModal');
+      if (modal) {
+        modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    function addFromQuickCapture() {
+      const input = document.getElementById('quickCaptureInput');
+      const content = input.value.trim();
+      if (!content) return;
+
+      // Add to conversation list - truncate to first 10 characters for display
+      const truncatedContent = content.length > 10 ? content.substring(0, 10) : content;
+      
+      // Create new chat with truncated name for display
+      const newChat = {
+        id: 'c_' + Math.random().toString(36).slice(2, 10),
+        name: truncatedContent,
+        fullContent: content, // Store full content for reference
+        timestamp: new Date().toISOString()
+      };
+      
+      // Add to enhanced sidebar chat system
+      try {
+        // Update the enhanced sidebar state directly
+        const sidebarScript = document.querySelector('script').textContent;
+        if (window.addChatDirectly) {
+          window.addChatDirectly(truncatedContent);
+        } else {
+          // Fallback: update localStorage directly and trigger page refresh
+          const existingChats = JSON.parse(localStorage.getItem('mc_chats') || '[]');
+          existingChats.unshift(newChat);
+          localStorage.setItem('mc_chats', JSON.stringify(existingChats));
+          localStorage.setItem('mc_active_chat', newChat.id);
+        }
+      } catch (error) {
+        console.warn('Could not update sidebar directly, using localStorage fallback');
+        const existingChats = JSON.parse(localStorage.getItem('mc_chats') || '[]');
+        existingChats.unshift(newChat);
+        localStorage.setItem('mc_chats', JSON.stringify(existingChats));
+        localStorage.setItem('mc_active_chat', newChat.id);
+      }
+      
+      // Also add to mind map if applicable
+      const newNode = {
+        id: ++appState.nodeCounter,
+        x: Math.random() * 400 + 200,
+        y: Math.random() * 300 + 150,
+        content: content,
+        type: detectInputType(content),
+        category: 'user-input',
+        timestamp: new Date().toISOString()
+      };
+      
+      appState.nodes.push(newNode);
+      
+      if (!appState.isOnline) { 
+        appState.offlineQueue.push(newNode); 
+        updateOfflineBadge(); 
+      }
+      
+      renderMindMap();
+      updateTaskPanel();
+      
+      closeQuickCaptureModal();
+      showToast(`New chat "${truncatedContent}" added to conversations!`);
+      
+      // Reload the page to refresh the chat list
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    }
+
+    function voiceCaptureModal() {
+      if (!('webkitSpeechRecognition' in window)) {
+        showToast('Voice capture not supported in this browser');
+        return;
+      }
+      const recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+      const input = document.getElementById('quickCaptureInput');
+      
+      recognition.onstart = function() {
+        input.placeholder = '🎙️ Listening...';
+      };
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        input.value = transcript;
+        input.placeholder = 'Type your thoughts here...';
+      };
+      recognition.onerror = function() {
+        input.placeholder = 'Voice capture failed. Try again.';
+      };
+      recognition.start();
+    }
+
+    function imageCaptureModal() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const content = `📷 Image captured: ${file.name}\n[OCR would extract text here]`;
+            document.getElementById('quickCaptureInput').value = content;
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      input.click();
+    }
+
+    function togglePanelSplit() {
+      // Implementation for panel split toggle
+      showToast('Panel split toggle functionality coming soon!');
+    }
+
+    // Expose handlers globally
+    window.customizeLane = customizeLane;
+    window.toggleTaskCompletion = toggleTaskCompletion;
+    window.showEveningReflection = showEveningReflection;
+    window.hideEveningReflection = hideEveningReflection;
+    window.saveEveningReflection = saveEveningReflection;
+    window.nextOnboardingStep = nextOnboardingStep;
+    window.prevOnboardingStep = prevOnboardingStep;
+    window.dismissOnboarding = dismissOnboarding;
+    window.toggleSection = toggleSection;
+    window.setCaptureType = setCaptureType;
+    window.toggleCaptureOptions = toggleCaptureOptions;
+    window.createFolder = createFolder;
+    window.manageFolders = manageFolders;
+    window.toggleTaskPanel = toggleTaskPanel;
+    window.openQuickCaptureModal = openQuickCaptureModal;
+    window.closeQuickCaptureModal = closeQuickCaptureModal;
+    window.addFromQuickCapture = addFromQuickCapture;
+    window.voiceCaptureModal = voiceCaptureModal;
+    window.imageCaptureModal = imageCaptureModal;
+    window.togglePanelSplit = togglePanelSplit;
   </script>
 </body>
 </html>
