@@ -1,0 +1,294 @@
+Perfect. Thanks for the clear answers — this gives us a full picture.
+
+Here’s your idea now written as a structured **Feature Requirements Document** in **Markdown format**. You can use this directly for project scoping, dev planning, or tool/library selection:
+
+---
+
+```markdown
+# 🧠 AI-Driven Mind Map: Feature Requirements
+
+## 🎯 Overview
+An AI-assisted mind mapping canvas that enables users to input tasks or ideas in various formats. The AI understands the context of the existing mind map and places new items in the appropriate position. Users can interact with the map visually by editing, reorganizing, and exporting their work.
+
+---
+
+## 1. 📥 Input & AI Contextual Processing
+
+### 🔹 Supported Input Types
+- Free text (e.g., "Write project proposal")
+- Voice input (converted to text)
+- File attachments (e.g., PDF or .docx → extractable text)
+- Image OCR (extract text from screenshots or photos)
+
+### 🔹 AI Processing Capabilities
+- Extract structured data from multimodal input
+- Understand the full mind map context
+- Automatically place new nodes based on:
+  - Topic similarity
+  - Node hierarchy
+  - User intention (when specified)
+
+---
+
+## 2. 🖱️ User Interaction & Editing
+
+- [x] Drag and move nodes freely
+- [x] Reparent a node (drop under another node as a child)
+- [x] Inline editing of node text
+- [x] Create and delete nodes manually
+- [x] Expand/collapse node branches
+
+---
+
+## 3. 🧭 Layout & Visualization
+
+### 🔹 Map Orientation & Strategy
+- Primary layout is **vertical**: root node at the top
+- Children appear **below** their parent (top → bottom)
+- Siblings of a node appear **side-by-side** (horizontal)
+- New AI-inserted nodes follow vertical placement logic unless user repositions them
+
+### 🔹 Layout Handling
+- Automatic layout using library logic
+- Optional manual overrides by the user
+- Smooth drag-and-drop interactions
+- Smart spacing and collision handling
+
+---
+
+## 4. 📤 Exporting & Saving
+
+- [x] Export mind map as:
+  - PNG (visual)
+  - Structured text (e.g., Markdown, JSON, outline)
+- [x] Save/load from structured text format
+- [x] Real-time collaboration support (optional phase)
+- [x] Shareable links or session saving for persistent access
+
+---
+
+## 5. 🧩 Technical Notes (Suggested Stack)
+
+### Libraries to Consider
+- **Syncfusion React Diagram** – for mind map layout, drag/drop, and AI integration
+- **Cytoscape.js** – for scalable graph rendering with AI control
+- **JointJS+** – if deep customization and structured editing are needed
+- **MindWired** – for lightweight, vertical-tree UI (with snapping and structured path tracking)
+
+---
+
+## 📌 Next Steps
+
+- Prototype basic vertical canvas with drag-and-drop and node creation
+- Integrate AI backend to process input and suggest placement
+- Build node data structure model (parent-child relationships, metadata)
+- Design structured text format for import/export
+```
+
+---
+
+Here’s a detailed **ASCII wireframe** of your AI-enhanced, interactive vertical mind map, complete with animations, micro‑interactions, and user flow—laid out in a plain-text format so you can envision how it might work:
+
+---
+
+```
+                                             ┌───────────────┐
+                                             │   Root Node   │
+                                             └──────┬────────┘
+                                                    │
+                                (AI suggests placement: pulsing highlight)
+                                                    ▼
+                       ┌────────────┐           ┌────────────┐
+                       │ Child A    │  ──────> │ Child B?   │
+                       └────┬───────┘           └────────────┘
+                            │ expand/collapse          ▲ hover && tooltip shows "expand"
+                            │                          │
+                            ▼                          │
+         ┌──────────────┐  ┌──────────────┐            │
+         │ Sub‑child A1 │  │ Sub‑child A2 │            │
+         └──────────────┘  └──────────────┘            │
+           ▲ inline edit     ▲ drag handle              │
+           │ (blinking cursor, endpoint highlighting)   │
+           │           drag-and-drop visual ghost       │
+           └────────────┐     (semantically snapped) ───┘
+                        ▼
+               ┌───────────────┐
+               │ New Node (?)  │
+               └───────────────┘
+```
+
+---
+
+### Legend & Micro‑interaction Notes
+
+* **Root Node**: At the top center; always visible.
+* **AI Suggestion Animation**: The node where AI proposes insertion pulses or glows briefly to draw attention.
+* **Hover Tooltip**: Hovering shows context options (e.g., "expand", "collapse", "edit").
+* **Inline Editing**: Double‑clicking shows a blinking text cursor; pressing Enter saves and slightly highlights.
+* **Drag-and-Drop Feedback**: A translucent "ghost" of the node follows the cursor; valid drop targets highlight.
+* **Expand/Collapse**: Clicking toggles visibility; smooth accordion-style animation expands children.
+
+---
+
+### Detailed User Flow
+
+1. **Start**: User sees root node and children (if any).
+2. **AI Suggests**: After user inputs content, the AI processes it and selects a target placement.
+
+   * The suggestion is visualized via pulsing highlight around the proposed parent node.
+3. **User Accepts or Overrides**:
+
+   * If pleased, they click, and node is placed and animates into view.
+   * If they prefer a different spot, they drag the suggested node elsewhere.
+4. **Editing**:
+
+   * User double-clicks a node for inline editing—cursor appears with input box.
+   * After editing, node subtly flashes to show change saved.
+5. **Structural Changes**:
+
+   * Dragging a node over another toggles a highlight or snap animation.
+   * Upon drop, child is reparented, and branches reflow.
+6. **Expand/Collapse**:
+
+   * Expand arrow appears on parent.
+   * Click animates show/hide of child branches with a slide/fade motion.
+7. **Export**:
+
+   * User triggers export—an overlay/modal appears.
+   * Option to export as image (PNG) or structured text (JSON or Markdown) shown; clicking initiates download.
+
+---
+
+### ASCII Wireframe Walkthrough
+
+```text
+1. Initial state:
+    [Root]
+       |
+    [Child A]  [Child B]
+       |
+    [Sub A1]  [Sub A2]
+
+2. After user input:
+    AI pulses near [Child B?] to suggest placement.
+
+3. If user clicks:
+    Node appears under [Child B].
+    Branch animates downward.
+
+4. Hover on [Sub A1]:
+    Tooltip "Edit / Delete / Move" appears.
+
+5. Double-click [Sub A1]:
+    Turns into editable text field, blinks.
+    After edit: subtle flash, goes back to static label.
+
+6. Drag [Sub A2] over [Child A]:
+    Valid drop target highlights.
+    On drop: Sub A2 snaps into new position as child, layout reflows.
+
+7. Click collapse:
+    Children of Child A slide up and hide.
+
+8. Export:
+    Modal pops: “Export as PNG / Export as JSON”.
+```
+
+---
+
+### Why This Matters
+
+This ASCII wireframe gives you a low-fidelity yet expressive representation of how the interface *feels*—with animations, interactions, and layout logic—before investing in visual mockups or code. Creating designs this way is quick, version-control friendly, and accessible in text-based planning environments.
+
+---
+
+Let me know if you'd like this translated into a PlantUML mockup, or even crafted inside ASCIIFlow so you can tweak it visually!
+
+---
+
+Here’s a refined and comprehensive prompt for **Figma Make (Claude Sonnet 4 Extended Thinking)**, now updated with your new requirements:
+
+---
+
+```
+Imagine you're a senior UX/UI designer specializing in mobile‑first, AI‑augmented applications. Design a high‑fidelity, interactive prototype for the following feature using Figma Make:
+
+## Overall Objective
+Create a **vertical-flow, AI-assisted mind map** that works seamlessly on mobile and scales for desktop. Users can input tasks via multimodal methods (voice, file attachments, OCR from images, free text). When online, the AI analyzes the existing map context and automatically places new nodes; when offline, users can add nodes manually—which will later be auto-positioned by AI once back online.
+
+---
+
+## Key Design Directives
+
+### 1. **Mobile-First Layout & Responsiveness**
+- Start with a **mobile screen (portrait orientation)** using Figma’s mobile templates and Auto Layout features.  
+- Center the **root node at the top**, with vertical expansion downwards.
+- Ensure **horizontal sibling branching**: children should appear side‑by‑side below their parent.
+- Design for responsive adaptation—expand gracefully to tablet or desktop via auto layout and flexible frames.
+
+### 2. **Offline-First Workflow**
+- When offline:
+  - Users can **manually add new nodes**, but the placement isn’t AI-suggested.
+  - Provide UI feedback like: “Offline mode: Place your ideas—AI will organize when online.”
+- Upon reconnecting:
+  - The AI should trigger a visual cue (“Sync in progress…” overlay or icon).
+  - Nodes added while offline should animate into place—maybe slide or fade into their auto placement once aligned.
+
+### 3. **AI Interaction & Micro‑interactions**
+- AI suggestions are visualized via **pulsing ring or glow** around the target parent node.
+- Use **tooltips** on hover/tap (e.g., “AI suggests placing here”, “Edit”, “Move”).
+- **Inline editing** includes a blinking cursor and subtle flash on save.
+- **Drag-and-drop** interaction: ghost preview of node, drop target highlighting, snapping animation on valid drop.
+- **Expand/collapse** nodes with arrow icons, sliding/fading children.
+
+### 4. **Offline vs. Online States**
+Include UI state indicators:
+- **Offline**: maybe a top bar or icon showing “Offline Mode — Manual Placement Only”.
+- **Syncing**: when back online, a subtle, non-blocking indicator like “Syncing AI placements…” with progress feedback.
+- Once synced, show animation of offline nodes moving into place.
+
+### 5. **Export & Offline Download**
+- Provide **export controls**:
+  - **Download as PNG** – visual snapshot.
+  - **Export structured text** (Markdown, JSON) for offline saving or sharing.
+- When offline, make export fully usable, stored locally.
+- UI: a button or menu “Export / Download” that behaves in both online/offline contexts.
+
+### 6. **Visual Style & UX Polishing**
+- Clean, minimalist aesthetic: white/light gray backgrounds, rounded nodes, soft drop shadows for depth.
+- Accent color for AI elements (e.g., blue for glow/pulse).
+- Smooth animations with ease-in-out for node insertion, expansion, and sync placement.
+- Mobile-first typography and touch targets: large taps, legible text, auto layout spacing.
+
+---
+
+## UI Components to Generate
+- **Mobile canvas** with root → a few sample child nodes → sub-children.
+- **AI suggestion indicator** on one node.
+- **Offline mode overlay or status bar** indicating manual placement allowed.
+- **Sync animation** or overlay as offline nodes auto-position.
+- **Inline edit state** with blinking cursor within a node.
+- **Drag-and-drop ghost** and highlighted drop target.
+- **Expand/collapse arrow interactions** on nodes.
+- **Export/download button**, styled for mobile and showing offline readiness.
+
+---
+
+**Please output the design in Figma Make**, using frames and auto-layout. Ensure it's editable and adaptable for future iterations across mobile and desktop.
+
+Thank you!
+```
+
+---
+
+### Why This Prompt Works
+
+* **Front-loaded specifics**: It outlines platform (mobile first), behavior (online/offline states), interaction patterns, visual styling—a best-practice approach for prompting Figma Make.
+  ([Figma][1], [NerdChips][2])
+* **Mobile-first structure**: Emphasizes building for mobile up front using Figma’s auto-layout and templates.
+  ([Figma][3])
+* **Realistic AI and offline scenarios**: Specifies how UI should reflect offline limitation and syncing—making design logic explicit.
+* **Focus on micro‑interactions**: Includes details like animation easings, pulsing highlights, ghost previews—ensuring the prototype feels interactive and responsive.
+
+---
+
