@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mind Map Layout (Motion + LeaderLine)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #f3fbf7; }
+    #mmap-root {
+      background: #f6fff8;
+      border-radius: 8px;
+      border: 1px solid rgba(34,197,94,0.07);
+      width: 95vw;
+      height: 85vh;
+      margin: 24px auto;
+      position: relative;
+      box-shadow: 0 1px 0 rgba(34,197,94,0.08) inset;
+      overflow: hidden;
+      padding: 28px;
+      touch-action: none;
+    }
+    .node {
+      min-width: 160px;
+      max-width: 220px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.04);
+      position: absolute;
+      user-select: none;
+      cursor: grab;
+      will-change: transform;
+    }
+    .node:active { cursor: grabbing; }
+    .topic {
+      background: linear-gradient(#11a454,#0b7c3d);
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 12px 26px;
+      border-radius: 8px;
+      box-shadow: 0 6px 0 rgba(0,0,0,0.08);
+      text-transform: uppercase;
+      width: fit-content;
+    }
+    .sub {
+      background: #dfffe9;
+      border: 1px solid rgba(12,80,48,0.06);
+      color: #064a2e;
+      font-style: italic;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-radius: 8px;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.03);
+    }
+    .detail {
+      background: #e9fff1;
+      border: 1px solid rgba(12,80,48,0.04);
+      color: #055230;
+      padding: 8px 12px;
+      border-radius: 6px;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+      font-size: 13px;
+      margin-top: 8px;
+      text-align: left;
+    }
+    .column-area { position: absolute; left:0; right:0; top:110px; bottom:24px; }
+    .column { position: absolute; top:0; bottom:0; display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .details-wrap { overflow: hidden; width: 220px; display:flex; flex-direction:column; align-items:center; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leader-line/1.0.7/leader-line.min.js"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen"></body>
+  <div id="mmap-root" class="mx-auto"></div>
+    <div id="topic" class="node topic" style="left:50%; transform:translateX(-50%); top:18px;">Grammar Topic</div>
+    <div id="columns" class="column-area"></div>
+  </div>
+
+  <script type="module">
+    // Use Motion One from Skypack (Framer's Motion One)
+    import { animate } from 'https://cdn.skypack.dev/@motionone/dom';
+
+    // Data + settings (from your prompt)
+    const payload = {
+      data: {
+        name: "Grammar Topic",
+        children: [
+          { name: "Subtopic 1", children: [{name:"Detail 1.1"},{name:"Detail 1.2"}] },
+          { name: "Subtopic 2", children: [{name:"Detail 2.1"},{name:"Detail 2.2"}] },
+          { name: "Subtopic 3", children: [{name:"Detail 3.1"},{name:"Detail 3.2"}] },
+          { name: "Subtopic 4", children: [{name:"Detail 4.1"},{name:"Detail 4.2"}] }
+        ]
+      },
+      settings: {
+        interactions: { expandCollapse: true, dragNodes: true, zoom: true },
+        connector: { color: "#37474F", type: "straight" }
+      }
+    };
+
+    const root = document.getElementById('mmap-root');
+    const columnsArea = document.getElementById('columns');
+    const topicEl = document.getElementById('topic');
+
+    // create columns, subtopic nodes and details
+    const cols = payload.data.children.length;
+    const colWidth = 100/cols;
+    const subNodes = [];
+    const lines = [];
+
+    payload.data.children.forEach((sub, i) => {
+      // create container for this column to help layout
+      const col = document.createElement('div');
+      col.className = 'column';
+      col.style.left = `${i*colWidth}%`;
+      col.style.width = `${colWidth}%`;
+      col.style.pointerEvents = 'none';
+      columnsArea.appendChild(col);
+
+      // create subtopic node
+      const subEl = document.createElement('div');
+      subEl.className = 'node sub';
+      subEl.style.pointerEvents = 'auto';
+      subEl.innerText = sub.name;
+      // center horizontally in column; place near top of column area
+      const initialTop = 20 + Math.min(120, i*10);
+      subEl.style.left = `calc(${i*colWidth}% + ${colWidth/2}%)`;
+      subEl.style.top = `${initialTop}px`;
+      root.appendChild(subEl);
+
+      // details container
+      const detailsWrap = document.createElement('div');
+      detailsWrap.className = 'details-wrap';
+      detailsWrap.style.display = 'flex';
+      detailsWrap.style.flexDirection = 'column';
+      detailsWrap.style.alignItems = 'center';
+      detailsWrap.style.pointerEvents = 'none';
+      detailsWrap.style.position = 'absolute';
+      detailsWrap.style.left = subEl.style.left;
+      detailsWrap.style.top = `${initialTop + 80}px`;
+      root.appendChild(detailsWrap);
+
+      sub.children.forEach(d => {
+        const de = document.createElement('div');
+        de.className = 'node detail';
+        de.style.pointerEvents = 'auto';
+        de.innerText = d.name;
+        detailsWrap.appendChild(de);
+      });
+
+      subNodes.push({ subEl, detailsWrap, data: sub });
+    });
+
+    // Create leader lines after a small delay to ensure elements have dimensions
+    function createOrUpdateLines() {
+      // remove old lines
+      lines.forEach(l => {
+        try { l.remove(); } catch {}
+      });
+      lines.length = 0;
+
+      subNodes.forEach(s => {
+        const line = new LeaderLine(topicEl, s.subEl, {
+          color: payload.settings.connector.color,
+          startPlug: 'disc',
+          endPlug: 'arrow1',
+          path: 'straight',
+          size: 2,
+          animOptions: { duration: 300, timing: 'linear' }
+        });
+        lines.push(line);
+      });
+    }
+
+    // Setup expand/collapse with Motion One
+    function toggleDetails(detailsWrap) {
+      const isHidden = detailsWrap.getAttribute('data-open') !== 'true';
+      if (isHidden) {
+        // measure expanded height
+        detailsWrap.style.display = 'flex';
+        detailsWrap.style.height = 'auto';
+        const fullH = detailsWrap.getBoundingClientRect().height;
+        detailsWrap.style.height = '0px';
+        detailsWrap.setAttribute('data-open', 'true');
+        animate(detailsWrap, { height: [0, fullH], opacity: [0,1] }, { duration: 0.35 })
+          .finished.then(() => {
+            detailsWrap.style.height = 'auto';
+            createOrUpdateLines();
+          });
+      } else {
+        detailsWrap.setAttribute('data-open', 'false');
+        const curH = detailsWrap.getBoundingClientRect().height;
+        animate(detailsWrap, { height: [curH, 0], opacity: [1,0] }, { duration: 0.28 })
+          .finished.then(() => {
+            detailsWrap.style.display = 'none';
+            createOrUpdateLines();
+          });
+      }
+    }
+
+    // Attach interactions (click, drag)
+    subNodes.forEach(({subEl, detailsWrap}) => {
+      // click toggles
+      if (payload.settings.interactions.expandCollapse) {
+        subEl.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleDetails(detailsWrap);
+        });
+      }
+
+      // dragging (pointer events)
+      if (payload.settings.interactions.dragNodes) {
+        let dragging = false;
+        let startX = 0, startY = 0;
+        let origX = 0, origY = 0;
+
+        subEl.addEventListener('pointerdown', (ev) => {
+          dragging = true;
+          subEl.setPointerCapture(ev.pointerId);
+          startX = ev.clientX; startY = ev.clientY;
+          const rect = subEl.getBoundingClientRect();
+          const rootRect = root.getBoundingClientRect();
+          origX = rect.left - rootRect.left;
+          origY = rect.top - rootRect.top;
+          subEl.style.transition = 'none';
+        });
+        window.addEventListener('pointermove', (ev) => {
+          if (!dragging) return;
+          const dx = ev.clientX - startX;
+          const dy = ev.clientY - startY;
+          const newX = Math.max(8, origX + dx);
+          const newY = Math.max(8, origY + dy);
+          subEl.style.left = `${newX}px`;
+          subEl.style.top = `${newY}px`;
+          // move associated detailsWrap similarly
+          detailsWrap.style.left = subEl.style.left;
+          detailsWrap.style.top = `${newY + subEl.offsetHeight + 12}px`;
+          createOrUpdateLines();
+        });
+        window.addEventListener('pointerup', (ev) => {
+          if (!dragging) return;
+          dragging = false;
+          try { subEl.releasePointerCapture(ev.pointerId); } catch {}
+          createOrUpdateLines();
+        });
+      }
+    });
+
+    // Zoom (wheel to scale around center)
+    if (payload.settings.interactions.zoom) {
+      let scale = 1;
+      const minS = 0.6, maxS = 2.2;
+      root.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = -e.deltaY;
+        const factor = delta > 0 ? 1.06 : 0.94;
+        scale = Math.max(minS, Math.min(maxS, scale * factor));
+        root.style.transform = `scale(${scale})`;
+        // re-position leader lines because transform changes coordinates
+        lines.forEach(l => l.position());
+      }, { passive: false });
+    }
+
+    // initial draw
+    // update details positions relative to sub nodes
+    function layoutInitial() {
+      subNodes.forEach(s => {
+        const r = s.subEl.getBoundingClientRect();
+        const rootR = root.getBoundingClientRect();
+        s.subEl.style.left = `${r.left - rootR.left}px`;
+        s.subEl.style.top = `${r.top - rootR.top}px`;
+        s.detailsWrap.style.left = `${r.left - rootR.left}px`;
+        s.detailsWrap.style.top = `${r.top - rootR.top + s.subEl.offsetHeight + 12}px`;
+        s.detailsWrap.style.display = 'none';
+        s.detailsWrap.setAttribute('data-open','false');
+      });
+      // position topic middle based on root
+      const rt = root.getBoundingClientRect();
+      topicEl.style.left = `${(rt.width/2) - (topicEl.offsetWidth/2)}px`;
+      topicEl.style.top = '18px';
+      createOrUpdateLines();
+    }
+
+    // wait for layout
+    window.addEventListener('load', () => setTimeout(layoutInitial, 50));
+    window.addEventListener('resize', () => setTimeout(createOrUpdateLines, 80));
+  </script>
+</body>
+</html>

@@ -1,3 +1,4 @@
 .agent-os
 .github
 .cursor
+node_modules*
