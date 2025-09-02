@@ -1,0 +1,125 @@
+# Shikshak Teaching Platform — Detailed Architecture
+Date: 2025-08-29
+Author: Copilot (@jxlee007)
+
+Overview
+- Purpose: a production-ready, extensible architecture for a teaching-first platform (Shikshak) with an integrated multimodal AI co‑host (Soch). Designed for web + mobile, synchronous sessions (audio/video/screen-share), persistent classrooms/resources, and retrieval‑augmented multimodal AI (text, speech, vision, TTS).
+- Goals: low-latency interactive AI replies in live sessions, secure consent-first processing of media, scalable SFU-based realtime, and an asynchronous ingestion/RAG stack for grounded answers.
+
+What I built here: a single-source architecture document that maps components, data flows, APIs, deployment pattern, operational controls, security/privacy rules, scaling recommendations, and an incremental prototype path.
+
+1) System components (high level)
+- Frontend
+  - Web client (React) — full feature set (session UI, screen-share, chat, overlays)
+  - Mobile client (React Native + Expo) — join sessions, audio/video, limited screen-share where supported
+- Realtime layer
+  - Signaling service (Auth + session tokens)
+  - SFU (LiveKit recommended managed or mediasoup/Jitsi self-hosted)
+- Backend API layer
+  - API Gateway (auth, RBAC, rate limiting)
+  - App services (Node/Express or NestJS): classes, users, assignments, resources, sessions
+- AI Orchestration & Workers
+  - Ingest Worker(s) — document parsing, OCR, chunking, embedding
+  - RAG Worker — performs retrieval + prompt assembly
+  - Real-time AI Worker(s) — streaming STT ingestion, sampled frame analysis, quick-answer pipeline, TTS generation
+- Storage & DB
+  - Primary DB (Postgres or AppWrite) for relational data (users, classes, assignments)
+  - Object storage (S3-compatible) for files, screen captures, TTS blobs
+  - Vector DB (Pinecone / Faiss / Milvus) for embeddings
+- Third-party AI endpoints
+  - Soch endpoints (Chat Completions, STT: Saaras/Saarika, TTS: Bulbul, Transliteration etc.)
+- Observability & Ops
+  - Metrics (Prometheus), tracing (Jaeger), logs (ELK/Cloud provider), usage billing dashboard
+- Security & Compliance
+  - Key management, encryption, consent/audit logs, DLP and content moderation
+
+2) Deployment topology (recommended)
+- Kubernetes cluster (GKE/EKS/AKS) for core APIs, AI orchestrator, workers, vector DB (if self-hosted), and ingestion services.
+- Managed SFU (LiveKit Cloud) or self-hosted SFU on k8s for media.
+- Serverless functions (AWS Lambda/GCP Cloud Functions) for lightweight hooks (e.g., webhook ingestion, thumbnailing).
+- CDN in front of static assets and TTS/audio blobs.
+- VPC with private subnets for sensitive workloads (embedding store, model workers if self-hosted).
+
+3) Session sequence (detailed)
+1. Teacher creates session via POST /api/sessions → backend issues sessionId and join tokens (JWT with role & TTL). (Auth via AppWrite or internal OAuth)
+2. Teacher starts SFU room (managed or self-hosted); clients join via signaling to SFU.
+3. Teacher toggles "Enable AI co-host" → backend records aiEnabled flag; classroom members are presented consent modal.
+4. Consent: students either opt-in or are excluded from AI processing. Consent is logged (AuditLog).
+5. Client-side: browser captures audio/video and screen (getUserMedia/getDisplayMedia). Live audio goes to SFU. Client also samples frames (1–2 fps or on change) and sends to /api/ingest/frame with session token.
+6. STT: either client streams audio to STT endpoint (Soch) directly (if allowed) or server-side receives mixed audio stream from SFU to the Real-time AI Worker via WebRTC-in or gRPC streaming.
+7. Real-time AI Worker receives transcript chunks + sampled frames + recent chat → quick RAG lookup if needed → produces short answer + citations → TTS blob created and stored → Worker posts message to session chat and/or bot participant via SFU data channel. Clients play TTS respecting mute settings.
+8. Longer RAG answers executed asynchronously; user sees progress indicator; full expanded answers saved as resources (if consented).
+
+4) Data flows & payloads (examples)
+- Frame ingest: POST /api/ingest/frame
+  - { sessionId, userId, timestamp, frameUrl (pre-signed upload), meta: { regionHash, changeHash } }
+- Quick answer request (internal):
+  - { sessionId, transcriptSnippet, topKContext[], userLocale }
+- RAG retrieval query:
+  - embedding(query) → vectorDB.query(k=10) → return docs/snippets with anchors
+- AI response:
+  - { text, sources: [{resourceId, anchor}], confidence, ttsUrl }
+
+5) Document ingestion pipeline
+- Upload → Queue (Kafka/Rabbit) → Parser (PDF/text/slide/video) → OCR frames for images/slides → Chunker (overlap, chunk size) → Embedder → Upsert to Vector DB → Mark resource.ingestStatus.
+- Orchestrate via workflow engine (Temporal or managed Step Functions).
+
+6) STT / TTS / Model orchestration patterns
+- Two-mode STT:
+  - Low-latency mode (client-side): client streams to Soch STT directly and forwards transcripts to backend (reduces server cost).
+  - Central mode: server-side STT via AI worker (needed for central transcription and auditing).
+- TTS: generate audio using Bulbul on worker; store blob in S3; serve pre-signed URL to clients.
+- Prompt engineering:
+  - Meta prompts and templates stored in config, RAG few-shot prompts composed server-side.
+
+7) Scalability & latency strategies
+- SFU autoscale for peak sessions; use managed LiveKit to reduce operational overhead.
+- Quick-answer Worker pool autoscaled by queue length and per-session concurrency.
+- Use frame sampling, delta-frame detection, and on-demand frame capture to limit ML costs.
+- Cache recent embeddings and RAG hits per session to avoid repeated retrieval.
+- Fallbacks: if Soch model quota exceeded, use a lightweight local model or canned responses with “degraded” messaging.
+
+8) Security, privacy & compliance controls
+- Consent-first: AI never processes audio/video without per-session teacher enable + per-user opt-in.
+- Ephemeral processing: default processing in-memory; persist only transcripts/notes with explicit teacher consent.
+- Encryption: TLS everywhere; S3 encryption; DB encryption at rest.
+- Audit trails: every AI decision, frame upload, and transcript chunk logged for compliance.
+- Access control: RBAC enforced at API gateway and object storage; pre-signed URLs with limited TTL for media.
+- Moderation: content filter on AI outputs (deny lists, toxicity checks), teacher override path.
+
+9) Observability & cost controls
+- Track per-session model usage (tokens, STT seconds, embedding calls), per-class monthly quotas.
+- Cost dashboard with alerts and auto-disable AI per-class when budget exhausted.
+- Metrics: session join/leave, aiEnabled ratio, median AI latency, errors, transcripts saved.
+
+10) Data model highlights (for engineering)
+- Session: {id, classId, startedAt, endedAt, aiEnabled, ingestConsent, tokensUsed}
+- Resource: {id, classId, uploaderId, url, type, ingestStatus}
+- EmbeddingDocument: {id, resourceId, snippet, vectorId, anchor}
+- TranscriptSegment: {sessionId, speakerId, start, end, text, confidence}
+- AuditLog: {actorId, action, target, meta, timestamp}
+
+11) API & integration recommendations (next step: OpenAPI)
+- /api/sessions (create/join/end)
+- /api/ingest/frame (frame uploads)
+- /api/ai/quick-answer (internal)
+- /api/resources (upload/status)
+- /api/consent (log opt-in/opt-out)
+
+12) Infra & operational choices (recommended)
+- Live prototype: LiveKit managed + Soch cloud endpoints + Pinecone (managed) + AppWrite for auth
+- Production: k8s cluster for core, managed vector DB and managed SFU for simplicity; self-hosted only if strict cost or data locality requires it.
+- CI/CD: GitHub Actions to build containers, run tests, and deploy Helm charts.
+
+13) Risks & mitigations
+- Privacy risk: enforce opt-in, ephemeral defaults, and strong UX consent.
+- Cost risk: implement quotas, sample frames, and lightweight fallbacks.
+- Latency risk: prioritize client STT + caching + small models for short replies.
+
+Acceptance criteria for architecture
+- SFU + signaling deployed and able to host 10 concurrent sessions with 10 participants each.
+- AI worker can accept transcript + one sampled frame and return TTS answer <2s median in quick‑answer mode.
+- Document ingestion produces searchable vector index and returns citations in queries.
+- Consent UI implemented; transcript persistence requires explicit teacher consent.
+
+What's next (I converted your repo snapshot intent into this architecture). I'll produce any of the following immediately on your request: an OpenAPI spec for session/ingest/ai endpoints, an executable prototype plan wiring LiveKit + a minimal AI worker (command payloads and example payloads), or a Helm chart + k8s manifest scaffold for the core services. Pick one and I will produce it now.

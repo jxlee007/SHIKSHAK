@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Coaching Session</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="recording-indicator">
+                <span class="recording-dot"></span>
+                <span class="recording-text">REC</span>
+            </div>
+            <h1 class="session-title">Startup Coaching Session</h1>
+            <div class="session-timer">00:15:32</div>
+        </div>
+        <div class="header-right">
+            <button class="btn-icon" title="Settings">
+                <span class="material-symbols-outlined">settings</span>
+            </button>
+            <button class="btn-icon" title="Minimize">
+                <span class="material-symbols-outlined">minimize</span>
+            </button>
+            <button class="btn-icon btn-close" title="Close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Video Area -->
+        <div class="video-container">
+            <div class="discord-video-grid">
+                <div class="discord-video-frame user-video">
+                    <div class="video-content">
+                        <div class="avatar-large">👤</div>
+                    </div>
+                    <div class="discord-video-overlay">
+                        <div class="participant-info">
+                            <span class="participant-name">John Doe</span>
+                            <div class="audio-status">
+                                <span class="material-symbols-outlined">mic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="discord-video-frame agent-video speaking">
+                    <div class="video-content">
+                        <div class="avatar-large">🤖</div>
+                    </div>
+                    <div class="discord-video-overlay">
+                        <div class="participant-info">
+                            <span class="participant-name">Hustle Coach</span>
+                            <div class="ai-badge">AI</div>
+                        </div>
+                        <div class="speaking-indicator">
+                            <div class="speaking-ring"></div>
+                            <div class="wave-bars">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Bar -->
+        <div class="control-bar">
+            <div class="control-group">
+                <button class="discord-control-btn" id="muteBtn" title="Mute">
+                    <span class="material-symbols-outlined">mic</span>
+                </button>
+                <button class="discord-control-btn" id="videoBtn" title="Turn off camera">
+                    <span class="material-symbols-outlined">videocam</span>
+                </button>
+                <button class="discord-control-btn" id="shareBtn" title="Share screen">
+                    <span class="material-symbols-outlined">screen_share</span>
+                </button>
+            </div>
+            
+            <div class="control-group">
+                <button class="discord-control-btn" id="chatBtn" title="Chat">
+                    <span class="material-symbols-outlined">chat</span>
+                </button>
+                <button class="discord-control-btn apps-btn" id="appsBtn" title="Apps">
+                    <span class="material-symbols-outlined">apps</span>
+                </button>
+            </div>
+            
+            <div class="control-group">
+                <button class="discord-control-btn end-call" id="endCallBtn" title="End call">
+                    <span class="material-symbols-outlined">call_end</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Enhanced Chat Panel with Tabs -->
+    <div class="enhanced-chat-panel hidden" id="chatPanel">
+        <div class="chat-panel-header">
+            <div class="chat-tabs">
+                <button class="chat-tab active" data-tab="chat" id="chatTab">
+                    <span class="material-symbols-outlined">chat</span>
+                    Chat
+                </button>
+                <button class="chat-tab" data-tab="transcript" id="transcriptTab">
+                    <span class="material-symbols-outlined">subtitles</span>
+                    AI Transcript
+                </button>
+            </div>
+            <button class="btn-icon" id="closeChatBtn">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <!-- Chat Content -->
+        <div class="tab-content active" data-tab="chat">
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message system">
+                    <span class="chat-text">Meeting started. Recording enabled.</span>
+                </div>
+                <div class="chat-message user">
+                    <div class="chat-sender">John Doe</div>
+                    <span class="chat-text">Ready to learn some startup secrets! 🚀</span>
+                </div>
+                <div class="chat-message agent">
+                    <div class="chat-sender">Hustle Coach</div>
+                    <span class="chat-text">Let's disrupt your thinking and scale your mindset! 💪</span>
+                </div>
+                <div class="chat-message note">
+                    <div class="note-header">
+                        <span class="material-symbols-outlined">note_alt</span>
+                        <span class="note-sender">John Doe</span>
+                        <span class="note-timestamp">00:12:18</span>
+                    </div>
+                    <span class="chat-text">Key success factors: Market potential, Unique value prop, Scalability</span>
+                </div>
+                <div class="chat-message note">
+                    <div class="note-header">
+                        <span class="material-symbols-outlined">note_alt</span>
+                        <span class="note-sender">John Doe</span>
+                        <span class="note-timestamp">00:14:25</span>
+                    </div>
+                    <span class="chat-text">Validation strategy: Talk to 100 potential customers, need 80% positive response</span>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <button class="btn-icon upload-btn" id="uploadBtn" title="Upload file">
+                    <span class="material-symbols-outlined">add</span>
+                </button>
+                <input type="text" class="chat-input" placeholder="Send a message or use @note for timestamped notes..." id="chatInput">
+                <button class="btn-icon send-btn" id="sendBtn" title="Send message">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Transcript Content -->
+        <div class="tab-content" data-tab="transcript">
+            <div class="transcript-messages" id="transcriptContent">
+                <div class="transcript-message" data-timestamp="00:12:15" data-id="t_1">
+                    <span class="timestamp">00:12:15</span>
+                    <span class="speaker-name user">John:</span>
+                    <span class="message-text">"What makes a good startup idea?"</span>
+                </div>
+                <div class="transcript-message" data-timestamp="00:12:18" data-id="t_2">
+                    <span class="timestamp">00:12:18</span>
+                    <span class="speaker-name agent">Hustle Coach:</span>
+                    <span class="message-text">"A killer startup idea boils down to three things: massive market potential, unique value proposition, and scalability. You want a problem that's begging for disruption!"</span>
+                </div>
+            </div>
+        </div>
+
+        <input type="file" class="file-input hidden" id="fileInput" multiple accept="image/*,.pdf,.doc,.docx,.txt">
+    </div>
+
+    <!-- Screen Share Modal -->
+    <div class="modal hidden" id="screenShareModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Screen</h3>
+                <button class="btn-icon" id="closeShareModal">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="share-options">
+                    <div class="share-option" data-type="entire">
+                        <div class="share-icon">
+                            <span class="material-symbols-outlined">desktop_windows</span>
+                        </div>
+                        <div class="share-label">Entire Screen</div>
+                    </div>
+                    <div class="share-option" data-type="window">
+                        <div class="share-icon">
+                            <span class="material-symbols-outlined">web_asset</span>
+                        </div>
+                        <div class="share-label">Application Window</div>
+                    </div>
+                    <div class="share-option" data-type="tab">
+                        <div class="share-icon">
+                            <span class="material-symbols-outlined">tab</span>
+                        </div>
+                        <div class="share-label">Chrome Tab</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discord-Style Apps Modal -->
+    <div class="discord-apps-modal hidden" id="appsModal">
+        <div class="apps-modal-content">
+            <div class="apps-modal-header">
+                <h3>Apps</h3>
+                <button class="btn-icon" id="closeAppsModal">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="discord-apps-grid">
+                <div class="discord-app-block" data-app="pitch-deck">
+                    <div class="app-icon">📊</div>
+                    <div class="app-name">Pitch Deck Analyzer</div>
+                </div>
+                <div class="discord-app-block" data-app="business-model">
+                    <div class="app-icon">💼</div>
+                    <div class="app-name">Business Model Canvas</div>
+                </div>
+                <div class="discord-app-block" data-app="market-research">
+                    <div class="app-icon">🎯</div>
+                    <div class="app-name">Market Research Tools</div>
+                </div>
+                <div class="discord-app-block" data-app="financial">
+                    <div class="app-icon">📈</div>
+                    <div class="app-name">Financial Projections</div>
+                </div>
+                <div class="discord-app-block" data-app="investor">
+                    <div class="app-icon">🤝</div>
+                    <div class="app-name">Investor Matching</div>
+                </div>
+                <div class="discord-app-block" data-app="legal">
+                    <div class="app-icon">⚖️</div>
+                    <div class="app-name">Legal Assistant</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Connection Quality Indicator -->
+    <div class="connection-indicator excellent" id="connectionIndicator">
+        <span class="material-symbols-outlined">signal_cellular_4_bar</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

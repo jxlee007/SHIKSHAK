@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikshak - Video Call Lobby</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        /* Tailwind config must run before the CDN loads so the runtime picks up the custom theme */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'var(--primary)',
+                        secondary: 'var(--secondary)',
+                        accent: '#4cc9f0',
+                        background: 'var(--background)',
+                        text: '#212529',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Heroicons for icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <!-- Fallback plain CSS (replaces Tailwind-processed block).
+         This ensures component styles render even if the Tailwind CDN or its JIT processor
+         is unavailable (offline or blocked). The original block relied on @apply/@layer.
+    -->
+    <style>
+        /* Camera Preview */
+        .camera-preview-container {
+            background-color: #1f2937; /* tailwind bg-gray-800 */
+            border-radius: 0.5rem;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 16 / 9;
+            color: #9ca3af; /* text-gray-400 */
+        }
+        .camera-placeholder { color: #9ca3af; }
+
+        /* Device Toggle Buttons */
+        .device-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem; /* py-2 px-4 */
+            border-radius: 0.375rem;
+            background-color: #374151; /* bg-gray-700 */
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .device-btn:hover { background-color: #4b5563; } /* bg-gray-600 */
+        .device-btn.muted { background-color: #ef4444; } /* red-500 */
+
+        /* Agent Avatar */
+        .agent-avatar {
+            height: 4rem; /* h-16 */
+            width: 4rem;  /* w-16 */
+            border-radius: 9999px;
+            background-color: #dbeafe; /* bg-blue-100 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem; /* text-2xl */
+            animation: breathe 4s ease-in-out infinite;
+        }
+        @keyframes breathe { 0%,100%{transform:scale(1);}50%{transform:scale(1.05);} }
+
+        /* Connection Quality Bar */
+        .quality-bar { height: 0.5rem; border-radius: 9999px; background-color: #e5e7eb; overflow: hidden; }
+        .quality-fill { height: 100%; border-radius: 9999px; }
+        .quality-excellent { background-color: #10b981; width: 80%; }
+        .quality-good { background-color: #f59e0b; width: 60%; }
+        .quality-poor { background-color: #ef4444; width: 20%; }
+
+        /* Join Button */
+        .join-btn {
+            padding: 0.75rem 1.5rem; /* py-3 px-6 */
+            background-color: var(--primary);
+            color: #fff;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.25s ease-in-out;
+        }
+        .join-btn.pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(67,97,238,0.4);}50%{box-shadow:0 0 0 10px rgba(67,97,238,0);} }
+
+        /* Permission Prompt Modal */
+        .permission-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; padding: 1rem; z-index: 50; visibility: visible; opacity: 1; }
+        .permission-modal.hidden { display: none; }
+        .permission-content { background: #fff; border-radius: 0.75rem; padding: 1.5rem; max-width: 28rem; width: 100%; transform: scale(.95); opacity: 0; transition: all 0.25s ease-out; }
+        .permission-modal.active .permission-content { transform: scale(1); opacity: 1; }
+
+        /* Loading Spinner */
+        .loading-spinner { width: 1.25rem; height: 1.25rem; display: inline-block; color: currentColor; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+    <style>
+        /* Minimal Tailwind-like utilities used by this page (fall back when Tailwind isn't available) */
+        .hidden { display: none !important; }
+        .flex { display: flex !important; }
+        .flex-1 { flex: 1 1 0% !important; }
+        .flex-col { flex-direction: column !important; }
+        .items-center { align-items: center !important; }
+        .justify-center { justify-content: center !important; }
+        .justify-between { justify-content: space-between !important; }
+        .space-x-2 > * + * { margin-left: 0.5rem; }
+        .space-x-4 > * + * { margin-left: 1rem; }
+        .space-y-6 > * + * { margin-top: 1.5rem; }
+        .gap-6 { gap: 1.5rem; }
+        .grid { display: grid !important; }
+        .grid-cols-1 { grid-template-columns: 1fr; }
+        @media (min-width: 1024px) { .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+        .max-w-6xl { max-width: 72rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+
+        /* Spacing */
+        .p-4 { padding: 1rem !important; }
+        .p-6 { padding: 1.5rem !important; }
+        @media (min-width: 768px) { .md\:p-6 { padding: 1.5rem !important; } }
+        .px-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
+        .py-3 { padding-top: .75rem !important; padding-bottom: .75rem !important; }
+        .mt-2 { margin-top: .5rem !important; }
+        .mr-2 { margin-right: .5rem !important; }
+        .mr-3 { margin-right: .75rem !important; }
+        .mr-4 { margin-right: 1rem !important; }
+        .ml-2 { margin-left: .5rem !important; }
+        .mb-3 { margin-bottom: .75rem !important; }
+
+        /* Sizing */
+        .w-12 { width: 3rem !important; }
+        .h-12 { height: 3rem !important; }
+        .w-5 { width: 1.25rem !important; }
+        .h-5 { height: 1.25rem !important; }
+        .w-4 { width: 1rem !important; }
+        .h-4 { height: 1rem !important; }
+
+        /* Typography & color helpers (small subset) */
+        .text-sm { font-size: .875rem; }
+        .text-lg { font-size: 1.125rem; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .text-gray-900 { color: #111827; }
+        .text-gray-800 { color: #1f2937; }
+        .text-gray-600 { color: #4b5563; }
+        .text-gray-500 { color: #6b7280; }
+        .bg-white { background-color: #ffffff !important; }
+        .bg-gray-50 { background-color: #f9fafb; }
+        .border-gray-200 { border-color: #e5e7eb; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-md { border-radius: 0.375rem; }
+        .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+        /* Utility toggles used by scripts */
+        .hidden { display: none !important; }
+        .z-40 { z-index: 40; }
+        .fixed { position: fixed; }
+        .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+    </style>
+</head>
+<body class="bg-background font-sans min-h-screen flex items-center justify-center p-4">
+    <!-- Demo Button to trigger lobby -->
+    <button id="open-lobby-btn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+        Open Video Call Lobby
+    </button>
+
+    <!-- Video Call Lobby -->
+    <div id="video-call-lobby" class="fixed inset-0 z-40 bg-white flex flex-col hidden">
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-200 px-4 py-3 flex justify-between items-center">
+            <h1 class="text-lg font-semibold text-gray-900">Startup Coaching Session</h1>
+            <div class="flex items-center space-x-2">
+                <button class="p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <i data-feather="settings"></i>
+                </button>
+                <button id="close-lobby-btn" class="p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 md:p-6">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Left Column: Camera Preview & Agent Preview -->
+                <div class="space-y-6">
+                    <!-- Camera Preview -->
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h2 class="text-base font-medium text-gray-800 mb-3">Camera Preview</h2>
+                        <div class="camera-preview-container">
+                            <!-- In a real app, this would be a <video> element -->
+                            <div class="camera-placeholder">
+                                <i data-feather="video" class="w-12 h-12"></i>
+                                <p class="mt-2 text-sm">Camera Preview</p>
+                            </div>
+                            <!-- Simulated video feed -->
+                            <!-- <video id="local-video" autoplay muted class="w-full h-full object-cover"></video> -->
+                        </div>
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <button id="toggle-mic" class="device-btn">
+                                <i data-feather="mic" class="w-4 h-4 mr-2"></i> Mute
+                            </button>
+                            <button id="toggle-video" class="device-btn">
+                                <i data-feather="video" class="w-4 h-4 mr-2"></i> Stop Video
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Agent Preview -->
+                    <div class="bg-white rounded-lg shadow-sm p-4">
+                        <h2 class="text-base font-medium text-gray-800 mb-3">Agent Preview</h2>
+                        <div class="flex items-start p-4 bg-gray-50 rounded-md">
+                            <div class="agent-avatar flex-shrink-0 mr-4">
+                                🤖
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900">Hustle Coach</h3>
+                                <p class="text-sm text-gray-600 mt-1">"Ready to disrupt and scale!"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Setup Panel -->
+                <div class="bg-white rounded-lg shadow-sm p-4">
+                    <h2 class="text-base font-medium text-gray-800 mb-4">Setup Panel</h2>
+
+                    <!-- Device Setup -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-gray-700 mb-2">Device Setup</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                <div class="flex items-center">
+                                    <i data-feather="video" class="w-5 h-5 text-gray-500 mr-3"></i>
+                                    <span class="text-sm">Camera: MacBook Pro (Built-in)</span>
+                                </div>
+                                <div class="animate-spin h-4 w-4 text-gray-400">
+                                    <svg class="loading-spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                <div class="flex items-center">
+                                    <i data-feather="mic" class="w-5 h-5 text-gray-500 mr-3"></i>
+                                    <span class="text-sm">Mic: MacBook Pro (Built-in)</span>
+                                </div>
+                                <span class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">Connected</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                <div class="flex items-center">
+                                    <i data-feather="volume-2" class="w-5 h-5 text-gray-500 mr-3"></i>
+                                    <span class="text-sm">Speaker: MacBook Pro (Built-in)</span>
+                                </div>
+                                <span class="text-xs px-2 py-1 bg-green-100 text-green-800 rounded-full">Connected</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meeting Details -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-gray-700 mb-2">Meeting Details</h3>
+                        <ul class="space-y-2 text-sm text-gray-600">
+                            <li class="flex">
+                                <span class="w-24 text-gray-500">Agent:</span>
+                                <span>🤖 Hustle Coach</span>
+                            </li>
+                            <li class="flex">
+                                <span class="w-24 text-gray-500">Duration:</span>
+                                <span>No limit</span>
+                            </li>
+                            <li class="flex">
+                                <span class="w-24 text-gray-500">Recording:</span>
+                                <span class="flex items-center">
+                                    <i data-feather="check-circle" class="w-4 h-4 text-green-500 mr-1"></i> Enabled
+                                </span>
+                            </li>
+                            <li class="flex">
+                                <span class="w-24 text-gray-500">Transcription:</span>
+                                <span class="flex items-center">
+                                    <i data-feather="check-circle" class="w-4 h-4 text-green-500 mr-1"></i> Enabled
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Connection Quality -->
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-700 mb-2">Connection Quality</h3>
+                        <div class="flex items-center p-3 bg-gray-50 rounded-md">
+                            <div class="quality-bar flex-1 mr-3">
+                                <div class="quality-fill quality-excellent"></div>
+                            </div>
+                            <span class="text-xs font-medium text-green-700">Excellent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer with Join Button -->
+        <footer class="bg-white border-t border-gray-200 px-4 py-4 flex justify-center">
+            <button id="join-call-btn" class="join-btn pulse">
+                Join Call
+                <svg id="join-loading-spinner" class="loading-spinner ml-2 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </button>
+        </footer>
+    </div>
+
+    <!-- Permission Prompt Modal (Placeholder) -->
+    <div id="permission-modal" class="permission-modal">
+        <div class="permission-content">
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Allow Camera & Microphone Access</h3>
+            <p class="text-sm text-gray-600 mb-4">Shikshak needs access to your camera and microphone to join the meeting.</p>
+            <div class="flex justify-end space-x-3">
+                <button id="deny-permission" class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Deny
+                </button>
+                <button id="allow-permission" class="px-4 py-2 bg-primary text-white rounded-md text-sm font-medium hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                    Allow
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        document.addEventListener('DOMContentLoaded', function () {
+                const lobby = document.getElementById('video-call-lobby');
+                const openLobbyBtn = document.getElementById('open-lobby-btn');
+                const closeLobbyBtn = document.getElementById('close-lobby-btn');
+                const joinCallBtn = document.getElementById('join-call-btn');
+                const joinLoadingSpinner = document.getElementById('join-loading-spinner');
+                const toggleMicBtn = document.getElementById('toggle-mic');
+                const toggleVideoBtn = document.getElementById('toggle-video');
+
+            let isMicMuted = false;
+            let isVideoStopped = false;
+
+            // Open lobby - replace modal permission flow with a simple alert
+            openLobbyBtn.addEventListener('click', () => {
+                // Use a simple alert to inform the user about permissions (no modal transform)
+                alert('Shikshak needs access to your camera and microphone to join the meeting.\n\n(Preview and permission are simulated in this prototype)');
+                // Open the lobby after acknowledging the alert
+                lobby.classList.remove('hidden');
+            });
+
+            // Close lobby
+            const closeLobby = () => {
+                lobby.classList.add('hidden');
+            };
+            closeLobbyBtn.addEventListener('click', closeLobby);
+
+            // Toggle Mic
+            toggleMicBtn.addEventListener('click', function () {
+                isMicMuted = !isMicMuted;
+                if (isMicMuted) {
+                    this.classList.add('muted');
+                    this.innerHTML = '<i data-feather="mic-off" class="w-4 h-4 mr-2"></i> Unmute';
+                } else {
+                    this.classList.remove('muted');
+                    this.innerHTML = '<i data-feather="mic" class="w-4 h-4 mr-2"></i> Mute';
+                }
+                feather.replace(); // Re-render icons
+            });
+
+            // Toggle Video
+            toggleVideoBtn.addEventListener('click', function () {
+                isVideoStopped = !isVideoStopped;
+                if (isVideoStopped) {
+                    this.classList.add('muted');
+                    this.innerHTML = '<i data-feather="video-off" class="w-4 h-4 mr-2"></i> Start Video';
+                } else {
+                    this.classList.remove('muted');
+                    this.innerHTML = '<i data-feather="video" class="w-4 h-4 mr-2"></i> Stop Video';
+                }
+                feather.replace(); // Re-render icons
+            });
+
+            // Join Call
+            joinCallBtn.addEventListener('click', function () {
+                this.disabled = true;
+                this.classList.remove('pulse');
+                joinLoadingSpinner.classList.remove('hidden');
+
+                // Simulate joining process
+                setTimeout(() => {
+                    // In a real app, this would navigate to the live session page
+                    alert("Joining call... (Simulated)");
+                    closeLobby();
+                    this.disabled = false;
+                    this.classList.add('pulse');
+                    joinLoadingSpinner.classList.add('hidden');
+                }, 2000); // Simulate 2 second delay
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+# Product Requirements Document (PRD)
+Shikshak Teaching Platform — Soch-integrated Multimodal Teaching Experience
+Date: 2025-08-29
+Author: Copilot (@jxlee007)
+
+## 1. Executive Summary
+Shikshak is a teaching-first platform combining class management (assignments, grading, resources) and persistent chat channels with an always-available multimodal AI co‑host (Soch) that participates in live sessions. The platform aims to feel like "having a friend in a Discord-style call who sees your screen, hears you, and helps in real time" while preserving teacher control, student privacy, and pedagogical integrity.
+
+Primary outcome: deliver an MVP where teachers host sessions, share screens and resources, students interact in chat/voice/video, and an AI co‑host provides real-time multimodal assistance (STT, vision-based context, short answers + TTS, and citation-backed RAG answers).
+
+## 2. Objectives & Success Metrics
+Objectives
+- Provide low-friction classroom creation and participation (web + mobile)
+- Enable synchronous collaboration (text chat + audio/video + screen-share)
+- Provide an AI co-host that enhances learning with accurate, cited answers and multimodal understanding
+- Give teachers tools for content creation and review, plus privacy and moderation control
+
+Success metrics (90-day targets)
+- DAU/MAU for pilot: 200/1,000 users
+- Session AI engagement: 40% of sessions enable AI co-host on request
+- Answer correctness proxy: Teachers mark 80% of AI answers as helpful or correct in sample audits
+- Latency for quick AI replies: median <= 1.5s (using sampled transcript+frames + lightweight model)
+- Cost per session (compute + vector DB): within target budget threshold (configurable)
+
+## 3. User Personas
+- Teacher Tania: creates classes, uploads lessons, runs live sessions, grades assignments, needs control over AI behavior.
+- Student Sam: attends classes, asks questions via voice/text, expects fast helpful answers with context.
+- TA Alex: helps moderate chats, grades assignments, assists teachers.
+- Admin Priya: manages platform policies, quotas, and usage analytics.
+
+## 4. Key Use Cases & User Flows
+1. Class & Session Setup
+   - Teacher creates class, invites students via code/link.
+   - Teacher schedules live sessions or starts ad-hoc "Meet" sessions.
+2. Live Session (core flow)
+   - Participants join via invite link. Teacher shares screen/tab or camera.
+   - Teacher invites AI co-host for the session (per-session opt-in).
+   - AI listens (STT), samples screen frames (vision), and watches chat. Students can voice/text questions directed at AI.
+   - AI replies via TTS + text with short summary + "Read more" and citations.
+   - Teacher can approve/annotate AI overlays.
+3. Resource & Assignment Workflows
+   - Teacher uploads materials (PDF, video, slides). Ingestion pipeline chunks + indexes materials for RAG.
+   - Teacher requests AI to auto-generate quizzes or lesson summaries.
+4. Post-session artifacts
+   - Optional transcript, highlight clips, and AI-generated notes stored to class resources (consent required).
+
+## 5. MVP Feature Set (Must-have)
+- Auth & roles: Teacher, Student, TA, Admin (email + OAuth optional)
+- Class creation/joining, roster management
+- Resource library: upload (PDF, doc), simple storage (S3/AppWrite)
+- Basic assignment creation & submission
+- Per-class persistent chat channels + direct messages
+- Live sessions with audio + screen-share (WebRTC + SFU)
+- Client-side sampled frame capture + secure ingest API
+- STT for speech-to-text (live captions)
+- AI co-host (short-answer pipeline): transcripts + sampled frames → quick answer + TTS
+- Document ingestion + vector store + RAG for citation-backed answers
+- Session consent & privacy UI (per-session opt-in + per-user opt-out)
+- Teacher moderation controls and reporting
+
+## 6. Stretch Features (Phase 2+)
+- Full overlay/annotation canvas where AI can draw/highlight on shared content
+- Real-time object/scene recognition for diagrams/slides
+- Adaptive learning paths and fine-tuning with opt-in anonymized data
+- Live video breakout rooms with AI moderation
+- Mobile screen-sharing where supported; native clients for iOS/Android with WebRTC
+
+## 7. Functional Requirements (detailed)
+7.1 Classroom & User Management
+- Teachers create classes with metadata (title, code, description, schedule).
+- Teachers can invite students (code/link), view roster, and assign roles (TA).
+- Role-based access control for resources, sessions, and artifacts.
+
+7.2 Live Sessions
+- Sessions are rooms (unique IDs) managed by backend signaling.
+- Web clients must support getUserMedia and getDisplayMedia for camera + screen-share.
+- SFU (e.g., LiveKit, Jitsi, mediasoup) handles multi-party media routing.
+- Session lifecycle APIs: create, join, leave, mute, end.
+- Session tokens with TTL and role-based permissions.
+
+7.3 AI Co-host (Soch)
+- Activation: Teacher toggles AI for a session; per-user consent UI appears for students.
+- Input sources: live STT transcripts, sampled screen frames, chat messages, class resource retrieval.
+- Response formats:
+  - Short: 1–2 sentence spoken reply (TTS) + inline chat text
+  - Expanded: "Read more" full-text reply with citations and timestamps
+  - Annotation commands: highlight resource region or push note to shared canvas (MVP minimal)
+- Grounding: All answers that rely on class resources must include at least one citation (resource title + timestamp/anchor).
+- Confidence & meta: AI replies include a confidence indicator and an "I may be wrong" disclaimer when not grounded.
+
+7.4 Document Ingestion & RAG
+- Files uploaded to class resources are parsed, OCRed (if needed), chunked, embedded, and stored in vector DB.
+- Embedding pipeline runs asynchronously; ingestion status surfaced in UI.
+- RAG worker supports retrieving top-K documents/snippets.
+
+7.5 Transcription (STT) & Captions
+- Live STT for session audio; display live captions in UI.
+- STT must support language detection and fallback to alternative supported languages via Soch text APIs.
+
+7.6 TTS
+- AI replies produce TTS audio blobs to be played by clients (Bulbul model by Soch).
+- TTS playback is controllable (mute/unmute, volume).
+
+7.7 Persistence & Artifacts
+- Transcripts, highlights, and AI notes are persisted only with teacher consent.
+- Stored artifacts are linked to class resource library with access controlled by roles.
+
+## 8. Non-functional Requirements
+- Latency:
+  - Short-answer responsiveness: median <= 1.5s for quick replies.
+  - Full RAG answers may take longer; show progress UI.
+- Scalability:
+  - SFU must support multi-party sessions with autoscaling.
+  - AI workers should be horizontally scalable; rate-limiting enforced.
+- Availability:
+  - Target 99.5% availability for core services (auth, sessions, AI orchestration).
+- Security:
+  - TLS for all transports; AES-256 at rest for persisted artifacts.
+  - Strong auth session handling and CSRF/XSS protections for web UI.
+
+## 9. Architecture (high-level)
+- Frontend:
+  - React (web) + React Native (mobile), Expo for mobile prototyping.
+  - WebRTC stack for real-time audio/video/screen.
+- Backend:
+  - API gateway (Node/Express or similar).
+  - Signaling service (for WebRTC session negotiation).
+  - SFU (managed LiveKit or self-hosted mediasoup/Jitsi).
+  - AI Orchestration service: handles STT ingestion, sampled frame forwarding, model invocation, RAG orchestration, TTS generation.
+  - Document ingestion pipeline: parser → chunker → embedder → vector DB (Pinecone/Faiss/Milvus).
+  - Datastore: AppWrite (auth, user, collections) or Postgres for core structured data.
+  - Storage: S3-compatible for files.
+- Models / Integrations:
+  - Soch text completion (chat), STT (Saaras/Saarika), TTS (Bulbul).
+- Monitoring: Prometheus/Grafana or managed observability for latency, errors, cost.
+
+## 10. Data Model (entities summary)
+- User { id, name, email, role, profile, preferences }
+- Class { id, title, code, description, teacherId, members[] }
+- Session { id, classId, startedAt, endedAt, participants[], aiEnabled }
+- Resource { id, classId, title, type, url, metadata, uploadedBy }
+- Assignment { id, classId, title, dueDate, attachments, rubric }
+- Submission { id, assignmentId, studentId, files, text, grade, feedback }
+- Transcript { id, sessionId, text, createdAt, segments[] }
+- EmbeddingDocument { id, resourceId, classId, snippet, vector, anchor }
+- AuditLog { id, action, actorId, target, timestamp }
+
+## 11. API Contract (high-level endpoints)
+Note: These are high-level; produce OpenAPI spec as next step.
+- POST /api/auth/signup
+- POST /api/auth/login
+- POST /api/classes → create class
+- GET /api/classes/:id → get class details
+- POST /api/classes/:id/resources → upload resource
+- POST /api/sessions → create session (returns join token)
+- POST /api/sessions/:id/join → exchange signaling token
+- POST /api/ingest/upload-frame → secure endpoint for sampled frames
+  - payload: { sessionId, userId, timestamp, image_base64_or_url, meta }
+- POST /api/ai/quick-answer → { sessionId, transcriptSnippet, topKEmbeddings } → returns { text, ttsUrl, citations, confidence }
+- GET /api/resources/:id/ingest-status
+- POST /api/ai/generate-quiz → { resourceId, options } → returns quiz items
+- POST /api/reports → user reporting of content
+
+## 12. Privacy, Consent & Safety
+- Default AI-off: AI co-host is disabled by default per session.
+- Explicit consent: Teacher must enable AI for a session; students prompted to opt-in/out.
+- Ephemeral processing: Where feasible, process audio/video in memory; discard after response unless consented to persist.
+- Access control: persisted artifacts accessible only to class members; teacher can revoke.
+- Moderation: content filter applied to AI outputs; "report" flow for users; teachers moderate chats.
+- Data opt-in for model improvement: explicit opt-in required; anonymization + export controls.
+
+## 13. Risk Analysis & Mitigations
+- Privacy concerns: Provide transparent consent flow, ephemeral defaults, and audit logs.
+- Cost explosion: Implement quotas, per-session caps, usage dashboards, and fallbacks to cheaper models.
+- Latency: Use client-side pre-processing (frame sampling), cached embeddings, and lightweight local models for quick answers.
+- Incorrect AI answers: enforce citation-first RAG pipeline, teacher override, and feedback loop for corrections.
+
+## 14. Acceptance Criteria (MVP)
+- Teachers can create/join classes and start live sessions with screen-share and audio.
+- The AI co-host can be enabled by the teacher and receives transcripts + sampled frames to produce a short spoken text reply in-session.
+- The AI provides at least one citation when answering questions that match uploaded resources.
+- Students can opt out of AI listening for any session; consent banner appears when AI is enabled.
+- Basic assignment creation/submission flows work end-to-end.
+- Session transcripts (if persisted) are stored only with consent and are retrievable via class resources.
+
+## 15. Rollout Plan & Timeline (8–10 weeks)
+Sprint 0 — (Week 0) Spec, wireframes, infra evaluation (LiveKit vs Jitsi), data model (this PRD)
+Sprint 1 — (Weeks 1–2) Auth, class model, basic UI, SFU + session creation/join
+Sprint 2 — (Weeks 3–4) Screen-share + chat + STT captions (client STT integration option)
+Sprint 3 — (Weeks 5–6) Document ingestion & vector DB; AI worker basic quick-answer (transcript+frames → short reply + TTS)
+Sprint 4 — (Weeks 7–8) Teacher tools (resources, assignment flow), consent flows, basic moderation, polish
+Pilot launch — Week 9: closed pilot with selected teachers/classes
+Iteration & scale — Weeks 10+: overlays, deeper multimodal models, mobile WebRTC, analytics
+
+## 16. Top-priority Engineering Backlog (initial)
+1. Authentication & roles (email+OAuth)  
+2. Class model CRUD + invite codes  
+3. Session creation & join flow + SFU integration (LiveKit recommended)  
+4. Screen-share + in-room chat + audio streaming  
+5. Client sampled frame capture API + secure upload  
+6. STT integration & live captions (client or server-side)  
+7. Document ingestion pipeline → embeddings → Vector DB  
+8. AI worker: quick-answer pipeline (transcript+frames → short answer + TTS)  
+9. Consent UI & per-session AI toggles + opt-out controls  
+10. Teacher dashboard minimal: upload resources, roster, launch session  
+11. Persisted artifacts (consent-based): transcripts, highlights, notes  
+12. Usage metering & model-cost dashboard
+
+Estimate: MVP ~ 6–8 weeks with a small team (2 FE, 2 BE, 1 ML/Infra).
+
+## 17. Open Questions / Decisions
+- SFU choice: managed LiveKit vs self-managed mediasoup/Jitsi? (Managed reduces infra burden.)
+- STT strategy: client-side streaming vs server-side? (Client reduces server bandwidth; server offers central processing)
+- RAG retrieval budget: Pinecone or self-host Faiss/Milvus?
+- Degree of persistence for session audio/video vs opt-in only.
+
+## 18. Next Deliverables (recommended)
+- Detailed OpenAPI spec for session, ingest, and AI endpoints.
+- Wireframes: teacher dashboard, session UI (chat + captions + AI toggle), consent modal.
+- Small prototype plan: LiveKit + simple AI worker that consumes sampled frames and STT to produce TTS replies.
+- Security & privacy audit checklist for pilot.
+
+## 19. Appendix: Example Session Sequence (technical)
+1. Teacher creates session via POST /api/sessions → backend provisions SFU room + returns join tokens.
+2. Teacher clicks "Enable AI co-host". Backend marks session.aiEnabled = true; notifications sent.
+3. Students prompted to accept AI listening when joining; their consent stored.
+4. Clients capture audio: browser records locally and streams to SFU; STT library produces transcript chunks (client or server).
+5. Client samples screen frames (1–2 fps or on change) → POST /api/ingest/upload-frame with session token.
+6. AI worker receives transcript chunk + frame refs → runs RAG retrieval (embedding context) → produces quick answer → TTS blob served.
+7. AI's text + ttsUrl posted into session chat by bot user; TTS played automatically in clients (respecting mute settings).
+8. Teacher can save transcript/notes to resources (consent and visibility checks apply).
+
+---
+
+End of PRD.
+``` 

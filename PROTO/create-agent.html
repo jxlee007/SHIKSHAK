@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikshak - Create AI Agent Modal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        /* Tailwind config must run before the CDN loads so the runtime picks up the custom theme */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'var(--primary)',
+                        secondary: 'var(--secondary)',
+                        accent: '#4cc9f0',
+                        background: 'var(--background)',
+                        text: '#212529',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Shared stylesheet (centralized styles replace local @apply blocks) -->
+    <!-- Heroicons for icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body class="bg-background font-sans min-h-screen flex items-center justify-center p-4">
+    <!-- Demo Button to trigger modal -->
+    <button id="open-modal-btn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+        Open Create Agent Modal
+    </button>
+
+    <!-- Create Agent Modal -->
+    <div id="create-agent-modal" class="modal-backdrop">
+        <div class="modal-container">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900">Create AI Agent</h3>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-500 focus:outline-none">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <form id="agent-form" class="px-6 py-4 space-y-5">
+                <div>
+                    <label for="agent-name" class="block text-sm font-medium text-gray-700 mb-1">Agent Name</label>
+                    <input type="text" id="agent-name" class="form-input" placeholder="Hustle Coach" required>
+                </div>
+
+                <div>
+                    <label for="agent-role" class="block text-sm font-medium text-gray-700 mb-1">Role & Expertise</label>
+                    <input type="text" id="agent-role" class="form-input" placeholder="Startup Mentor" required>
+                </div>
+
+                <div>
+                    <label for="agent-personality" class="block text-sm font-medium text-gray-700 mb-1">Personality & Instructions</label>
+                    <textarea id="agent-personality" class="form-textarea" placeholder="Describe the agent's personality and core instructions..."></textarea>
+                    <div id="char-count" class="char-counter">0/500</div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Response Style</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="response-style" value="conversational" class="radio-input sr-only" checked>
+                            <span class="radio-custom">
+                                <span class="ripple"></span>
+                            </span>
+                            Conversational
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="response-style" value="professional" class="radio-input sr-only">
+                            <span class="radio-custom">
+                                <span class="ripple"></span>
+                            </span>
+                            Professional
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="response-style" value="casual" class="radio-input sr-only">
+                            <span class="radio-custom">
+                                <span class="ripple"></span>
+                            </span>
+                            Casual & Fun
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-2">
+                    <span id="draft-indicator" class="draft-indicator hidden">
+                        <i data-feather="save" class="w-3 h-3 mr-1"></i> Draft Saved
+                    </span>
+                    <button type="button" id="cancel-btn" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" id="create-btn" class="btn btn-primary flex items-center">
+                        <span id="create-text">Create Agent</span>
+                        <svg id="loading-spinner" class="animate-spin ml-2 h-4 w-4 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <svg id="success-check" class="ml-2 h-4 w-4 text-white hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('create-agent-modal');
+            const openModalBtn = document.getElementById('open-modal-btn');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const form = document.getElementById('agent-form');
+            const textarea = document.getElementById('agent-personality');
+            const charCount = document.getElementById('char-count');
+            const draftIndicator = document.getElementById('draft-indicator');
+            const createBtn = document.getElementById('create-btn');
+            const createText = document.getElementById('create-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const successCheck = document.getElementById('success-check');
+
+            const maxLength = 500;
+
+            // Open modal
+            openModalBtn.addEventListener('click', () => {
+                modal.classList.add('active');
+            });
+
+            // Close modal functions
+            const closeModal = () => {
+                modal.classList.remove('active');
+                // Reset form and states on close for demo
+                form.reset();
+                charCount.textContent = '0/500';
+                charCount.classList.remove('visible');
+                draftIndicator.classList.add('hidden');
+                createBtn.disabled = false;
+                createText.textContent = 'Create Agent';
+                loadingSpinner.classList.add('hidden');
+                successCheck.classList.add('hidden');
+            };
+
+            closeModalBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+
+            // Click on backdrop to close
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Textarea character counter
+            textarea.addEventListener('input', function () {
+                const currentLength = this.value.length;
+                charCount.textContent = `${currentLength}/${maxLength}`;
+
+                if (currentLength > maxLength * 0.8) {
+                    charCount.classList.add('visible', 'text-yellow-600');
+                } else {
+                    charCount.classList.remove('text-yellow-600');
+                    if (currentLength > 0) {
+                        charCount.classList.add('visible');
+                    } else {
+                        charCount.classList.remove('visible');
+                    }
+                }
+
+                // Simple validation demo
+                if (currentLength > maxLength) {
+                    this.classList.add('border-red-500');
+                    charCount.classList.add('text-red-600');
+                } else {
+                    this.classList.remove('border-red-500');
+                    charCount.classList.remove('text-red-600');
+                }
+            });
+
+            // Auto-save draft indicator (simulated)
+            let draftInterval;
+            const startDraftIndicator = () => {
+                draftInterval = setInterval(() => {
+                    if (!draftIndicator.classList.contains('hidden')) {
+                        draftIndicator.classList.remove('animate-pulse');
+                        // Trigger reflow
+                        void draftIndicator.offsetWidth;
+                        draftIndicator.classList.add('animate-pulse');
+                    }
+                }, 30000); // 30 seconds
+            };
+
+            textarea.addEventListener('input', () => {
+                if (textarea.value.trim() !== '') {
+                    draftIndicator.classList.remove('hidden');
+                    startDraftIndicator();
+                } else {
+                    draftIndicator.classList.add('hidden');
+                    clearInterval(draftInterval);
+                }
+            });
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const agentName = document.getElementById('agent-name').value.trim();
+                const agentRole = document.getElementById('agent-role').value.trim();
+
+                if (!agentName || !agentRole) {
+                    alert('Please fill in the required fields.');
+                    return;
+                }
+
+                // Simulate form submission
+                createBtn.disabled = true;
+                createText.textContent = 'Creating...';
+                loadingSpinner.classList.remove('hidden');
+
+                setTimeout(() => {
+                    loadingSpinner.classList.add('hidden');
+                    successCheck.classList.remove('hidden');
+                    createText.textContent = 'Created!';
+
+                    // Simulate closing after success
+                    setTimeout(() => {
+                        closeModal();
+                    }, 1000); // Close after 1 second
+
+                }, 2000); // Simulate 2 second delay
+            });
+
+            // Simulate initial draft save indicator for demo if textarea has content on load
+            if (textarea.value.trim() !== '') {
+                draftIndicator.classList.remove('hidden');
+                startDraftIndicator();
+            }
+
+        });
+    </script>
+</body>
+</html>

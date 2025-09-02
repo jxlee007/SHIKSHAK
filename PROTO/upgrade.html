@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikshak - Upgrade Your Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#4361ee',
+                        secondary: '#3f37c9',
+                        accent: '#4cc9f0',
+                        background: '#f8f9fa',
+                        text: '#212529',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Heroicons for icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            /* Main Layout */
+            .upgrade-container {
+                @apply flex flex-col h-screen bg-gray-50 p-4;
+            }
+
+            /* Modal-like Card */
+            .upgrade-card {
+                @apply bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-4xl mx-auto flex flex-col;
+            }
+
+            /* Header */
+            .upgrade-header {
+                @apply bg-gradient-to-r from-primary to-secondary py-6 px-6 text-white;
+            }
+            .header-title {
+                @apply text-2xl font-bold;
+            }
+            .header-subtitle {
+                @apply mt-1 text-blue-100;
+            }
+
+            /* Body */
+            .upgrade-body {
+                @apply flex-1 overflow-y-auto p-6;
+            }
+
+            /* Usage Section */
+            .usage-section {
+                @apply mb-8;
+            }
+            .section-title {
+                @apply text-lg font-semibold text-gray-900 mb-4;
+            }
+            .usage-bar-container {
+                @apply mb-3 last:mb-0;
+            }
+            .usage-label {
+                @apply flex justify-between text-sm text-gray-600 mb-1;
+            }
+            .usage-bar {
+                @apply h-3 bg-gray-200 rounded-full overflow-hidden;
+            }
+            .usage-fill {
+                @apply h-full rounded-full transition-all duration-1000 ease-out;
+            }
+            .usage-fill.normal {
+                @apply bg-primary;
+            }
+            .usage-fill.warning {
+                @apply bg-yellow-500;
+            }
+            .usage-fill.full {
+                @apply bg-red-500;
+            }
+
+            /* Pricing Plans Section */
+            .plans-section {
+                @apply mb-8;
+            }
+            .plans-grid {
+                @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+            }
+            .plan-card {
+                @apply border border-gray-200 rounded-lg p-5 relative transition-all duration-300 ease-in-out;
+            }
+            .plan-card.featured {
+                @apply border-primary ring-2 ring-primary ring-opacity-20;
+            }
+            .plan-card:hover {
+                @apply shadow-md -translate-y-1;
+            }
+            .plan-badge {
+                @apply absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1 rounded-bl-lg;
+            }
+            .plan-badge.pulse {
+                animation: badgePulse 2s infinite;
+            }
+            @keyframes badgePulse {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+            }
+            .plan-name {
+                @apply text-lg font-bold text-gray-900;
+            }
+            .plan-price {
+                @apply mt-2 text-3xl font-bold text-gray-900 transition-all duration-300;
+            }
+            .plan-price-period {
+                @apply text-base font-normal text-gray-600;
+            }
+            .plan-features {
+                @apply mt-4 space-y-2;
+            }
+            .plan-feature {
+                @apply flex items-start;
+            }
+            .plan-feature-icon {
+                @apply flex-shrink-0 h-5 w-5 text-green-500 mt-0.5;
+            }
+            .plan-feature-text {
+                @apply ml-2 text-sm text-gray-700;
+            }
+            .plan-feature-text.unavailable {
+                @apply text-gray-400 line-through;
+            }
+            .plan-button {
+                @apply mt-6 w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200;
+            }
+            .plan-button.current {
+                @apply bg-gray-100 text-gray-700 cursor-default;
+            }
+            .plan-button.upgrade {
+                @apply bg-primary text-white hover:bg-secondary focus:ring-primary;
+            }
+
+            /* Billing Section */
+            .billing-section {
+                @apply mb-6;
+            }
+            .billing-options {
+                @apply flex items-center space-x-4 mb-4;
+            }
+            .billing-option {
+                @apply flex items-center;
+            }
+            .billing-radio {
+                @apply h-4 w-4 text-primary border-gray-300 focus:ring-primary;
+            }
+            .billing-label {
+                @apply ml-2 block text-sm text-gray-700;
+            }
+            .savings-badge {
+                @apply ml-2 px-2 py-0.5 bg-green-100 text-green-800 text-xs font-medium rounded-full;
+            }
+            .payment-methods {
+                @apply flex flex-wrap gap-3 mt-2;
+            }
+            .payment-icon {
+                @apply h-8 w-8 text-gray-500 transition-colors duration-200;
+            }
+            .payment-icon:hover {
+                @apply text-gray-700 scale-105;
+            }
+
+            /* Footer */
+            .upgrade-footer {
+                @apply py-4 px-6 bg-gray-50 border-t border-gray-200 text-center text-sm text-gray-600;
+            }
+            .security-info {
+                @apply flex items-center justify-center;
+            }
+            .security-icon {
+                @apply h-4 w-4 text-green-500 mr-1.5;
+            }
+
+            /* Confetti Canvas (Placeholder) */
+            #confetti-canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1000;
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background font-sans">
+    <!-- Confetti Canvas (Placeholder) -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Demo Button to trigger modal -->
+    <div class="upgrade-container items-center justify-center">
+        <button id="open-upgrade-btn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+            Open Upgrade Modal
+        </button>
+    </div>
+
+    <!-- Upgrade Your Plan Modal -->
+    <div id="upgrade-modal" class="fixed inset-0 z-50 overflow-y-auto hidden p-4">
+        <div class="flex items-center justify-center min-h-screen">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-black opacity-50"></div>
+            </div>
+
+            <div class="upgrade-card transform transition-all duration-300 ease-out scale-95 opacity-0">
+                <!-- Header -->
+                <div class="upgrade-header">
+                    <h1 class="header-title">Upgrade Your Plan</h1>
+                    <p class="header-subtitle">You've reached your monthly limit. Upgrade to continue using Meet AI</p>
+                </div>
+
+                <!-- Body -->
+                <div class="upgrade-body">
+                    <!-- Current Usage -->
+                    <div class="usage-section">
+                        <h2 class="section-title">Current Usage</h2>
+                        <div class="usage-bar-container">
+                            <div class="usage-label">
+                                <span>Meetings</span>
+                                <span>25/25</span>
+                            </div>
+                            <div class="usage-bar">
+                                <div class="usage-fill full" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="usage-bar-container">
+                            <div class="usage-label">
+                                <span>Agents</span>
+                                <span>8/8</span>
+                            </div>
+                            <div class="usage-bar">
+                                <div class="usage-fill full" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                        <div class="usage-bar-container">
+                            <div class="usage-label">
+                                <span>Minutes</span>
+                                <span>500/500</span>
+                            </div>
+                            <div class="usage-bar">
+                                <div class="usage-fill full" style="width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pricing Plans -->
+                    <div class="plans-section">
+                        <h2 class="section-title">Pricing Plans</h2>
+                        <div class="plans-grid">
+                            <!-- Free Plan -->
+                            <div class="plan-card">
+                                <h3 class="plan-name">FREE</h3>
+                                <div class="plan-price">$0 <span class="plan-price-period">per month</span></div>
+                                <ul class="plan-features">
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">25 meetings</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">8 agents</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">500 mins</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Basic summaries</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="x" class="plan-feature-icon text-gray-400"></i>
+                                        <span class="plan-feature-text unavailable">AI Chat</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="x" class="plan-feature-icon text-gray-400"></i>
+                                        <span class="plan-feature-text unavailable">Priority Support</span>
+                                    </li>
+                                </ul>
+                                <button class="plan-button current">Current</button>
+                            </div>
+
+                            <!-- Basic Plan (Featured) -->
+                            <div class="plan-card featured">
+                                <div class="plan-badge pulse">POPULAR</div>
+                                <h3 class="plan-name">BASIC</h3>
+                                <div class="plan-price" id="basic-price">$19 <span class="plan-price-period">per month</span></div>
+                                <ul class="plan-features">
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Unlimited meetings</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">50 agents</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">2000 mins</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Full transcripts</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">AI Chat</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Email Support</span>
+                                    </li>
+                                </ul>
+                                <button class="plan-button upgrade">Upgrade Now</button>
+                            </div>
+
+                            <!-- Pro Plan -->
+                            <div class="plan-card">
+                                <div class="plan-badge">ADVANCED</div>
+                                <h3 class="plan-name">PRO</h3>
+                                <div class="plan-price" id="pro-price">$49 <span class="plan-price-period">per month</span></div>
+                                <ul class="plan-features">
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Unlimited meetings</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Unlimited agents</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Unlimited mins</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Advanced AI</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">API Access</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Priority Support</span>
+                                    </li>
+                                    <li class="plan-feature">
+                                        <i data-feather="check" class="plan-feature-icon"></i>
+                                        <span class="plan-feature-text">Custom Integrations</span>
+                                    </li>
+                                </ul>
+                                <button class="plan-button upgrade">Upgrade Now</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Billing Options -->
+                    <div class="billing-section">
+                        <h2 class="section-title">Billing Options</h2>
+                        <div class="billing-options">
+                            <div class="billing-option">
+                                <input id="billing-monthly" name="billing" type="radio" class="billing-radio" value="monthly">
+                                <label for="billing-monthly" class="billing-label">Monthly Billing</label>
+                            </div>
+                            <div class="billing-option">
+                                <input id="billing-annual" name="billing" type="radio" class="billing-radio" value="annual" checked>
+                                <label for="billing-annual" class="billing-label">
+                                    Annual Billing <span class="savings-badge">Save 20%</span> 🎉
+                                </label>
+                            </div>
+                        </div>
+                        <div class="payment-methods">
+                            <i data-feather="credit-card" class="payment-icon"></i>
+                            <i data-feather="paypal" class="payment-icon"></i>
+                            <i data-feather="smartphone" class="payment-icon"></i> <!-- Apple Pay -->
+                            <i data-feather="chrome" class="payment-icon"></i> <!-- Google Pay -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="upgrade-footer">
+                    <div class="security-info">
+                        <i data-feather="lock" class="security-icon"></i>
+                        Secure checkout powered by Polar • 30-day money-back guarantee
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DOM Elements ---
+            const openUpgradeBtn = document.getElementById('open-upgrade-btn');
+            const upgradeModal = document.getElementById('upgrade-modal');
+            const upgradeCard = upgradeModal.querySelector('.upgrade-card');
+            const billingMonthly = document.getElementById('billing-monthly');
+            const billingAnnual = document.getElementById('billing-annual');
+            const basicPrice = document.getElementById('basic-price');
+            const proPrice = document.getElementById('pro-price');
+            const confettiCanvas = document.getElementById('confetti-canvas');
+
+            // --- Open Modal ---
+            openUpgradeBtn.addEventListener('click', () => {
+                upgradeModal.classList.remove('hidden');
+                // Trigger animation
+                setTimeout(() => {
+                    upgradeCard.classList.remove('scale-95', 'opacity-0');
+                    upgradeCard.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            });
+
+            // --- Close Modal (Click outside or ESC key - simplified) ---
+            upgradeModal.addEventListener('click', (e) => {
+                if (e.target === upgradeModal) {
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !upgradeModal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+
+            function closeModal() {
+                upgradeCard.classList.remove('scale-100', 'opacity-100');
+                upgradeCard.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    upgradeModal.classList.add('hidden');
+                }, 300); // Match transition duration
+            }
+
+            // --- Billing Toggle & Price Update ---
+            function updatePrices() {
+                if (billingAnnual.checked) {
+                    basicPrice.innerHTML = '$<span class="transition-all duration-300">182</span> <span class="plan-price-period">per year</span>'; // $19 * 12 * 0.8
+                    proPrice.innerHTML = '$<span class="transition-all duration-300">470</span> <span class="plan-price-period">per year</span>';   // $49 * 12 * 0.8
+                } else {
+                    basicPrice.innerHTML = '$<span class="transition-all duration-300">19</span> <span class="plan-price-period">per month</span>';
+                    proPrice.innerHTML = '$<span class="transition-all duration-300">49</span> <span class="plan-price-period">per month</span>';
+                }
+                // Re-initialize feather icons if price HTML changes significantly
+                // feather.replace();
+            }
+
+            billingMonthly.addEventListener('change', updatePrices);
+            billingAnnual.addEventListener('change', updatePrices);
+
+            // --- Upgrade Button Simulation ---
+            const upgradeButtons = document.querySelectorAll('.plan-button.upgrade');
+            upgradeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const planName = this.closest('.plan-card').querySelector('.plan-name').textContent;
+                    alert(`Simulating upgrade to ${planName} plan...\nIn a real app, this would initiate the payment flow.`);
+
+                    // Simulate success
+                    setTimeout(() => {
+                        // Show confetti
+                        confettiCanvas.style.display = 'block';
+                        // In a real app, you'd use a confetti library here
+                        console.log("Confetti animation would play here");
+                        setTimeout(() => {
+                            confettiCanvas.style.display = 'none';
+                            closeModal();
+                            alert(`Success! Your ${planName} plan is now active.`);
+                        }, 2000); // Show confetti for 2 seconds
+                    }, 1000); // Simulate 1 second processing
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

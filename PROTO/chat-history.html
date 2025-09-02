@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikshak - Meeting Transcript</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        /* Tailwind config must run before the CDN loads so the runtime picks up the custom theme */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'var(--primary)',
+                        secondary: 'var(--secondary)',
+                        accent: '#4cc9f0',
+                        background: 'var(--background)',
+                        text: '#212529',
+                        user: '#10b981', // Green for user
+                        agent: '#8b5cf6', // Purple for agent
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Heroicons for icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            /* Main Layout */
+            .transcript-container {
+                @apply flex flex-col h-screen bg-white;
+            }
+
+            /* Header */
+            .transcript-header {
+                @apply py-4 px-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3;
+            }
+            .header-title {
+                @apply text-xl font-bold text-gray-900;
+            }
+            .header-controls {
+                @apply flex items-center space-x-2;
+            }
+            .search-input {
+                @apply w-full sm:w-64 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm;
+            }
+            .download-btn {
+                @apply flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary;
+            }
+
+            /* Search Results Bar */
+            .search-results-bar {
+                @apply py-2 px-6 bg-blue-50 border-b border-blue-100 flex flex-wrap items-center justify-between text-sm;
+            }
+            .search-info {
+                @apply font-medium text-blue-800;
+            }
+            .jump-buttons {
+                @apply flex flex-wrap gap-2 mt-1 sm:mt-0;
+            }
+            .jump-btn {
+                @apply px-2 py-1 bg-white border border-blue-300 rounded text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-1 focus:ring-blue-500 text-xs;
+            }
+            .close-search-btn {
+                @apply ml-2 p-1 text-blue-500 hover:text-blue-700 focus:outline-none;
+            }
+
+            /* Transcript Content Area */
+            .transcript-content-area {
+                @apply flex-1 overflow-y-auto p-6 relative;
+            }
+            .progress-bar-container {
+                @apply absolute top-0 left-0 right-0 h-1 bg-gray-200 z-10;
+            }
+            .progress-bar {
+                @apply h-full bg-primary transition-all duration-150 ease-out;
+            }
+
+            /* Transcript Entry */
+            .transcript-entry {
+                @apply mb-6 relative; /* Relative for potential highlight pulse */
+            }
+            .entry-header {
+                @apply flex items-start mb-1;
+            }
+            .timestamp {
+                @apply text-xs font-medium text-gray-500 mr-3 mt-1 cursor-pointer hover:underline flex-shrink-0;
+            }
+            .speaker-name {
+                @apply font-semibold flex items-center;
+            }
+            .user-name {
+                @apply text-user;
+            }
+            .agent-name {
+                @apply text-agent;
+            }
+            .speaker-avatar {
+                @apply flex-shrink-0 h-6 w-6 rounded-full flex items-center justify-center text-xs mr-2;
+            }
+            .user-avatar {
+                @apply bg-green-100 text-green-800;
+            }
+            .agent-avatar {
+                @apply bg-purple-100 text-purple-800;
+            }
+            .entry-text {
+                @apply text-gray-700 ml-9; /* Match speaker name indent */
+            }
+            .highlight {
+                @apply bg-yellow-200;
+                animation: highlightFade 0.5s ease-out;
+            }
+            @keyframes highlightFade {
+                from { background-color: #fef3c7; } /* Lighter yellow start */
+                to { background-color: #fef9c3; } /* End at standard yellow */
+            }
+            .highlight-pulse {
+                animation: pulseHighlight 1s ease-out;
+            }
+            @keyframes pulseHighlight {
+                0% { background-color: #fef3c7; }
+                50% { background-color: #fde68a; box-shadow: 0 0 0 2px #fbbf24; }
+                100% { background-color: #fef9c3; box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+            }
+
+            /* Copy Button (Placeholder) */
+            .copy-btn {
+                @apply opacity-0 absolute -left-8 top-0 p-1 text-gray-400 hover:text-gray-600 focus:outline-none transition-opacity duration-200;
+            }
+            .transcript-entry:hover .copy-btn {
+                @apply opacity-100;
+            }
+
+            /* Divider */
+            .transcript-divider {
+                @apply my-8 border-t border-gray-200;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background font-sans">
+    <div class="transcript-container">
+        <!-- Header -->
+        <header class="transcript-header">
+            <h1 class="header-title">Meeting Transcript - Startup Coaching Session</h1>
+            <div class="header-controls">
+                <div class="relative">
+                    <input type="text" id="transcript-search" class="search-input" placeholder="Search in transcript...">
+                    <i data-feather="search" class="w-4 h-4 absolute right-3 top-2 text-gray-400 pointer-events-none"></i>
+                </div>
+                <button class="download-btn">
+                    <i data-feather="download" class="w-4 h-4 mr-1"></i> Download
+                </button>
+            </div>
+        </header>
+
+        <!-- Search Results Bar (Initially Hidden) -->
+        <div id="search-results-bar" class="search-results-bar hidden">
+            <div>
+                <span class="search-info">Found 3 results for "<span id="search-term-display">market validation</span>"</span>
+                <button id="close-search-btn" class="close-search-btn">
+                    <i data-feather="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="jump-buttons">
+                <button class="jump-btn" data-target="ts-02-15">📍 Jump to 02:15</button>
+                <button class="jump-btn" data-target="ts-08-45">📍 Jump to 08:45</button>
+                <button class="jump-btn" data-target="ts-16-22">📍 Jump to 16:22</button>
+            </div>
+        </div>
+
+        <!-- Transcript Content Area -->
+        <div class="transcript-content-area" id="transcript-content">
+            <!-- Progress Bar -->
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar" style="width: 0%;"></div>
+            </div>
+
+            <!-- Transcript Entries -->
+            <div class="transcript-entry" id="ts-00-00">
+                <div class="entry-header">
+                    <span class="timestamp">[00:00]</span>
+                    <div class="speaker-name agent-name">
+                        <div class="speaker-avatar agent-avatar">🤖</div>
+                        Hustle Coach
+                    </div>
+                </div>
+                <div class="entry-text">
+                    Welcome everyone to today's session on startup strategy. I'm here to help you navigate the challenges of building and scaling a successful venture.
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-02-15">
+                <div class="entry-header">
+                    <span class="timestamp">[02:15]</span>
+                    <div class="speaker-name user-name">
+                        <div class="speaker-avatar user-avatar">👤</div>
+                        John Doe
+                    </div>
+                </div>
+                <div class="entry-text">
+                    What's the best approach for <span class="highlight">market validation</span> in a crowded space?
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-02-18">
+                <div class="entry-header">
+                    <span class="timestamp">[02:18]</span>
+                    <div class="speaker-name agent-name">
+                        <div class="speaker-avatar agent-avatar">🤖</div>
+                        Hustle Coach
+                    </div>
+                </div>
+                <div class="entry-text">
+                    Alright, listen up! <span class="highlight">Market validation</span> is the <strong>holy grail</strong> of startup success. You want to get out there and talk to <em>real customers</em>. Don't hide behind your laptop - hit the streets, knock on doors, make calls!
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-02-45">
+                <div class="entry-header">
+                    <span class="timestamp">[02:45]</span>
+                    <div class="speaker-name agent-name">
+                        <div class="speaker-avatar agent-avatar">🤖</div>
+                        Hustle Coach
+                    </div>
+                </div>
+                <div class="entry-text">
+                    Run lean experiments, launch an MVP faster than your competitors can say 'disruption', and iterate like your life depends on it!
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-03-12">
+                <div class="entry-header">
+                    <span class="timestamp">[03:12]</span>
+                    <div class="speaker-name user-name">
+                        <div class="speaker-avatar user-avatar">👤</div>
+                        John Doe
+                    </div>
+                </div>
+                <div class="entry-text">
+                    That makes sense. How do I know if I'm getting good feedback?
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-03-15">
+                <div class="entry-header">
+                    <span class="timestamp">[03:15]</span>
+                    <div class="speaker-name agent-name">
+                        <div class="speaker-avatar agent-avatar">🤖</div>
+                        Hustle Coach
+                    </div>
+                </div>
+                <div class="entry-text">
+                    Good feedback <em>stings</em> a little! If everyone's telling you your idea is amazing, you're not asking the hard questions. Look for patterns in criticism - that's where gold lives!
+                </div>
+            </div>
+
+            <div class="transcript-divider"></div>
+
+            <div class="transcript-entry" id="ts-08-30">
+                <div class="entry-header">
+                    <span class="timestamp">[08:30]</span>
+                    <div class="speaker-name user-name">
+                        <div class="speaker-avatar user-avatar">👤</div>
+                        Jane Smith
+                    </div>
+                </div>
+                <div class="entry-text">
+                    How do we make sure our value proposition stands out?
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-08-45">
+                <div class="entry-header">
+                    <span class="timestamp">[08:45]</span>
+                    <div class="speaker-name agent-name">
+                        <div class="speaker-avatar agent-avatar">🤖</div>
+                        Hustle Coach
+                    </div>
+                </div>
+                <div class="entry-text">
+                    It's about <strong>clarity</strong> and <strong>uniqueness</strong>. Clearly articulate the specific problem you solve and how you solve it better or differently than existing alternatives. This is your North Star. <span class="highlight">Market validation</span> helps prove this resonates.
+                </div>
+            </div>
+
+            <div class="transcript-divider"></div>
+
+            <div class="transcript-entry" id="ts-15-45">
+                <div class="entry-header">
+                    <span class="timestamp">[15:45]</span>
+                    <div class="speaker-name user-name">
+                        <div class="speaker-avatar user-avatar">👤</div>
+                        John Doe
+                    </div>
+                </div>
+                <div class="entry-text">
+                    When should we start thinking about fundraising?
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-16-00">
+                <div class="entry-header">
+                    <span class="timestamp">[16:00]</span>
+                    <div class="speaker-name agent-name">
+                        <div class="speaker-avatar agent-avatar">🤖</div>
+                        Hustle Coach
+                    </div>
+                </div>
+                <div class="entry-text">
+                    Ideally, after you have some traction - maybe a prototype, early users, or revenue. You need to show investors that there's real demand and that you can execute.
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-16-22">
+                <div class="entry-header">
+                    <span class="timestamp">[16:22]</span>
+                    <div class="speaker-name agent-name">
+                        <div class="speaker-avatar agent-avatar">🤖</div>
+                        Hustle Coach
+                    </div>
+                </div>
+                <div class="entry-text">
+                    Early <span class="highlight">market validation</span> data is a powerful tool in your pitch deck. It shows you're not just guessing.
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-20-10">
+                <div class="entry-header">
+                    <span class="timestamp">[20:10]</span>
+                    <div class="speaker-name user-name">
+                        <div class="speaker-avatar user-avatar">👤</div>
+                        Jane Smith
+                    </div>
+                </div>
+                <div class="entry-text">
+                    What are the biggest scaling challenges we should anticipate?
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-20-25">
+                <div class="entry-header">
+                    <span class="timestamp">[20:25]</span>
+                    <div class="speaker-name agent-name">
+                        <div class="speaker-avatar agent-avatar">🤖</div>
+                        Hustle Coach
+                    </div>
+                </div>
+                <div class="entry-text">
+                    Common ones include maintaining quality as you grow, managing team dynamics, and ensuring your systems and processes can handle increased load. Planning for these early helps mitigate risks.
+                </div>
+            </div>
+
+            <div class="transcript-entry" id="ts-25-20">
+                <div class="entry-header">
+                    <span class="timestamp">[25:20]</span>
+                    <div class="speaker-name agent-name">
+                        <div class="speaker-avatar agent-avatar">🤖</div>
+                        Hustle Coach
+                    </div>
+                </div>
+                <div class="entry-text">
+                    That's all the time we have for today. Remember to focus on your customers, stay adaptable, and keep iterating. Good luck with your ventures!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DOM Elements ---
+            const searchInput = document.getElementById('transcript-search');
+            const searchResultsBar = document.getElementById('search-results-bar');
+            const searchTermDisplay = document.getElementById('search-term-display');
+            const closeSearchBtn = document.getElementById('close-search-btn');
+            const jumpButtons = document.querySelectorAll('.jump-btn');
+            const transcriptEntries = document.querySelectorAll('.transcript-entry');
+            const progressBar = document.getElementById('progress-bar');
+            const transcriptContent = document.getElementById('transcript-content');
+
+            // --- Simulate Initial Search State (for demo) ---
+            // Pre-highlight the term "market validation" and show the search results bar
+            const searchTerm = "market validation";
+            searchTermDisplay.textContent = searchTerm;
+            searchInput.value = searchTerm;
+            searchResultsBar.classList.remove('hidden');
+            highlightText(searchTerm);
+
+            // --- Search Functionality ---
+            function performSearch(term) {
+                term = term.trim();
+                if (term === '') {
+                    clearHighlights();
+                    searchResultsBar.classList.add('hidden');
+                    return;
+                }
+
+                searchTermDisplay.textContent = term;
+                highlightText(term);
+                searchResultsBar.classList.remove('hidden');
+                // In a real app, you'd calculate actual results and update jump buttons
+            }
+
+            function highlightText(term) {
+                clearHighlights(); // Clear previous highlights
+                if (!term) return;
+
+                const regex = new RegExp(`(${term})`, 'gi'); // Case-insensitive, global
+
+                transcriptEntries.forEach(entry => {
+                    const textElements = entry.querySelectorAll('.entry-text');
+                    textElements.forEach(element => {
+                        const innerHTML = element.innerHTML;
+                        // This simple replace might not work perfectly with existing HTML tags.
+                        // A more robust solution would parse text nodes specifically.
+                        // For this demo, it works with the current structure.
+                        const newHTML = innerHTML.replace(regex, '<span class="highlight">$1</span>');
+                        if (newHTML !== innerHTML) {
+                            element.innerHTML = newHTML;
+                        }
+                    });
+                });
+            }
+
+            function clearHighlights() {
+                // Remove highlight spans
+                document.querySelectorAll('.highlight').forEach(span => {
+                    span.outerHTML = span.innerHTML; // Replace span with its content
+                });
+                // Normalize text nodes to merge any split ones (important for accurate highlighting next time)
+                transcriptContent.normalize();
+            }
+
+            searchInput.addEventListener('input', (e) => {
+                performSearch(e.target.value);
+            });
+
+            // --- Close Search Results ---
+            closeSearchBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                clearHighlights();
+                searchResultsBar.classList.add('hidden');
+            });
+
+            // --- Jump Navigation ---
+            jumpButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        // Smooth scroll to the element
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Add a temporary pulse highlight effect
+                        targetElement.classList.add('highlight-pulse');
+                        setTimeout(() => {
+                            targetElement.classList.remove('highlight-pulse');
+                        }, 1000); // Match animation duration
+                    }
+                });
+            });
+
+            // --- Reading Progress ---
+            transcriptContent.addEventListener('scroll', () => {
+                const scrollTop = transcriptContent.scrollTop;
+                const scrollHeight = transcriptContent.scrollHeight - transcriptContent.clientHeight;
+                const progressPercent = (scrollTop / scrollHeight) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+            });
+
+            // --- Timestamp Click Navigation (Basic) ---
+            document.querySelectorAll('.timestamp').forEach(ts => {
+                ts.addEventListener('click', function() {
+                    // In a full app, this would scroll to the specific entry
+                    console.log(`Jumping to timestamp: ${this.textContent}`);
+                    alert(`In a full app, this would scroll to the entry at ${this.textContent}.`);
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

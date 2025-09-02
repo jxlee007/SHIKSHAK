@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikshak - Post-Call Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        /* Tailwind config must run before the CDN loads so the runtime picks up the custom theme */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'var(--primary)',
+                        secondary: 'var(--secondary)',
+                        accent: '#4cc9f0',
+                        background: 'var(--background)',
+                        text: '#212529',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Heroicons for icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style type="text/tailwindcss">
+        @layer components {
+            /* Main Layout */
+            .post-call-container {
+                @apply flex flex-col h-screen bg-gray-50;
+            }
+
+            /* Header */
+            .post-call-header {
+                @apply bg-white py-4 px-6 border-b border-gray-200;
+            }
+            .session-title {
+                @apply text-xl font-bold text-gray-900;
+            }
+            .session-meta {
+                @apply flex flex-wrap items-center text-sm text-gray-600 mt-1;
+            }
+            .meta-item {
+                @apply flex items-center mr-4;
+            }
+            .meta-item-icon {
+                @apply mr-1.5 text-green-500;
+            }
+
+            /* Tab Navigation */
+            .tab-navigation {
+                @apply bg-white border-b border-gray-200;
+            }
+            .tab-list {
+                @apply flex px-6;
+            }
+            .tab-button {
+                @apply py-4 px-4 text-sm font-medium border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-primary whitespace-nowrap;
+            }
+            .tab-button.active {
+                @apply text-primary border-primary;
+            }
+
+            /* Tab Content Area */
+            .tab-content-area {
+                @apply flex-1 overflow-hidden p-6;
+            }
+            .tab-panel {
+                @apply hidden;
+            }
+            .tab-panel.active {
+                @apply block animate-fadeIn;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fadeIn {
+                animation: fadeIn 0.3s ease-out forwards;
+            }
+
+            /* Summary Card */
+            .summary-card {
+                @apply bg-white rounded-lg shadow-sm p-6 mb-6;
+            }
+            .card-title {
+                @apply text-lg font-semibold text-gray-900 mb-4 flex items-center;
+            }
+
+            /* Key Insights & Topics */
+            .insight-list, .topic-list {
+                @apply space-y-2;
+            }
+            .insight-item, .topic-item {
+                @apply flex items-start;
+            }
+            .insight-bullet, .topic-bullet {
+                @apply flex-shrink-0 mt-1 mr-3 text-gray-400;
+            }
+            .insight-text, .topic-text {
+                @apply text-gray-700;
+            }
+            .topic-link {
+                @apply text-primary hover:underline cursor-pointer;
+            }
+
+            /* Action Items */
+            .action-item {
+                @apply flex items-center mb-2;
+            }
+            .action-checkbox {
+                @apply h-4 w-4 text-primary rounded border-gray-300 focus:ring-primary mr-3;
+            }
+            .action-text {
+                @apply text-gray-700;
+            }
+            .action-text.completed {
+                @apply line-through text-gray-500;
+            }
+
+            /* Agent Performance */
+            .rating-container {
+                @apply flex;
+            }
+            .rating-star {
+                @apply text-gray-300 cursor-pointer;
+            }
+            .rating-star.filled {
+                @apply text-yellow-400;
+            }
+
+            /* Transcript Panel */
+            .transcript-container {
+                @apply bg-white rounded-lg shadow-sm p-6;
+            }
+            .transcript-entry {
+                @apply mb-4 pb-4 border-b border-gray-100 last:border-0 last:pb-0 last:mb-0;
+            }
+            .transcript-timestamp {
+                @apply text-xs font-medium text-gray-500 mb-1 cursor-pointer hover:underline;
+            }
+            .transcript-speaker {
+                @apply font-semibold text-gray-900 mr-2;
+            }
+            .transcript-text {
+                @apply text-gray-700;
+            }
+
+            /* Recording Panel Placeholder */
+            .recording-placeholder {
+                @apply bg-white rounded-lg shadow-sm p-12 text-center;
+            }
+
+            /* AI Chat Panel Placeholder */
+            .ai-chat-placeholder {
+                @apply bg-white rounded-lg shadow-sm p-12 text-center;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background font-sans">
+    <div class="post-call-container">
+        <!-- Header -->
+        <header class="post-call-header">
+            <h1 class="session-title">Startup Coaching Session</h1>
+            <div class="session-meta">
+                <span class="meta-item">
+                    <i data-feather="check-circle" class="meta-item-icon w-4 h-4"></i>
+                    Completed
+                </span>
+                <span class="meta-item">
+                    <i data-feather="clock" class="meta-item-icon w-4 h-4"></i>
+                    Duration: 25:32
+                </span>
+                <span class="meta-item">
+                    <i data-feather="database" class="meta-item-icon w-4 h-4"></i>
+                    Processed: 2 min ago
+                </span>
+                <button class="ml-auto flex items-center text-sm font-medium text-primary hover:text-secondary focus:outline-none">
+                    <i data-feather="share-2" class="w-4 h-4 mr-1"></i> Share
+                </button>
+            </div>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-navigation">
+            <div class="tab-list" role="tablist">
+                <button id="tab-summary" class="tab-button active" role="tab" aria-selected="true">📝 Summary</button>
+                <button id="tab-transcript" class="tab-button" role="tab" aria-selected="false">📜 Transcript</button>
+                <button id="tab-recording" class="tab-button" role="tab" aria-selected="false">🎥 Recording</button>
+                <button id="tab-ai-chat" class="tab-button" role="tab" aria-selected="false">💬 AI Chat</button>
+            </div>
+        </nav>
+
+        <!-- Tab Content Area -->
+        <main class="tab-content-area">
+            <!-- Summary Tab Panel -->
+            <section id="panel-summary" class="tab-panel active" role="tabpanel" aria-labelledby="tab-summary">
+                <div class="summary-card">
+                    <h2 class="card-title"><i data-feather="bar-chart-2" class="w-5 h-5 mr-2 text-primary"></i> Key Insights</h2>
+                    <ul class="insight-list">
+                        <li class="insight-item">
+                            <i data-feather="chevron-right" class="insight-bullet w-4 h-4"></i>
+                            <span class="insight-text">Market validation strategies for early-stage startups</span>
+                        </li>
+                        <li class="insight-item">
+                            <i data-feather="chevron-right" class="insight-bullet w-4 h-4"></i>
+                            <span class="insight-text">Importance of unique value proposition in crowded markets</span>
+                        </li>
+                        <li class="insight-item">
+                            <i data-feather="chevron-right" class="insight-bullet w-4 h-4"></i>
+                            <span class="insight-text">Scalability considerations for sustainable growth</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h2 class="card-title"><i data-feather="zap" class="w-5 h-5 mr-2 text-primary"></i> Action Items</h2>
+                    <div class="action-item">
+                        <input type="checkbox" class="action-checkbox" id="action-1">
+                        <label for="action-1" class="action-text">Research competitor analysis frameworks</label>
+                    </div>
+                    <div class="action-item">
+                        <input type="checkbox" class="action-checkbox" id="action-2">
+                        <label for="action-2" class="action-text">Develop MVP testing strategy</label>
+                    </div>
+                    <div class="action-item">
+                        <input type="checkbox" class="action-checkbox" id="action-3">
+                        <label for="action-3" class="action-text">Create investor pitch timeline</label>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <h2 class="card-title"><i data-feather="tag" class="w-5 h-5 mr-2 text-primary"></i> Main Topics Discussed (with timestamps)</h2>
+                    <ul class="topic-list">
+                        <li class="topic-item">
+                            <i data-feather="clock" class="topic-bullet w-4 h-4"></i>
+                            <span class="topic-link topic-timestamp-link" data-target="ts-02-15">[02:15]</span>
+                            <span class="topic-text ml-2">Market Validation Strategies</span>
+                        </li>
+                        <li class="topic-item">
+                            <i data-feather="clock" class="topic-bullet w-4 h-4"></i>
+                            <span class="topic-link topic-timestamp-link" data-target="ts-08-30">[08:30]</span>
+                            <span class="topic-text ml-2">Building a Strong Value Proposition</span>
+                        </li>
+                        <li class="topic-item">
+                            <i data-feather="clock" class="topic-bullet w-4 h-4"></i>
+                            <span class="topic-link topic-timestamp-link" data-target="ts-15-45">[15:45]</span>
+                            <span class="topic-text ml-2">Fundraising Timeline & Milestones</span>
+                        </li>
+                        <li class="topic-item">
+                            <i data-feather="clock" class="topic-bullet w-4 h-4"></i>
+                            <span class="topic-link topic-timestamp-link" data-target="ts-20-10">[20:10]</span>
+                            <span class="topic-text ml-2">Scaling Challenges & Solutions</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="summary-card">
+                    <h2 class="card-title"><i data-feather="cpu" class="w-5 h-5 mr-2 text-primary"></i> Agent Performance</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <p class="text-sm text-gray-600 mb-1">Response Quality</p>
+                            <div class="rating-container">
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600 mb-1">Relevance</p>
+                            <div class="rating-container">
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-600 mb-1">Engagement</p>
+                            <div class="rating-container">
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                                <i data-feather="star" class="rating-star filled w-5 h-5"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transcript Tab Panel -->
+            <section id="panel-transcript" class="tab-panel" role="tabpanel" aria-labelledby="tab-transcript">
+                <div class="transcript-container">
+                    <div class="transcript-entry" id="ts-00-00">
+                        <div class="transcript-timestamp">[00:00]</div>
+                        <div><span class="transcript-speaker">🤖 Hustle Coach:</span> <span class="transcript-text">Welcome everyone to today's session on startup strategy. I'm here to help you navigate the challenges of building and scaling a successful venture.</span></div>
+                    </div>
+                    <div class="transcript-entry" id="ts-02-15">
+                        <div class="transcript-timestamp topic-timestamp">[02:15]</div>
+                        <div><span class="transcript-speaker">👤 John Doe:</span> <span class="transcript-text">What are the key things to focus on when validating a market idea?</span></div>
+                    </div>
+                    <div class="transcript-entry">
+                        <div class="transcript-timestamp">[02:30]</div>
+                        <div><span class="transcript-speaker">🤖 Hustle Coach:</span> <span class="transcript-text">Great question, John. Market validation is crucial. Focus on talking to potential customers, understanding their pain points, and proving that they are willing to pay for your solution before building the full product.</span></div>
+                    </div>
+                    <div class="transcript-entry" id="ts-08-30">
+                        <div class="transcript-timestamp topic-timestamp">[08:30]</div>
+                        <div><span class="transcript-speaker">👤 Jane Smith:</span> <span class="transcript-text">How do we make sure our value proposition stands out?</span></div>
+                    </div>
+                    <div class="transcript-entry">
+                        <div class="transcript-timestamp">[08:45]</div>
+                        <div><span class="transcript-speaker">🤖 Hustle Coach:</span> <span class="transcript-text">It's about clarity and uniqueness. Clearly articulate the specific problem you solve and how you solve it better or differently than existing alternatives. This is your North Star.</span></div>
+                    </div>
+                    <div class="transcript-entry" id="ts-15-45">
+                        <div class="transcript-timestamp topic-timestamp">[15:45]</div>
+                        <div><span class="transcript-speaker">👤 John Doe:</span> <span class="transcript-text">When should we start thinking about fundraising?</span></div>
+                    </div>
+                    <div class="transcript-entry">
+                        <div class="transcript-timestamp">[16:00]</div>
+                        <div><span class="transcript-speaker">🤖 Hustle Coach:</span> <span class="transcript-text">Ideally, after you have some traction - maybe a prototype, early users, or revenue. You need to show investors that there's real demand and that you can execute.</span></div>
+                    </div>
+                    <div class="transcript-entry" id="ts-20-10">
+                        <div class="transcript-timestamp topic-timestamp">[20:10]</div>
+                        <div><span class="transcript-speaker">👤 Jane Smith:</span> <span class="transcript-text">What are the biggest scaling challenges we should anticipate?</span></div>
+                    </div>
+                    <div class="transcript-entry">
+                        <div class="transcript-timestamp">[20:25]</div>
+                        <div><span class="transcript-speaker">🤖 Hustle Coach:</span> <span class="transcript-text">Common ones include maintaining quality as you grow, managing team dynamics, and ensuring your systems and processes can handle increased load. Planning for these early helps mitigate risks.</span></div>
+                    </div>
+                    <div class="transcript-entry">
+                        <div class="transcript-timestamp">[25:20]</div>
+                        <div><span class="transcript-speaker">🤖 Hustle Coach:</span> <span class="transcript-text">That's all the time we have for today. Remember to focus on your customers, stay adaptable, and keep iterating. Good luck with your ventures!</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recording Tab Panel -->
+            <section id="panel-recording" class="tab-panel" role="tabpanel" aria-labelledby="tab-recording">
+                <div class="recording-placeholder">
+                    <i data-feather="video" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                    <h3 class="text-lg font-medium text-gray-900 mb-1">Session Recording</h3>
+                    <p class="text-gray-500">The recording for this session is available.</p>
+                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        Download Recording
+                    </button>
+                </div>
+            </section>
+
+            <!-- AI Chat Tab Panel -->
+            <section id="panel-ai-chat" class="tab-panel" role="tabpanel" aria-labelledby="tab-ai-chat">
+                <div class="ai-chat-placeholder">
+                    <i data-feather="message-circle" class="w-16 h-16 text-gray-400 mx-auto mb-4"></i>
+                    <h3 class="text-lg font-medium text-gray-900 mb-1">AI Chat History</h3>
+                    <p class="text-gray-500">Review your private conversation history with the AI co-host.</p>
+                    <button class="mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                        View Chat
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Tab Switching Logic ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetPanelId = `panel-${button.id.split('-')[1]}`;
+
+                    // Update active tab button
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    // Update active tab panel with animation
+                    tabPanels.forEach(panel => {
+                        if (panel.id === targetPanelId) {
+                            panel.classList.add('active');
+                        } else {
+                            panel.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // --- Action Item Checkboxes ---
+            const checkboxes = document.querySelectorAll('.action-checkbox');
+            checkboxes.forEach(checkbox => {
+                const labelText = checkbox.nextElementSibling;
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        labelText.classList.add('completed');
+                    } else {
+                        labelText.classList.remove('completed');
+                    }
+                });
+            });
+
+            // --- Timestamp Link Navigation (in Summary) ---
+            const timestampLinks = document.querySelectorAll('.topic-timestamp-link');
+            timestampLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        // Switch to Transcript tab first
+                        document.getElementById('tab-transcript').click();
+                        // Use a slight delay to ensure the tab content is rendered before scrolling
+                        setTimeout(() => {
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            // Optional: Add a temporary highlight effect
+                            targetElement.style.backgroundColor = '#fef3c7'; // Light yellow
+                            setTimeout(() => {
+                                targetElement.style.backgroundColor = '';
+                            }, 2000);
+                        }, 300); // Adjust delay if needed
+                    }
+                });
+            });
+
+            // --- Star Ratings (Basic Hover Effect) ---
+            // This is a simplified version. A full implementation would require more complex logic.
+            const ratingStars = document.querySelectorAll('.rating-star');
+            ratingStars.forEach((star, index) => {
+                const parentContainer = star.parentElement;
+                star.addEventListener('mouseenter', () => {
+                    // Fill all stars up to and including this one
+                    for (let i = 0; i <= index; i++) {
+                        parentContainer.children[i].classList.add('filled');
+                    }
+                });
+                star.addEventListener('mouseleave', () => {
+                    // Reset to original state based on 'filled' class
+                    for (let i = 0; i < parentContainer.children.length; i++) {
+                        if (!parentContainer.children[i].classList.contains('filled')) {
+                            parentContainer.children[i].classList.remove('filled');
+                        }
+                    }
+                });
+                // Clicking would set the rating - omitted for simplicity in prototype
+            });
+
+        });
+    </script>
+</body>
+</html>

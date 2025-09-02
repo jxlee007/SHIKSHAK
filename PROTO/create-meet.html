@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikshak - Create New Meeting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        /* Tailwind config before CDN so runtime picks up custom theme */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'var(--primary)',
+                        secondary: 'var(--secondary)',
+                        accent: '#4cc9f0',
+                        background: 'var(--background)',
+                        text: '#212529',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Heroicons for icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body class="bg-background font-sans min-h-screen flex items-center justify-center p-4">
+    <!-- Demo Button to trigger modal -->
+    <button id="open-modal-btn" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+        Open Create Meeting Modal
+    </button>
+
+    <!-- Confetti Canvas (Placeholder) -->
+    <canvas id="confetti-canvas" class="hidden"></canvas>
+
+    <!-- Create Meeting Modal -->
+    <div id="create-meeting-modal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-black opacity-50"></div>
+            </div>
+
+            <!-- Modal container -->
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <h3 class="text-lg leading-6 font-semibold text-gray-900 border-b border-gray-200 pb-3">
+                                Create New Meeting
+                            </h3>
+                            <form id="meeting-form" class="mt-4 space-y-5">
+                                <!-- Meeting Name -->
+                                <div>
+                                    <label for="meeting-name" class="block text-sm font-medium text-gray-700 mb-1">Meeting Name *</label>
+                                    <input type="text" id="meeting-name" class="form-input" placeholder="Startup Coaching Session" required>
+                                    <div id="name-error" class="error-message"></div>
+                                </div>
+
+                                <!-- Select AI Agent -->
+                                <div>
+                                    <label for="agent-select" class="block text-sm font-medium text-gray-700 mb-1">Select AI Agent *</label>
+                                    <div class="custom-select w-full">
+                                        <div class="select-selected">
+                                            <div id="selected-agent" class="flex items-center">
+                                                <span class="mr-2">🤖</span> Hustle Coach
+                                            </div>
+                                            <i data-feather="chevron-down" class="w-5 h-5 text-gray-500"></i>
+                                        </div>
+                                        <div class="select-items select-hide">
+                                            <div class="select-item flex items-center" data-value="hustle-coach">
+                                                <span class="mr-2">🤖</span> Hustle Coach
+                                            </div>
+                                            <div class="select-item flex items-center" data-value="french-tutor">
+                                                <span class="mr-2">🧠</span> French Tutor
+                                            </div>
+                                            <div class="select-item flex items-center" data-value="interview-coach">
+                                                <span class="mr-2">💼</span> Interview Coach
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="agent-error" class="error-message"></div>
+                                </div>
+
+                                <!-- Meeting Type -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Meeting Type</label>
+                                    <div class="radio-group">
+                                        <div class="radio-option">
+                                            <input type="radio" id="type-instant" name="meeting-type" value="instant" class="radio-input" checked>
+                                            <label for="type-instant" class="radio-label">Instant Start</label>
+                                        </div>
+                                        <div class="radio-option">
+                                            <input type="radio" id="type-scheduled" name="meeting-type" value="scheduled" class="radio-input">
+                                            <label for="type-scheduled" class="radio-label">Scheduled</label>
+                                        </div>
+                                        <div class="radio-option">
+                                            <input type="radio" id="type-recurring" name="meeting-type" value="recurring" class="radio-input">
+                                            <label for="type-recurring" class="radio-label">Recurring</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Description -->
+                                <div>
+                                    <label for="meeting-description" class="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
+                                    <textarea id="meeting-description" class="form-textarea" placeholder="Discussion about startup strategy, fundraising tactics, and market disruption opportunities. Focus on actionable advice." maxlength="500"></textarea>
+                                    <div id="char-count" class="char-counter normal text-right">0/500</div>
+                                </div>
+
+                                <!-- Agent Preview -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Agent Preview</label>
+                                    <div id="agent-preview-box" class="agent-preview">
+                                        <div class="flex items-start">
+                                            <div class="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                                <span class="text-xl">🤖</span>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-semibold text-gray-900">🤖 Hustle Coach</h4>
+                                                <p class="text-sm text-gray-600 mt-1">"Direct, hyper-driven startup mentor"</p>
+                                                <p class="text-xs text-gray-500 mt-1">Expertise: Entrepreneurship, Fundraising</p>
+                                                <p class="text-xs text-gray-500">Response Style: Conversational</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="create-btn" class="btn btn-primary w-full sm:w-auto sm:ml-3 flex items-center justify-center" disabled>
+                        <span id="create-text">Create Meeting</span>
+                        <svg id="loading-spinner" class="animate-spin ml-2 h-4 w-4 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" id="cancel-btn" class="mt-3 w-full sm:mt-0 sm:w-auto btn btn-secondary">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('create-meeting-modal');
+            const openModalBtn = document.getElementById('open-modal-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const form = document.getElementById('meeting-form');
+            const createBtn = document.getElementById('create-btn');
+            const createText = document.getElementById('create-text');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const meetingNameInput = document.getElementById('meeting-name');
+            const agentSelect = document.querySelector('.custom-select');
+            const selectedAgentDisplay = document.getElementById('selected-agent');
+            const selectItems = document.querySelector('.select-items');
+            const selectItemsList = document.querySelectorAll('.select-item');
+            const agentPreviewBox = document.getElementById('agent-preview-box');
+            const meetingDescription = document.getElementById('meeting-description');
+            const charCount = document.getElementById('char-count');
+            const nameError = document.getElementById('name-error');
+            const agentError = document.getElementById('agent-error');
+
+            const maxLength = 500;
+
+            // Agent data for preview
+            const agents = {
+                'hustle-coach': {
+                    name: '🤖 Hustle Coach',
+                    description: '"Direct, hyper-driven startup mentor"',
+                    expertise: 'Entrepreneurship, Fundraising',
+                    style: 'Conversational',
+                    icon: '🤖'
+                },
+                'french-tutor': {
+                    name: '🧠 French Tutor',
+                    description: '"Patient, encouraging language teacher"',
+                    expertise: 'French Language, Grammar',
+                    style: 'Professional',
+                    icon: '🧠'
+                },
+                'interview-coach': {
+                    name: '💼 Interview Coach',
+                    description: '"Professional, constructive feedback for interviews"',
+                    expertise: 'Tech Interviews, Career Advice',
+                    style: 'Professional',
+                    icon: '💼'
+                }
+            };
+
+            // Open modal
+            openModalBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+            });
+
+            // Close modal functions
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                // Reset form and states on close for demo
+                form.reset();
+                updateCreateButtonState();
+                nameError.classList.remove('show');
+                nameError.textContent = '';
+                agentError.classList.remove('show');
+                agentError.textContent = '';
+                charCount.textContent = '0/500';
+                charCount.className = 'char-counter normal text-right';
+                // Reset agent preview to default
+                updateAgentPreview('hustle-coach');
+                // Reset select dropdown
+                selectedAgentDisplay.innerHTML = '<span class="mr-2">🤖</span> Hustle Coach';
+                selectItems.classList.add('select-hide');
+                loadingSpinner.classList.add('hidden');
+                createText.textContent = 'Create Meeting';
+                createBtn.disabled = true;
+            };
+
+            cancelBtn.addEventListener('click', closeModal);
+
+            // Click on backdrop to close (simplified check)
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Custom Select Dropdown Logic
+            agentSelect.addEventListener('click', function(e) {
+                e.stopPropagation();
+                selectItems.classList.toggle('select-hide');
+            });
+
+            selectItemsList.forEach(item => {
+                item.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    const text = this.textContent.trim();
+                    selectedAgentDisplay.innerHTML = text;
+                    selectItems.classList.add('select-hide');
+                    // Update preview
+                    updateAgentPreview(value);
+                    // Update meeting name suggestion if field is empty
+                    if (!meetingNameInput.value.trim()) {
+                        // Simple auto-suggestion based on agent
+                        const suggestionMap = {
+                            'hustle-coach': 'Startup Coaching Session',
+                            'french-tutor': 'French Language Practice',
+                            'interview-coach': 'Interview Preparation Session'
+                        };
+                        meetingNameInput.value = suggestionMap[value] || 'New Meeting';
+                        updateCreateButtonState(); // Re-check button state
+                    }
+                    updateCreateButtonState(); // Re-check button state
+                });
+            });
+
+            // Close dropdown if clicked outside
+            document.addEventListener('click', function() {
+                selectItems.classList.add('select-hide');
+            });
+
+            // Update Agent Preview
+            function updateAgentPreview(agentKey) {
+                const agent = agents[agentKey];
+                if (agent) {
+                    agentPreviewBox.innerHTML = `
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                <span class="text-xl">${agent.icon}</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">${agent.name}</h4>
+                                <p class="text-sm text-gray-600 mt-1">${agent.description}</p>
+                                <p class="text-xs text-gray-500 mt-1">Expertise: ${agent.expertise}</p>
+                                <p class="text-xs text-gray-500">Response Style: ${agent.style}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Character counter for description
+            meetingDescription.addEventListener('input', function () {
+                const currentLength = this.value.length;
+                charCount.textContent = `${currentLength}/${maxLength}`;
+
+                if (currentLength > maxLength * 0.9) {
+                    charCount.className = 'char-counter error text-right';
+                } else if (currentLength > maxLength * 0.75) {
+                    charCount.className = 'char-counter warning text-right';
+                } else {
+                    charCount.className = 'char-counter normal text-right';
+                }
+            });
+
+            // Validate form fields and enable/disable create button
+            function updateCreateButtonState() {
+                const name = meetingNameInput.value.trim();
+                const selectedAgentText = selectedAgentDisplay.textContent.trim();
+                const isAgentSelected = selectedAgentText !== 'Select an agent';
+
+                const isValid = name !== '' && isAgentSelected;
+                createBtn.disabled = !isValid;
+            }
+
+            meetingNameInput.addEventListener('input', updateCreateButtonState);
+            // Initial check in case default values are present
+            updateCreateButtonState();
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const meetingName = meetingNameInput.value.trim();
+                const selectedAgentText = selectedAgentDisplay.textContent.trim();
+
+                let isValid = true;
+
+                // Reset errors
+                nameError.classList.remove('show');
+                nameError.textContent = '';
+                agentError.classList.remove('show');
+                agentError.textContent = '';
+
+                if (!meetingName) {
+                    nameError.textContent = 'Meeting name is required.';
+                    nameError.classList.add('show');
+                    isValid = false;
+                }
+
+                if (selectedAgentText === 'Select an agent' || !selectedAgentText) {
+                    agentError.textContent = 'Please select an AI agent.';
+                    agentError.classList.add('show');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    return;
+                }
+
+                // Simulate form submission
+                createBtn.disabled = true;
+                createText.textContent = 'Creating...';
+                loadingSpinner.classList.remove('hidden');
+
+                setTimeout(() => {
+                    loadingSpinner.classList.add('hidden');
+                    createText.textContent = 'Meeting Created!';
+
+                    // Show confetti placeholder
+                    const canvas = document.getElementById('confetti-canvas');
+                    canvas.classList.remove('hidden');
+                    // In a real app, you'd trigger a confetti library here
+                    console.log("Confetti animation would play here");
+
+                    // Simulate redirect after success
+                    setTimeout(() => {
+                        closeModal();
+                        canvas.classList.add('hidden');
+                        // window.location.href = '/meeting/123'; // Example redirect
+                    }, 2000); // Redirect after 2 seconds
+
+                }, 1500); // Simulate 1.5 second delay
+            });
+
+        });
+    </script>
+</body>
+</html>

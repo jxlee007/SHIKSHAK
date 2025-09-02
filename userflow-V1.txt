@@ -1,0 +1,120 @@
+Okay, here is a detailed user flow based on the PRD and the UI/UX specifications we've discussed for the screens:
+
+**Overall User Flow: Teacher Hosts a Live Session with AI Co-host**
+
+This flow covers the core experience from a teacher's perspective, incorporating the UI elements and interactions prototyped.
+
+1.  **Authentication & Dashboard Access:**
+    *   **User Action:** Teacher navigates to the Shikshak platform.
+    *   **System Response:** Displays the login/signup page (not prototyped but implied by PRD).
+    *   **User Action:** Teacher logs in.
+    *   **System Response:** Redirects to the Teacher Dashboard (`dashboard.html`).
+    *   **UI Experience (Dashboard):**
+        *   Clean, organized layout with a navigation sidebar (Dashboard, Meetings, Agents, Analytics, Settings).
+        *   Responsive design: Sidebar collapses into a hamburger menu on mobile.
+        *   Overview cards show quick stats (Meetings, Active Agents, Usage).
+        *   Recent Meetings list provides quick access.
+        *   Consistent branding (logo, Pro badge) and user profile controls in the top navbar.
+
+2.  **Navigate to Meetings or Create a New Session:**
+    *   **User Action:** Teacher clicks on the "Meetings" link in the sidebar.
+    *   **System Response:** Displays the Meetings page (`meetings.html`).
+    *   **UI Experience (Meetings Page):**
+        *   Clear header with "Meetings" title and prominent "+ New Meeting" button.
+        *   Filter bar allows searching and sorting meetings.
+        *   Data table lists existing meetings with status, agent, date, and action buttons.
+        *   Smooth interactions: hover effects on rows, animated sort indicators, responsive pagination.
+        *   **Alternative:** Teacher might click "+ New Meeting" directly from the Dashboard header or the Meetings page header.
+
+3.  **Create a New Meeting:**
+    *   **User Action:** Teacher clicks the "+ New Meeting" button.
+    *   **System Response:** Opens the "Create New Meeting" modal (`create-meeting.html`).
+    *   **UI Experience (Create Meeting Modal):**
+        *   Modal slides in smoothly with a backdrop blur.
+        *   Form fields for Meeting Name, Agent selection (rich dropdown preview), Meeting Type, and Description.
+        *   Real-time validation with inline error messages that slide into view.
+        *   Dynamic "Agent Preview" updates when an agent is selected.
+        *   Auto-suggestion for meeting name based on selected agent.
+        *   Character counter for description.
+        *   "Create Meeting" button is disabled until required fields are filled.
+        *   Pressing Enter in the name field can trigger submission if valid.
+
+4.  **Enter the Video Call Lobby:**
+    *   **User Action:** Teacher submits the "Create New Meeting" form.
+    *   **System Response:** Creates the session and redirects to the Video Call Lobby (`video-call-lobby.html`) for the new session.
+    *   **UI Experience (Video Call Lobby):**
+        *   Simulated browser permission prompt appears first.
+        *   Once permissions are granted, the lobby loads.
+        *   Split layout: Left side shows Camera Preview and Agent Preview; Right side shows Setup Panel.
+        *   Camera preview area has a placeholder or simulated video feed.
+        *   Device toggle buttons (Mute, Stop Video) provide clear visual feedback (e.g., color change when active).
+        *   Setup panel shows device status (simulated loading for camera), meeting details (agent, recording status), and connection quality.
+        *   Agent preview includes a subtle breathing animation on the avatar.
+        *   The prominent "Join Call" button pulses gently to encourage action when ready.
+
+5.  **Join the Live Session:**
+    *   **User Action:** Teacher clicks the "Join Call" button.
+    *   **System Response:** Initiates the WebRTC connection, connects to the SFU room, and enters the live session view (`live-session.html`).
+    *   **UI Experience (Live Session):**
+        *   Immersive full-screen interface.
+        *   Top header shows recording status, meeting title, and timer.
+        *   Main video area displays participant videos (user and AI agent) in a grid. Active speakers have a visual glow.
+        *   If AI is enabled (as set in the previous step), a consent banner might appear briefly or be assumed handled.
+        *   Live Transcript panel scrolls automatically, showing recent speaker turns with fade-in animations.
+        *   Bottom control bar provides essential actions (Mute, Camera, Chat, Notes, Present Screen, End Call).
+        *   **Chat Interaction:** Clicking `[💬]` slides the Chat panel from the left. Users can type messages, send with Enter/Click, and see messages appear with sender distinction. File upload button available.
+        *   **Notes Interaction:** Clicking `[📋]` slides the Notes panel from the right and reveals a floating "+" button. Clicking "+" allows adding timestamped notes.
+        *   **Screen Sharing:** Clicking `[◽]` (Present) simulates sharing the screen, changing the layout.
+        *   **AI Interaction (Implicit):** The AI agent video might show a waveform animation when "speaking". The live transcript will include AI responses. The AI chat panel (accessed via control bar or notes) would be available for private queries.
+
+6.  **During the Live Session (Key Interactions):**
+    *   **Sharing Content:** Teacher uses the "Present" button to share their screen. Layout adjusts dynamically.
+    *   **Interacting via Chat:** Participants (including the teacher) use the chat panel to ask questions or make comments. The AI might monitor this.
+    *   **Asking AI Questions:** Students/Teacher ask questions directed at the AI (voice or text in chat). The AI processes input (STT, sampled frames, chat) and responds via TTS (played in session) and text in the chat/transcript.
+    *   **Taking Notes:** Teacher clicks the floating "+" note button to add quick thoughts linked to the current timestamp.
+    *   **Controlling Media:** Teacher toggles mute/camera as needed.
+
+7.  **End the Live Session:**
+    *   **User Action:** Teacher clicks the "End" button (`[📞]`) in the control bar or header.
+    *   **System Response:** Prompts for confirmation. If confirmed, ends the session for all participants and redirects to the Post-Call Experience.
+
+8.  **Post-Call Experience:**
+    *   **System Response:** Displays the Post-Call Experience page (`post-call-experience.html`).
+    *   **UI Experience (Post-Call):**
+        *   Header summarizes the session (status, duration, processing time).
+        *   Tab navigation (`[📝 Summary]`, `[📜 Transcript]`, `[🎥 Recording]`, `[💬 AI Chat]`) allows switching views.
+        *   Smooth slide/fade transitions occur when switching tabs.
+        *   **Summary Tab:**
+            *   Key Insights listed.
+            *   Interactive Action Items with checkboxes that animate when completed.
+            *   Main Topics with clickable timestamps that jump to the Transcript.
+            *   Agent Performance ratings with hover effects.
+        *   **Transcript Tab:**
+            *   Scrollable list of conversation turns with timestamps and speaker identification.
+            *   Provides a detailed record of the session.
+        *   **Recording/Chat Tabs:** Placeholders indicating availability/access.
+
+9.  **(Optional) Interacting with AI Artifacts Post-Session:**
+    *   **User Action:** Teacher might navigate to the AI Meeting Assistant (e.g., via the `[💬 AI Chat]` tab or a direct link).
+    *   **System Response:** Opens the AI Assistant interface (`ai-meeting-assistant.html`).
+    *   **UI Experience (AI Assistant):**
+        *   Chat-style interface within the session context.
+        *   Message bubbles slide in smoothly from the correct side (user/AI).
+        *   AI messages are formatted (bold, lists) and may contain links (e.g., to transcript timestamps).
+        *   Hovering over messages reveals a copy button.
+        *   Textarea for asking new questions auto-resizes.
+        *   A typing indicator shows when the AI is "thinking".
+        *   Allows asking follow-up questions about the session content.
+
+10. **(Optional) Reviewing Transcript Details:**
+    *   **User Action:** Teacher navigates to the full Transcript view (e.g., via the `[📜 Transcript]` tab or a direct link).
+    *   **System Response:** Displays the detailed Transcript page (`meeting-transcript.html`).
+    *   **UI Experience (Transcript):**
+    *   Dedicated page for searching and reviewing the transcript.
+    *   Search bar highlights matching terms with a fade-in animation.
+    *   Search results bar appears, offering "Jump to" links for specific timestamps with smooth scrolling and a brief highlight pulse.
+    *   Speakers are clearly identified with color-coded names/avatars.
+    *   Timestamps are clickable (functionality simulated).
+    *   A subtle progress bar indicates reading position.
+
+This flow integrates the specific UI/UX details like animations, interactions, component behaviors, and the overall structure defined for each screen prototype, aligning with the core functionalities outlined in the PRD for the live session with AI co-host experience.

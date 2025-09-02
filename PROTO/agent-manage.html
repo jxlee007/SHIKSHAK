@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shikshak Agent Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        /* Tailwind config must run before the CDN loads so the runtime picks up the custom theme */
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: 'var(--primary)',
+                        secondary: 'var(--secondary)',
+                        accent: '#4cc9f0',
+                        background: 'var(--background)',
+                        text: '#212529',
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Heroicons for icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <!-- shared styles are loaded from /proto/styles.css -->
+</head>
+<body class="bg-background font-sans">
+    <div class="flex flex-col h-screen">
+        <!-- Navbar (same as previous) -->
+        <header class="bg-white border-b border-gray-200">
+            <div class="flex items-center justify-between px-4 py-3">
+                <div class="flex items-center space-x-4">
+                    <button id="sidebar-toggle" class="md:hidden text-gray-500 focus:outline-none">
+                        <i data-feather="menu"></i>
+                    </button>
+                    <div class="flex items-center">
+                        <span class="text-xl font-bold text-primary">Shikshak</span>
+                        <span class="ml-2 px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded">Pro ✨</span>
+                    </div>
+                </div>
+
+                <div class="flex-1 max-w-md mx-4">
+                    <div class="relative">
+                        <input type="text" placeholder="Search..." class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 ease-out">
+                        <i data-feather="search" class="w-5 h-5 absolute left-3 top-2.5 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i data-feather="bell"></i>
+                        </button>
+                        <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full animate-pulse">3</span>
+                    </div>
+                    <div class="relative">
+                        <button class="flex items-center space-x-1 text-gray-700 hover:text-gray-900 focus:outline-none">
+                            <span>John Doe</span>
+                            <i data-feather="chevron-down"></i>
+                        </button>
+                    </div>
+                    <button class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <i data-feather="settings"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-1 overflow-hidden">
+            <!-- Sidebar (same as previous) -->
+            <aside id="sidebar" class="site-sidebar">
+                <nav class="flex-1 py-4">
+                    <a href="dashboard.html" class="sidebar-item">
+                        <i data-feather="home" class="w-5 h-5 mr-3"></i>
+                        Dashboard
+                    </a>
+                    <a href="meet-manage.html" class="sidebar-item">
+                        <i data-feather="phone" class="w-5 h-5 mr-3"></i>
+                        Meetings
+                    </a>
+                    <a href="agent-manage.html" class="sidebar-item active">
+                        <i data-feather="cpu" class="w-5 h-5 mr-3"></i>
+                        Agents
+                    </a>
+                    <a href="chat.html" class="sidebar-item">
+                        <i data-feather="message-circle" class="w-5 h-5 mr-3"></i>
+                        Chat
+                    </a>
+                    <a href="post-summary.html" class="sidebar-item">
+                        <i data-feather="file-text" class="w-5 h-5 mr-3"></i>
+                        Reports
+                    </a>
+                    <div class="px-4 py-6">
+                        <a href="upgrade.html" class="flex items-center px-4 py-3 text-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-100 card-hover">
+                            <i data-feather="star" class="w-5 h-5 mr-3 text-yellow-500"></i>
+                            <span class="font-medium">Upgrade Plan</span>
+                        </a>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- Overlay for mobile sidebar -->
+            <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-0 md:hidden hidden"></div>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 md:p-6">
+                <div class="max-w-6xl mx-auto">
+                    <!-- Page Header -->
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+                        <h1 class="text-2xl font-bold text-gray-800 mb-4 md:mb-0">AI Agents</h1>
+                        <button class="create-button">
+                            <i data-feather="plus" class="w-4 h-4 mr-2"></i> Create Agent
+                        </button>
+                    </div>
+
+                    <!-- Agent Grid View -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Agent Card 1 - Hustle Coach -->
+                        <div class="agent-card-hover">
+                            <div class="p-5">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                        <i data-feather="cpu" class="h-6 w-6 text-blue-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900">🤖 HUSTLE COACH</h3>
+                                        <p class="mt-1 text-sm text-gray-600">"Direct, hyper-driven startup mentor who just raised seed $"</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex items-center">
+                                    <span class="relative-pulse-wrapper">
+                                        <span class="status-indicator status-active-dot"></span>
+                                    </span>
+                                    <span class="text-xs font-medium status-active px-2 py-1 rounded-full">Active</span>
+                                </div>
+                            </div>
+                            <div class="px-5 py-3 bg-gray-50 border-t border-gray-100">
+                                <div class="card-actions">
+                                    <button class="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-1 rounded hover:bg-gray-100 transition-colors duration-150">
+                                        Edit
+                                    </button>
+                                    <button class="text-sm font-medium text-red-600 hover:text-red-800 px-3 py-1 rounded hover:bg-red-50 transition-colors duration-150">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Agent Card 2 - French Tutor -->
+                        <div class="agent-card-hover">
+                            <div class="p-5">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                                        <i data-feather="globe" class="h-6 w-6 text-green-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900">🧠 FRENCH TUTOR</h3>
+                                        <p class="mt-1 text-sm text-gray-600">"Patient, encouraging language teacher with native fluency"</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex items-center">
+                                    <span class="relative-pulse-wrapper">
+                                        <span class="status-indicator status-active-dot"></span>
+                                    </span>
+                                    <span class="text-xs font-medium status-active px-2 py-1 rounded-full">Active</span>
+                                </div>
+                            </div>
+                            <div class="px-5 py-3 bg-gray-50 border-t border-gray-100">
+                                <div class="card-actions">
+                                    <button class="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-1 rounded hover:bg-gray-100 transition-colors duration-150">
+                                        Edit
+                                    </button>
+                                    <button class="text-sm font-medium text-red-600 hover:text-red-800 px-3 py-1 rounded hover:bg-red-50 transition-colors duration-150">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Agent Card 3 - Interview Coach -->
+                        <div class="agent-card-hover">
+                            <div class="p-5">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                                        <i data-feather="briefcase" class="h-6 w-6 text-purple-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900">💼 INTERVIEW COACH</h3>
+                                        <p class="mt-1 text-sm text-gray-600">"Professional, constructive feedback for tech interviews"</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex items-center">
+                                    <span class="status-indicator status-inactive-dot"></span>
+                                    <span class="text-xs font-medium status-inactive px-2 py-1 rounded-full">Inactive</span>
+                                </div>
+                            </div>
+                            <div class="px-5 py-3 bg-gray-50 border-t border-gray-100">
+                                <div class="card-actions">
+                                    <button class="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-1 rounded hover:bg-gray-100 transition-colors duration-150">
+                                        Edit
+                                    </button>
+                                    <button class="text-sm font-medium text-red-600 hover:text-red-800 px-3 py-1 rounded hover:bg-red-50 transition-colors duration-150">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Create New Agent Card -->
+                        <div class="agent-card border-2 border-dashed border-gray-300 flex flex-col items-center justify-center p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors duration-200">
+                            <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+                                <i data-feather="plus-circle" class="h-6 w-6 text-gray-500"></i>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900">➕ CREATE NEW AGENT</h3>
+                            <p class="mt-1 text-sm text-gray-600">Click to start building your custom AI agent</p>
+                            <button class="mt-4 px-4 py-2 bg-primary text-white text-sm rounded-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-150">
+                                Create
+                            </button>
+                        </div>
+
+                        <!-- Agent Card 4 - Creative Catalyst -->
+                        <div class="agent-card-hover">
+                            <div class="p-5">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-full bg-yellow-100 flex items-center justify-center mr-4">
+                                        <i data-feather="lightbulb" class="h-6 w-6 text-yellow-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900">🎨 CREATIVE CATALYST</h3>
+                                        <p class="mt-1 text-sm text-gray-600">"Inspiring idea generator with unconventional approaches"</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex items-center">
+                                    <span class="relative-pulse-wrapper">
+                                        <span class="status-indicator status-active-dot"></span>
+                                    </span>
+                                    <span class="text-xs font-medium status-active px-2 py-1 rounded-full">Active</span>
+                                </div>
+                            </div>
+                            <div class="px-5 py-3 bg-gray-50 border-t border-gray-100">
+                                <div class="card-actions">
+                                    <button class="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-1 rounded hover:bg-gray-100 transition-colors duration-150">
+                                        Edit
+                                    </button>
+                                    <button class="text-sm font-medium text-red-600 hover:text-red-800 px-3 py-1 rounded hover:bg-red-50 transition-colors duration-150">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Agent Card 5 - Data Analyst -->
+                        <div class="agent-card-hover">
+                            <div class="p-5">
+                                <div class="flex items-start">
+                                    <div class="flex-shrink-0 h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                                        <i data-feather="bar-chart-2" class="h-6 w-6 text-indigo-500"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-900">📊 DATA ANALYST</h3>
+                                        <p class="mt-1 text-sm text-gray-600">"Analytical mind with expertise in statistics and insights"</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex items-center">
+                                    <span class="relative-pulse-wrapper">
+                                        <span class="status-indicator status-active-dot"></span>
+                                    </span>
+                                    <span class="text-xs font-medium status-active px-2 py-1 rounded-full">Active</span>
+                                </div>
+                            </div>
+                            <div class="px-5 py-3 bg-gray-50 border-t border-gray-100">
+                                <div class="card-actions">
+                                    <button class="text-sm font-medium text-gray-700 hover:text-gray-900 px-3 py-1 rounded hover:bg-gray-100 transition-colors duration-150">
+                                        Edit
+                                    </button>
+                                    <button class="text-sm font-medium text-red-600 hover:text-red-800 px-3 py-1 rounded hover:bg-red-50 transition-colors duration-150">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+
+        // Simple JavaScript for sidebar toggle on mobile (same as previous)
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+
+            if (sidebarToggle && sidebar && overlay) {
+                sidebarToggle.addEventListener('click', function () {
+                    sidebar.classList.toggle('-translate-x-full');
+                    overlay.classList.toggle('hidden');
+                });
+
+                overlay.addEventListener('click', function () {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

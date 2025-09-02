@@ -1,0 +1,173 @@
+# Product Requirements Document (PRD) for Shishak
+
+***
+
+## Product Overview
+Shishak is an **AI-powered, gamified learning platform** crafted exclusively for learners seeking a personalized and engaging educational experience. The platform facilitates deep, interactive learning journeys by connecting users with adaptive AI companions that serve as ever-present tutors and mentors. Through dynamic, context-driven conversations and gamified progress tracking, Shishak embodies the ethos of **"Never Stop Learning."**
+
+***
+
+## Target Audience
+- Lifelong learners from beginners to advanced levels
+- Students aiming for personalized, flexible education
+- Individuals seeking AI-powered companionship and mentorship
+- Users looking for gamified, motivating learning experiences
+
+***
+
+## Vision
+Empower every learner to take full ownership of their educational journey, exploring limitless topics with intelligent AI companions that adapt and grow alongside them—without constraints or predefined teacher roles.
+
+***
+
+## Key Principles
+- Learner-first: Every feature serves the student’s growth and curiosity
+- Personalized AI companionship: Adaptive, responsive, and intuitive
+- Gamified progression: Engaging and motivating continued learning
+- Seamless, conversational AI: Persistent chats tailored to unique goals
+- Rich multimedia learning: Audio, video, and text-enabled sessions
+- Social and exploratory: Template gallery and session history for ease
+
+***
+
+## Goals and Objectives
+- Create a welcoming, empowering space for self-directed learning
+- Enable rich, flexible, and context-aware AI tutoring experiences
+- Implement persistent conversational sessions with audio/video/chat
+- Gamify learning journeys with XP, streaks, and achievement systems
+- Provide AI-curated template gallery for quick learning pathway initiation
+- Maintain intuitive, responsive, and accessible UI/UX for all learners
+- Foster social connections through shared progress and community features
+
+***
+
+## Product Features
+
+### 1. AI Companion Learning Experience
+- **Adaptive AI Companions**: No fixed agents; learners provide context to start
+- **Context Setting**: Users specify what and how they want to learn at the start
+- **Multi-Modal Chat**: Persistent audio, video, and text chat sessions
+- **Session History**: Conversations saved and easily resumable at learner’s discretion
+- **Session Management**: Start new chats or resume previous ones seamlessly
+- **Agent Gallery (Template Library)**: Pre-built learning templates searchable by topic to kickstart sessions
+- **Dynamic AI Guidance**: Real-time personalized advice, content generation, and Q&A
+
+### 2. Gamification and Progress Tracking
+- **Experience Points (XP) System**: Earn XP via lessons, streaks, interactions
+- **Progress Levels & Bars**: Visual indicators of learning advancement
+- **Learning Streaks**: Encourage daily engagement with reward animations
+- **Achievements & Badges**: Unlock for milestones and mastery
+- **Skill Trees**: Visual learning path progression for subjects/themes
+- **Daily & Weekly Goals**: Interactive objectives with progress tracking and rewards
+
+### 3. User Dashboard & Navigation
+- **Clean, Card-Based Layout**: Inspired by Google Classroom with vibrant, modern design
+- **Learning Hub**: Overview of current progress, streaks, XP, achievements
+- **Subject Exploration**: Browse, track, and continue learning across disciplines
+- **Recent Activity Feed**: Summary of lessons, achievements, and streak updates
+- **Quick Access**: Easily start new sessions, browse templates, or resume chats
+
+### 4. Conversational Video/Audio Interface
+- **Discord-Inspired UI**: Multi-modal calls with AI companions in intuitive layouts
+- **Screen Sharing & Whiteboard**: Interactive teaching tools integrated in sessions
+- **Live Chat & Notes**: Real-time chat with @note commands to create timestamped notes
+- **Recording and Playback**: Session recordings with AI-generated summaries
+- **Participant Controls**: Mute, video toggle, raise hand, and session end functionalities
+- **Tabs for Chat, Notes, and Resources**
+
+### 5. Social and Community Features
+- **Friends & Study Groups**: Connect, collaborate, and compete with peers
+- **Leaderboards**: Friendly competition by XP, streaks, and achievements
+- **Achievement Sharing**: Share milestones across social and community channels
+
+### 6. Mobile-First Responsive Design
+- **Adaptive Layouts**: Seamless experience across desktop, tablet, and mobile
+- **Touch & Gesture Support**: Intuitive navigation and control on smaller devices
+- **Offline Mode**: Access cached learning content without connectivity
+
+***
+
+## Non-Functional Requirements
+
+### Performance
+- Fast initial load and smooth interactive responsiveness
+- Low latency in real-time video, audio, and chat interactions
+- Scalability for concurrent learners and AI processing
+
+### Security & Privacy
+- Secure user authentication and session management
+- End-to-end encryption of chat, video, and data streams
+- Compliance with relevant data protection laws (GDPR, CCPA)
+- Privacy controls allowing learners to manage data sharing
+
+### Accessibility
+- WCAG 2.1 AA compliant UI
+- Keyboard navigation and screen reader support
+- High contrast and adjustable font sizes
+
+***
+
+## UX Design Approach
+
+### Visual Style
+- Modern, bright, and positive color palette emphasizing trust and motivation
+- Material Design 3 principles combined with Discord-style interactive elements
+- Smoothness through Framer Motion animations and micro-interactions
+- Gamification elements such as animated progress bars, streak flames, and badges
+- Clear, readable typography with consistent spacing and iconography
+
+### Interaction Design
+- Persistent chat sessions with UX to effortlessly resume or start new learning paths
+- Animated feedback for XP gain, level-ups, and achievement unlocking
+- Intuitive controls for video/audio sessions with clear affordances
+- Dynamic templates gallery UI enabling easy discovery and session creation
+
+***
+
+## Technical Architecture
+
+### Frontend
+- React with component modularity based on Shadcn UI components
+- Framer Motion for animations and interaction polish
+- State management for persistent sessions and user data syncing
+
+### Backend
+- Node.js or similar for API and real-time features
+- Integration with OpenAI for generative AI companions
+- Stream SDKs for video conferencing and chat
+- Database optimized for session persistence and analytics
+
+***
+
+## Roadmap and Milestones
+
+### Phase 1: Core Platform
+- Learner dashboard with progress tracking and gamification
+- AI companion contextual chat with template gallery
+- Basic video/audio call integration with persistent sessions
+- Responsive UI supporting desktop and tablets
+
+### Phase 2: Advanced Features
+- Interactive teaching tools within sessions (whiteboard, polls)
+- Achievement system with social sharing
+- Friends, study groups, and leaderboards
+- Enhanced AI tutoring personalization with adaptive learning
+
+### Phase 3: Scale & Optimization
+- Mobile app with offline learning
+- Advanced analytics and recommendations
+- Multilingual and broad curriculum support
+- Continuous improvement via user feedback and AI advancements
+
+***
+
+## Metrics for Success
+- Daily active learning time per user
+- Learning streak and XP accumulation trends
+- Session retention and repeat usage rates
+- Achievement unlock rates and social engagement
+- User satisfaction and feedback scores
+
+***
+
+Shishak empowers learners to shape their unique educational journeys with personable AI companions, rich gamification, and powerful, easy-to-use interactive tools—making *never stopping learning* an inspiring and rewarding adventure.
