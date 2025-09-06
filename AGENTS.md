@@ -35,52 +35,53 @@ Based on industry best practices for SaaS development from idea validation throu
 Here's a more granular breakdown for Jules, with clearer context for each subtask:
 
 ```ascii
+| Done | ID   | Task/Subtask                  | Context (Files & Purpose)       | Technology Applied                      | Notes / Owner                |
+|------|------|-------------------------------|----------------------------------|------------------------------------------|------------------------------|
+| [ ]  | 0.1  | Idea validation               | —                                | Research tools (Surveys, Analytics)      | Market research, personas, MVP test |
+| [ ]  | 0.2  | Design roadmap                | —                                | Figma, Miro                              | Wireframes / user flows      |
+| [ ]  | 1.1  | Init project structure        | package.json, next.config.js     | Next.js 15, TypeScript, Tailwind CSS     | App Router, TS strict mode   |
+| [ ]  | 1.2  | Add core dependencies         | package.json                     | Convex, Clerk, LangChain, OpenRouter, Shadcn/UI, Context7 MCP | |
+| [ ]  | 1.3  | Setup configurations          | next.config.js, tailwind.config.js | Tailwind, MCP integration, Env setup   | |
+| [ ]  | 2.1  | Define DB models              | convex/schema.ts                 | Convex schema, TypeScript                | User, Session, Resource etc. |
+| [ ]  | 2.2  | Configure auth flow           | convex/auth.config.ts            | Clerk (auth and billing), Convex         | |
+| [ ]  | 2.3  | Setup billing & webhooks      | convex/billing.ts, .env.local    | Clerk billing, Webhooks, API integration | |
+| [ ]  | 3.1  | AI orchestration manager      | core/ai/agentManager.js          | LangChain, OpenRouter                    | Context switching, error handling |
+| [ ]  | 3.2  | Build RAG service             | core/ai/ragService.js            | Pinecone or Faiss, vector search         | |
+| [ ]  | 3.3  | TTS abstraction               | core/ai/ttsService.js            | Bulbul / Saarika TTS APIs                | |
+| [ ]  | 4.1  | Define TS models + validation | core/data/models/, Zod           | TypeScript, Zod                          | Schema & type safety         |
+| [ ]  | 4.2  | Data adapters setup           | core/data/adapters/              | Convex adapter, blockchain integration   | |
+| [ ]  | 4.3  | Migration utilities           | core/data/schema/                | Node.js scripts, Convex migrations       | |
+| [ ]  | 5.1  | Atomic UI components          | core/ui/atoms/                   | Shadcn/UI, Tailwind, React               | Buttons, inputs, avatars     |
+| [ ]  | 5.2  | Build molecular components    | core/ui/molecules/               | React, Tailwind, Shadcn/UI               | Cards, modals, menu bars     |
+| [ ]  | 5.3  | Organisms + theming           | core/ui/organisms/               | Shadcn/UI, Tailwind, dark mode, WCAG     | Panels, theming, accessibility |
+| [ ]  | 6.1  | Web shell & auth              | shells/web/, app/(auth)/         | Next.js, Clerk, React, Tailwind          | Layouts, sign-in flows       |
+| [ ]  | 6.2  | Session UI responsiveness     | shells/web/components/           | Tailwind CSS, React                      | Session UI design            |
+| [ ]  | 6.3  | WebRTC & offline support      | core/webrtc/, manifest           | WebRTC, PWA manifest                     | Real-time class, offline features |
+| [ ]  | 7.1  | Subscription UI & logic       | app/(auth)/, billing.ts          | Clerk billing, React, Convex             | Subscription flows           |
+| [ ]  | 7.2  | Settings & RBAC               | app/(auth)/settings/             | Role-based UI, Clerk + Convex            | Profiles and access control  |
+| [ ]  | 8.1  | Session CRUD flow             | convex/sessions.ts, dashboard    | Convex Functions, React                  | Session create/join          |
+| [ ]  | 8.2  | Live chat + transcripts       | useSession.js, Convex            | React hooks, Convex real-time             | AI chat, transcript saving   |
+| [ ]  | 8.3  | Collaboration UI              | session dashboard                | React, Convex real-time sharing           | Group sessions               |
+| [ ]  | 9.1  | Gamification logic            | convex/gamification.ts           | Convex, TypeScript                       | XP, leaderboards, badges     |
+| [ ]  | 9.2  | Gamification hooks            | useGamification.js               | React hooks                              | UI logic and notifications   |
+| [ ]  | 10.1 | Resource indexing             | convex/resources.ts              | Convex File Storage, OpenRouter          | Uploads & indexing           |
+| [ ]  | 10.2 | Resource UI + versioning      | dashboard/resources/             | React, Convex, version control logic     | Resource browsing, versions  |
+| [ ]  | 11.1 | Video/Audio calls             | core/webrtc/, call modules       | WebRTC, React                            | Call features, recording     |
+| [ ]  | 11.2 | Call analytics & UI           | useWebRTC.js                     | React hooks, analytics tools              | Permissions, quality metrics |
+| [ ]  | 12.1 | Analytics schema + logic      | convex/analytics.ts              | Convex, TypeScript                       | Metrics & engagement         |
+| [ ]  | 12.2 | Analytics UI                  | dashboard/analytics/             | React, charting libs                     | Reporting dashboard          |
+| [ ]  | 13.1 | Privacy & consent UI          | convex/privacy.ts, privacy UI    | Convex, React, encryption patterns       | GDPR, consent management     |
+| [ ]  | 13.2 | Data export + logs            | utils/encryption.js              | Node.js, encryption libraries             | Audit, deletion, compliance  |
+| [ ]  | 14.1 | Unit testing                  | tests/, jest.config.js           | Jest, React Testing Library              | Core logic coverage          |
+| [ ]  | 14.2 | E2E & accessibility testing   | cypress/, RTL tests              | Cypress, React Testing Library           | User flows, WCAG             |
+| [ ]  | 15.1 | CI/CD pipelines               | .github/workflows/, scripts/     | GitHub Actions, Node.js scripts           | Build, test, deploy cycles   |
+| [ ]  | 15.2 | Monitoring & backups          | scripts/, config files           | Monitoring tools (Sentry, Vercel, etc.) | Alerts, disaster recovery    |
+| [ ]  | 16.1 | Launch preparation            | All modules                      | All above components                      | Product readiness & QA       |
+| [ ]  | 16.2 | Onboarding UX & flows         | Auth flows, dashboard            | React, Clerk flows                       | Trial signup, onboarding UX  |
+| [ ]  | 16.3 | Marketing & support           | Docs, content, demos             | Documentation tools, SEO, help tools     | SEO, demos, support content  |
+| [ ]  | 16.4 | Post-launch iteration         | Analytics + feedback system      | Convex, Analytics tools                  | Improve based on data        |
 
-| Done | ID   | Task/Subtask                | Context (Files & Purpose)     | Notes / Owner                |
-|------|------|-----------------------------|-------------------------------|------------------------------|
-| [ ]  | 0.1  | Idea validation              | —                             | Research, personas, MVP test |
-| [ ]  | 0.2  | Design roadmap               | —                             | Wireframes / user flows      |
-| [ ]  | 1.1  | Init project structure       | package.json, next.config.js  | App Router, TS strict mode   |
-| [ ]  | 1.2  | Add core dependencies        | package.json                  | Convex, Clerk, LangChain     |
-| [ ]  | 1.3  | Setup configurations         | next.config.js, tailwind.config.js | Environment & MCP setup |
-| [ ]  | 2.1  | Define DB models             | convex/schema.ts              | User, Session, Resource etc. |
-| [ ]  | 2.2  | Configure auth flow          | convex/auth.config.ts         | Clerk + Convex integration   |
-| [ ]  | 2.3  | Setup billing & webhooks     | convex/billing.ts, .env.local | Payment and subscription     |
-| [ ]  | 3.1  | AI orchestration manager     | core/ai/agentManager.js       | LangChain, context switching |
-| [ ]  | 3.2  | Build RAG service            | core/ai/ragService.js         | Pinecone/Faiss vector store  |
-| [ ]  | 3.3  | TTS abstraction              | core/ai/ttsService.js         | Bulbul / Saarika interface   |
-| [ ]  | 4.1  | Define TS models + validation| core/data/models/, Zod        | Type safety & schema rules   |
-| [ ]  | 4.2  | Data adapters setup          | core/data/adapters/           | Convex and blockchain layer  |
-| [ ]  | 4.3  | Migration utilities          | core/data/schema/             | Schema versioning support    |
-| [ ]  | 5.1  | Atomic UI components         | core/ui/atoms/                | Buttons, inputs, avatars     |
-| [ ]  | 5.2  | Build molecular components   | core/ui/molecules/            | Cards, modals, menubars      |
-| [ ]  | 5.3  | Organisms + theming          | core/ui/organisms/            | Panels, WCAG, dark mode      |
-| [ ]  | 6.1  | Web shell & auth             | shells/web/, app/(auth)/      | Layouts, sign-in flows       |
-| [ ]  | 6.2  | Session UI responsiveness    | shells/web/components/        | Tailwind design, session page|
-| [ ]  | 6.3  | WebRTC & offline support     | core/webrtc/, manifest        | Real-time class, PWA         |
-| [ ]  | 7.1  | Subscription UI & logic      | app/(auth)/, billing.ts       | Subscription scenes          |
-| [ ]  | 7.2  | Settings & RBAC              | app/(auth)/settings/          | Profiles, roles config       |
-| [ ]  | 8.1  | Session CRUD flow            | convex/sessions.ts, dashboard | Create/join sessions         |
-| [ ]  | 8.2  | Live chat + transcripts      | useSession.js, Convex         | Real-time AI interaction     |
-| [ ]  | 8.3  | Collaboration UI             | session dashboard             | Sharing & groups             |
-| [ ]  | 9.1  | Gamification logic           | convex/gamification.ts        | XP, leaderboards, badges     |
-| [ ]  | 9.2  | Gamification hooks           | useGamification.js            | UI logic + notifications     |
-| [ ]  | 10.1 | Resource indexing            | convex/resources.ts           | Upload + search indexing     |
-| [ ]  | 10.2 | Resource UI + versioning     | dashboard/resources/          | UI and version control       |
-| [ ]  | 11.1 | Video/Audio calls            | core/webrtc/, call modules    | Call features & recording    |
-| [ ]  | 11.2 | Call analytics & UI          | useWebRTC.js                  | Permissions + tracking       |
-| [ ]  | 12.1 | Analytics schema + logic     | convex/analytics.ts           | Metrics & engagement         |
-| [ ]  | 12.2 | Analytics UI                 | dashboard/analytics/          | Reporting dashboard          |
-| [ ]  | 13.1 | Privacy & consent UI         | convex/privacy.ts, privacy UI | GDPR & encryption controls   |
-| [ ]  | 13.2 | Data export + logs           | utils/encryption.js           | Audit, compliance tools      |
-| [ ]  | 14.1 | Unit testing                 | tests, jest.config.js         | Component and logic coverage |
-| [ ]  | 14.2 | E2E & accessibility testing  | cypress/, RTL tests           | User flows + WCAG checks     |
-| [ ]  | 15.1 | CI/CD pipelines              | .github/workflows/, scripts/  | Build, test, deploy cycles   |
-| [ ]  | 15.2 | Monitoring & backups         | scripts/, config files        | Infra alerts & backups       |
-| [ ]  | 16.1 | Launch preparation           | All modules                   | Product readiness & QA       |
-| [ ]  | 16.2 | Onboarding & onboarding UX   | Auth flows + dashboard        | Freemium trial flow          |
-| [ ]  | 16.3 | Marketing & customer support | Docs, content, demo tools     | SEO, demos, help desks       |
-| [ ]  | 16.4 | Post-launch iteration        | Analytics + feedback system   | Improve based on data        |
+
 
 ```
 
