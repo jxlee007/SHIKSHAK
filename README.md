@@ -1,5 +1,8 @@
 # SHIKSHAK Teaching Platform
 
+**Version:** 1.0.0
+**Last Updated:** September 5, 2025
+
 ## Project Overview
 
 SHIKSHAK is an AI-driven learning platform where every user is a learner, student, or curious person. The platform offers two session types:  
@@ -13,18 +16,45 @@ The AI acts as facilitator and tutor, providing real-time answers, explanations,
 ## Folder Structure
 
 ```
-SHIKSHAK/
-├── Arch.txt                # Architecture overview and platform design
-├── PRD/
-│   └── PRD.txt             # Product requirements, MVP criteria, rollout plan
-└── PROTO/
-    ├── chat.html           # Chat UI prototype with AI assistant features
-    ├── chat-history.html   # Meeting transcript viewer and search tool
-    ├── call-lobby.html     # Call pre-join UI for permissions and entry
-    ├── post-summary.html   # Session summary UI for metadata and navigation
-    └── live session/
-        ├── app.js         # JS logic for live video, AI responses, chat, upload
-        └── index.html     # Live session UI (video grid, controls, chat, transcript)
+app/
+├── app.xml                  # Main application configuration file
+├── configs/                 # Directory for shared configuration files
+│   └── .gitkeep             # Ensures the directory is tracked by git
+├── core/                    # Directory for platform-agnostic shared logic
+│   └── .gitkeep             # Ensures the directory is tracked by git
+├── docs/                    # Directory for all project documentation
+│   ├── AGENTS.md            # Instructions and guidelines for AI agents
+│   ├── Arch.txt             # High-level architecture overview
+│   ├── PRD/                 # Product Requirement Documents
+│   │   ├── PRD-V1.txt       # Version 1 of the PRD
+│   │   └── PRD.txt          # Main PRD document
+│   ├── data flow diagrams/  # Diagrams illustrating data flow
+│   │   └── .gitkeep         # Ensures the directory is tracked by git
+│   ├── user flow diagrams/  # Diagrams illustrating user flows
+│   │   └── .gitkeep         # Ensures the directory is tracked by git
+│   └── userflow-V1.txt      # Version 1 of the user flow documentation
+├── scripts/                 # Directory for build and deployment scripts
+│   └── .gitkeep             # Ensures the directory is tracked by git
+└── shells/                  # Directory for platform-specific implementations (shells)
+    └── web/                 # Web application shell
+        ├── agent-manage.html    # Prototype for agent management UI
+        ├── ai-video-call-v2.zip # Zip archive for AI video call prototype
+        ├── call-lobby.html      # Prototype for call lobby UI
+        ├── chat-history.html    # Prototype for chat history UI
+        ├── chat.html            # Prototype for main chat UI
+        ├── create-agent.html    # Prototype for agent creation UI
+        ├── create-meet.html     # Prototype for meeting creation UI
+        ├── dashboard.html       # Prototype for user dashboard UI
+        ├── dashboard.zip        # Zip archive for dashboard prototype
+        ├── live session/        # Files for the live session prototype
+        │   ├── app.js           # JavaScript for the live session
+        │   ├── index.html       # HTML for the live session
+        │   └── style.css        # CSS for the live session
+        ├── meet-manage.html     # Prototype for meeting management UI
+        ├── modal-template.html  # Prototype for a modal template
+        ├── post-summary.html    # Prototype for post-session summary UI
+        ├── styles.css           # General styles for prototypes
+        └── upgrade.html         # Prototype for upgrade page UI
 ```
 
 ---
