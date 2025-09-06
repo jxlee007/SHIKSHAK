@@ -1,4 +1,4 @@
-# AGENTS.md – SHIKSHAK AI Education Platform + SaaS Product Development Checklist
+# AGENTS.md – SHIKSHAK AI Education Platform
 
 ## Project Overview
 SHIKSHAK is an AI-powered educational platform built with Next.js 15, featuring Its modular architecture shared core with native shells supports real-time AI tutoring,streaks for gamification, session management, resources, analytics, and comprehensive user management.
@@ -37,8 +37,9 @@ Here's a more granular breakdown for Jules, with clearer context for each subtas
 ```ascii
 | Done | ID   | Task/Subtask                  | Context (Files & Purpose)       | Technology Applied                      | Notes / Owner                |
 |------|------|-------------------------------|----------------------------------|------------------------------------------|------------------------------|
-| [ ]  | 0.1  | Idea validation               | —                                | Research tools (Surveys, Analytics)      | Market research, personas, MVP test |
-| [ ]  | 0.2  | Design roadmap                | —                                | Figma, Miro                              | Wireframes / user flows      |
+| [ ]  | 0.1  | Userflow diagrams               | —                                | Use mermaid chart for diagrams in ASCII format  | Market research, personas, MVP test |
+| [ ]  | 0.2  | data flow diagram for validation               | —                                | mermaid chart for diagrams in ASCII format     | Inputs, Output, integration points |
+| [ ]  | 0.3  | Design roadmap                | —                          | PROTO folder for UI component reference in HTML/CSS/JS code            | Wireframes / user flows      |
 | [ ]  | 1.1  | Init project structure        | package.json, next.config.js     | Next.js 15, TypeScript, Tailwind CSS     | App Router, TS strict mode   |
 | [ ]  | 1.2  | Add core dependencies         | package.json                     | Convex, Clerk, LangChain, OpenRouter, Shadcn/UI, Context7 MCP | |
 | [ ]  | 1.3  | Setup configurations          | next.config.js, tailwind.config.js | Tailwind, MCP integration, Env setup   | |
