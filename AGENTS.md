@@ -6,77 +6,61 @@ SHIKSHAK is an AI-powered educational platform built with Next.js 15, featuring 
 ---
 
 ## Tech Stack
-- **Frontend:** Next.js 15 (App Router), React 18, TypeScript  
-- **Auth:** Clerk (initial), BetterAuth (future), with abstracted auth interface  
-- **Database:** Convex (initial), PostgreSQL with pgvector (future)  
-- **AI/ML:** OpenRouter (Gemini/Claude), orchestrated via LangChain  
-- **Infrastructure:** Vercel (initial), Docker & Kubernetes for scaling  
-- **Monitoring:** Sentry (initial), Prometheus (future)  
-- **TTS:** Saarvam / Veena integration  
-- **UI Components:** Shadcn/UI v4 (with references to `/shells/prototype/` folder for extra UI components)  
-- **Styling:** Tailwind CSS  
-- **Dev Tools:** Context7 MCP server for documentation  
+- **Frontend:** Next.js 15 (App Router), React 18, TypeScript
+- **Auth:** Clerk (initial), BetterAuth (future), with abstracted auth interface
+- **Database:** Convex (initial), PostgreSQL with pgvector (future)
+- **AI/ML:** OpenRouter (Gemini/Claude), orchestrated via LangChain
+- **Infrastructure:** Vercel (initial), Docker & Kubernetes for scaling
+- **Monitoring:** Sentry (initial), Prometheus (future)
+- **TTS:** Saarvam / Veena integration
+- **UI Components:** Shadcn/UI v4 (with references to `/shells/prototype/` folder for extra UI components)
+- **Styling:** Tailwind CSS
+- **Dev Tools:** Context7 MCP server for documentation
 
 ---
 
 ## Key Architectural Decisions
-- **Auth Abstraction:** Implemented to allow seamless switching between Clerk and BetterAuth in future.  
-- **AI Context Handling:** OpenRouter and LangChain chains support dynamic model switching and context-specific responses.  
-- **Content Storage:** No video uploads; YouTube and PDF transcripts only.  
-- **Web-First Approach:** Focus on responsive web app before mobile adaptation.  
+- **Auth Abstraction:** Implemented to allow seamless switching between Clerk and BetterAuth in future.
+- **AI Context Handling:** OpenRouter and LangChain chains support dynamic model switching and context-specific responses.
+- **Content Storage:** No video uploads; YouTube and PDF transcripts only.
+- **Web-First Approach:** Focus on responsive web app before mobile adaptation.
 - **Fallback & Transition Plans:** Technologies are chosen for initial launch with planned migrations (Convex → PostgreSQL, Sentry → Prometheus, Clerk → BetterAuth).
 
 ---
 
 ## Intended Folder Structure (ASCII Tree)
 
+Note: The Next.js project is located in `SC-NS/shells/web/`. The structure below is relative to that directory.
+
 ```text
 app/
-├── pages/                      
-│   ├── index.tsx               
-│   ├── chat.tsx                
-│   ├── _app.tsx                
-│   └── api/                    
-│       ├── auth.ts             
-│       ├── youtube.ts          
-│       ├── pdf.ts              
-│       └── ...
-├── components/                 
+│   ├── layout.tsx              # Root layout
+│   ├── page.tsx                # Root page (e.g., /)
+│   ├── chat/
+│   │   └── page.tsx            # Chat page (e.g., /chat)
+│   └── api/
+│       └── ...                 # API routes
+├── components/
+│   ├── ui/                     # Shadcn UI components
 │   ├── ChatWidget.tsx
 │   ├── VideoEmbed.tsx
-│   ├── AuthButton.tsx
-│   └── ... (Reference prototype folder: shells/prototype/)
-├── convex/                     
-│   ├── mutations/              
-│   │   ├── addMessage.js       
-│   │   └── addTranscript.js    
-│   ├── queries/                
-│   │   ├── getUserProgress.js  
-│   │   └── ... 
-│   └── schema.ts               
-├── lib/                        
-│   ├── openRouter.ts           
-│   ├── langchain.ts            
-│   ├── authInterface.ts        
-│   └── tts.ts                  
-├── hooks/                      
-│   ├── useAuth.tsx             
-│   ├── useChat.ts              
-│   └── useVideo.ts             
-├── styles/                     
-│   ├── globals.css
-│   ├── tailwind.css
-│   └── theme.config.ts
-├── types/                      
-│   ├── api.ts
-│   ├── ai.ts
-│   └── user.ts
-├── public/                     
-│   ├── logo.png
-│   └── icons/
-├── devlog.md                                     
+│   └── ...                     (Reference prototype folder: shells/prototype/)
+├── convex/
+│   ├── mutations/
+│   ├── queries/
+│   └── schema.ts
+├── lib/
+│   ├── openRouter.ts
+│   ├── langchain.ts
+│   └── authInterface.ts
+├── hooks/
+│   ├── useAuth.tsx
+│   └── useChat.ts
+├── public/
+│   ├── icons/
+│   └── logo.png
 └── ...
-
+```
 
 ---
 
@@ -84,7 +68,7 @@ MVP Task Table
 
 | Task                     | Subtasks / Details                    | Tech                     | Files / Context                               | Status | Notes                                                                 |
 |---------------------------|---------------------------------------|--------------------------|-----------------------------------------------|--------|-----------------------------------------------------------------------|
-| Initialize project        | Scaffold Next.js 15 with TypeScript  | Next.js, TS              | package.json, next.config.js                  |        | Web-first setup for MVP; TypeScript strict mode enabled               |
+| Initialize project        | Scaffold Next.js 15 with TypeScript  | Next.js, TS              | package.json, next.config.js                  | ✅ Completed | Web-first setup for MVP; TypeScript strict mode enabled               |
 | Configure styling         | Setup Tailwind CSS and Shadcn/UI     | Tailwind, Shadcn/UI      | tailwind.config.js, components/ui/, shells/prototype/ |        | Prototype folder referenced for extra UI components                  |
 | Integrate authentication  | Implement Clerk-based auth system    | Clerk                    | components/auth/, hooks/useAuth.ts           |        | Initial auth choice; abstracted interface allows future switch to BetterAuth |
 | Abstract auth interface   | Create generic auth module for future| TypeScript               | lib/authInterface.ts                         |        | Auth abstraction ensures seamless migration to BetterAuth later       |
@@ -135,8 +119,7 @@ Best Practices: Follow modular, maintainable, and web-first design; implement ab
 
 This version includes:
 
-- **MVP task table** updated to reflect current progress and decisions.  
-- **ASCII folder tree** showing final intended structure.  
-- **Rules for Jules** with sequential task execution, devlog maintenance, and task splitting.  
+- **MVP task table** updated to reflect current progress and decisions.
+- **ASCII folder tree** showing final intended structure.
+- **Rules for Jules** with sequential task execution, devlog maintenance, and task splitting.
 - **Prototype folder reference** in both folder tree and task table for extra UI guidance.
-
