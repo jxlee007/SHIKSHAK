@@ -29,3 +29,10 @@ This log tracks development progress, notes, and blockers.
 - **Task:** Abstract auth interface
 - **Status:** ✅ Completed
 - **Notes:** Created a generic authentication interface in `lib/authInterface.ts` and a `useAuth` hook in `hooks/useAuth.ts` to abstract Clerk's implementation details. This provides a flexible foundation for future auth provider changes. Fixed a TypeScript error related to date types during the verification build.
+
+---
+
+**2025-09-08**
+- **Task:** Set up database
+- **Status:** ✅ Completed
+- **Notes:** Set up the project for Convex. Manually created the `convex` directory and `tsconfig.json` as a workaround for CLI limitations. Defined the database schema for `users`, `chat_sessions`, and `messages`. Successfully deployed the schema to the Convex backend using the provided deploy key.
