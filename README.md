@@ -59,6 +59,72 @@ app/
 
 ---
 
+## Intended folder structure 
+
+```
+app/
+├── app.xml                       # Global app config
+├── configs/                      # Shared configs (db, env templates, etc.)
+│   └── .gitkeep
+├── core/                         # Platform-agnostic shared logic
+│   └── .gitkeep
+├── docs/                         # Documentation
+│   ├── AGENTS.md
+│   ├── Arch.txt
+│   ├── PRD/
+│   │   ├── PRD-V1.txt
+│   │   └── PRD.txt
+│   ├── data flow diagrams/
+│   │   └── .gitkeep
+│   ├── user flow diagrams/
+│   │   └── .gitkeep
+│   └── userflow-V1.txt
+├── scripts/                      # Deployment/build automation
+│   └── .gitkeep
+└── shells/                       # Platform-specific shells
+    └── web/                      # Web application shell
+        ├── prototypes/           # Old HTML prototypes (kept separate)
+        │   ├── agent-manage.html
+        │   ├── ai-video-call-v2.zip
+        │   ├── call-lobby.html
+        │   ├── chat-history.html
+        │   ├── chat.html
+        │   ├── create-agent.html
+        │   ├── create-meet.html
+        │   ├── dashboard.html
+        │   ├── dashboard.zip
+        │   ├── live session/
+        │   │   ├── app.js
+        │   │   ├── index.html
+        │   │   └── style.css
+        │   ├── meet-manage.html
+        │   ├── modal-template.html
+        │   ├── post-summary.html
+        │   ├── styles.css
+        │   └── upgrade.html
+        └── nextjs-app/           # Next.js + Clerk + Convex actual product
+            ├── app/              # Next.js App Router
+            │   ├── (auth)/       # Clerk auth routes
+            │   ├── (dashboard)/  # User dashboard pages
+            │   ├── api/          # API routes (webhooks, Convex actions)
+            │   └── layout.tsx
+            ├── components/       # Shared UI components (shadcn/ui, etc.)
+            ├── convex/           # Convex schema & functions
+            │   ├── schema.ts
+            │   └── functions.ts
+            ├── lib/              # Client helpers (Clerk, Convex client utils)
+            │   ├── clerk.ts
+            │   └── convex.ts
+            ├── styles/           # Tailwind/global styles
+            │   └── globals.css
+            ├── public/           # Static assets
+            ├── package.json
+            ├── tsconfig.json
+            ├── next.config.js
+            └── .env.local        # Environment variables (Clerk/Convex keys)
+```
+___
+
 ## Feature List
 
 | Feature                            | Summary                                                                 | Technology/API/Workflow                 | Recommendation (if not covered in PROTO)                |
