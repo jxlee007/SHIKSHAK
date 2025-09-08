@@ -16,7 +16,7 @@ The AI acts as facilitator and tutor, providing real-time answers, explanations,
 ## Current Folder Structure
 
 ```
-shared cores with native shells/
+SC-NS/                       # shared cores with native shells
 ├── app.xml                  # Main application configuration file
 ├── configs/                 # Directory for shared configuration files
 │   └── .gitkeep             # Ensures the directory is tracked by git
@@ -62,7 +62,7 @@ shared cores with native shells/
 ## Intended folder structure 
 
 ```
-shared cores with native shells/
+SC-NS/                       # shared cores with native shells
 ├── app.xml                       # Global app config
 ├── configs/                      # Shared configs (db, env templates, etc.)
 │   └── .gitkeep
@@ -81,27 +81,27 @@ shared cores with native shells/
 │   └── userflow-V1.txt
 ├── scripts/                      # Deployment/build automation
 │   └── .gitkeep
-└── shells/                       # Platform-specific shells
-    └──├─ prototypes/           # Old web application HTML prototypes (kept separate)
-        │   ├── agent-manage.html
-        │   ├── ai-video-call-v2.zip
-        │   ├── call-lobby.html
-        │   ├── chat-history.html
-        │   ├── chat.html
-        │   ├── create-agent.html
-        │   ├── create-meet.html
-        │   ├── dashboard.html
-        │   ├── dashboard.zip
-        │   ├── live session/
-        │   │   ├── app.js
-        │   │   ├── index.html
-        │   │   └── style.css
-        │   ├── meet-manage.html
-        │   ├── modal-template.html
-        │   ├── post-summary.html
-        │   ├── styles.css
-        │   └── upgrade.html
-        ├─ web/           # Next.js with  App Router + Clerk auth with billing features + Convex actual product          
+└── shells/
+    └── prototype/                 # Web application prototype shell
+        ├── agent-manage.html    # Prototype for agent management UI
+        ├── ai-video-call-v2.zip # Zip archive for AI video call prototype
+        ├── call-lobby.html      # Prototype for call lobby UI
+        ├── chat-history.html    # Prototype for chat history UI
+        ├── chat.html            # Prototype for main chat UI
+        ├── create-agent.html    # Prototype for agent creation UI
+        ├── create-meet.html     # Prototype for meeting creation UI
+        ├── dashboard.html       # Prototype for user dashboard UI
+        ├── dashboard.zip        # Zip archive for dashboard prototype
+        ├── live session/        # Files for the live session prototype
+        │   ├── app.js           # JavaScript for the live session
+        │   ├── index.html       # HTML for the live session
+        │   └── style.css        # CSS for the live session
+        ├── meet-manage.html     # Prototype for meeting management UI
+        ├── modal-template.html  # Prototype for a modal template
+        ├── post-summary.html    # Prototype for post-session summary UI
+        ├── styles.css           # General styles for prototypes
+        └── upgrade.html         # Prototype for upgrade page UI
+          web/           # Next.js with  App Router + Clerk auth with billing features + Convex database         
             │   ├── (auth)/       # Clerk auth routes
             │   ├── (dashboard)/  # User dashboard pages
             │   ├── api/          # API routes (webhooks, Convex actions)
