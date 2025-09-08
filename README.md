@@ -16,7 +16,7 @@ The AI acts as facilitator and tutor, providing real-time answers, explanations,
 ## Current Folder Structure
 
 ```
-app/
+shared cores with native shells/
 ├── app.xml                  # Main application configuration file
 ├── configs/                 # Directory for shared configuration files
 │   └── .gitkeep             # Ensures the directory is tracked by git
@@ -62,7 +62,7 @@ app/
 ## Intended folder structure 
 
 ```
-app/
+shared cores with native shells/
 ├── app.xml                       # Global app config
 ├── configs/                      # Shared configs (db, env templates, etc.)
 │   └── .gitkeep
@@ -102,8 +102,7 @@ app/
         │   ├── post-summary.html
         │   ├── styles.css
         │   └── upgrade.html
-        └── saas-app/           # Next.js + Clerk + Convex actual product
-            ├── app/              # Next.js App Router
+        └── app/           # Next.js with  App Router + Clerk auth with billing features + Convex actual product          
             │   ├── (auth)/       # Clerk auth routes
             │   ├── (dashboard)/  # User dashboard pages
             │   ├── api/          # API routes (webhooks, Convex actions)
