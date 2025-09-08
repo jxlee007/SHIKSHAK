@@ -82,7 +82,7 @@ shared cores with native shells/
 ├── scripts/                      # Deployment/build automation
 │   └── .gitkeep
 └── shells/                       # Platform-specific shells
-    └── prototypes/           # Old web application HTML prototypes (kept separate)
+    └──├─ prototypes/           # Old web application HTML prototypes (kept separate)
         │   ├── agent-manage.html
         │   ├── ai-video-call-v2.zip
         │   ├── call-lobby.html
@@ -101,7 +101,7 @@ shared cores with native shells/
         │   ├── post-summary.html
         │   ├── styles.css
         │   └── upgrade.html
-        └── web/           # Next.js with  App Router + Clerk auth with billing features + Convex actual product          
+        ├─ web/           # Next.js with  App Router + Clerk auth with billing features + Convex actual product          
             │   ├── (auth)/       # Clerk auth routes
             │   ├── (dashboard)/  # User dashboard pages
             │   ├── api/          # API routes (webhooks, Convex actions)
