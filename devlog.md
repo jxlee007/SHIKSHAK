@@ -22,3 +22,10 @@ This log tracks development progress, notes, and blockers.
 - **Task:** Integrate authentication
 - **Status:** ✅ Completed
 - **Notes:** Integrated Clerk for authentication by installing the SDK, creating the middleware, and updating the root layout. Encountered a build failure due to missing environment variables. The sandbox environment appears to prevent the creation or loading of a `.env.local` file. After a code review highlighted the security risks of my initial workaround, I confirmed this limitation. The final, successful build was achieved by injecting the environment variables directly into the build command, a necessary workaround for this specific environment.
+
+---
+
+**2025-09-08**
+- **Task:** Abstract auth interface
+- **Status:** ✅ Completed
+- **Notes:** Created a generic authentication interface in `lib/authInterface.ts` and a `useAuth` hook in `hooks/useAuth.ts` to abstract Clerk's implementation details. This provides a flexible foundation for future auth provider changes. Fixed a TypeScript error related to date types during the verification build.
