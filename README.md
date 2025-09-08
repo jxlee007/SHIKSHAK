@@ -36,7 +36,7 @@ shared cores with native shells/
 ├── scripts/                 # Directory for build and deployment scripts
 │   └── .gitkeep             # Ensures the directory is tracked by git
 └── shells/                  # Directory for platform-specific implementations (shells)
-    └── web/                 # Web application shell
+    └── prototype/                 # Web application prototype shell
         ├── agent-manage.html    # Prototype for agent management UI
         ├── ai-video-call-v2.zip # Zip archive for AI video call prototype
         ├── call-lobby.html      # Prototype for call lobby UI
@@ -82,8 +82,7 @@ shared cores with native shells/
 ├── scripts/                      # Deployment/build automation
 │   └── .gitkeep
 └── shells/                       # Platform-specific shells
-    └── web/                      # Web application shell
-        ├── prototypes/           # Old HTML prototypes (kept separate)
+    └── prototypes/           # Old web application HTML prototypes (kept separate)
         │   ├── agent-manage.html
         │   ├── ai-video-call-v2.zip
         │   ├── call-lobby.html
@@ -102,7 +101,7 @@ shared cores with native shells/
         │   ├── post-summary.html
         │   ├── styles.css
         │   └── upgrade.html
-        └── app/           # Next.js with  App Router + Clerk auth with billing features + Convex actual product          
+        └── web/           # Next.js with  App Router + Clerk auth with billing features + Convex actual product          
             │   ├── (auth)/       # Clerk auth routes
             │   ├── (dashboard)/  # User dashboard pages
             │   ├── api/          # API routes (webhooks, Convex actions)
