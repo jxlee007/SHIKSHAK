@@ -30,37 +30,53 @@ SHIKSHAK is an AI-powered educational platform built with Next.js 15, featuring 
 
 ## Intended Folder Structure (ASCII Tree)
 
-Note: The Next.js project is located in `SC-NS/shells/web/`. The structure below is relative to that directory.
-
 ```text
 app/
-│   ├── layout.tsx              # Root layout
-│   ├── page.tsx                # Root page (e.g., /)
-│   ├── chat/
-│   │   └── page.tsx            # Chat page (e.g., /chat)
+├── pages/
+│   ├── index.tsx
+│   ├── chat.tsx
+│   ├── _app.tsx
 │   └── api/
-│       └── ...                 # API routes
+│       ├── auth.ts
+│       ├── youtube.ts
+│       ├── pdf.ts
+│       └── ...
 ├── components/
-│   ├── ui/                     # Shadcn UI components
 │   ├── ChatWidget.tsx
 │   ├── VideoEmbed.tsx
-│   └── ...                     (Reference prototype folder: shells/prototype/)
+│   ├── AuthButton.tsx
+│   └── ... (Reference prototype folder: shells/prototype/)
 ├── convex/
 │   ├── mutations/
+│   │   ├── addMessage.js
+│   │   └── addTranscript.js
 │   ├── queries/
+│   │   ├── getUserProgress.js
+│   │   └── ...
 │   └── schema.ts
 ├── lib/
 │   ├── openRouter.ts
 │   ├── langchain.ts
-│   └── authInterface.ts
+│   ├── authInterface.ts
+│   └── tts.ts
 ├── hooks/
 │   ├── useAuth.tsx
-│   └── useChat.ts
+│   ├── useChat.ts
+│   └── useVideo.ts
+├── styles/
+│   ├── globals.css
+│   ├── tailwind.css
+│   └── theme.config.ts
+├── types/
+│   ├── api.ts
+│   ├── ai.ts
+│   └── user.ts
 ├── public/
-│   ├── icons/
-│   └── logo.png
+│   ├── logo.png
+│   └── icons/
+├── devlog.md
 └── ...
-```
+
 
 ---
 
@@ -68,11 +84,11 @@ MVP Task Table
 
 | Task                     | Subtasks / Details                    | Tech                     | Files / Context                               | Status | Notes                                                                 |
 |---------------------------|---------------------------------------|--------------------------|-----------------------------------------------|--------|-----------------------------------------------------------------------|
-| Initialize project        | Scaffold Next.js 15 with TypeScript  | Next.js, TS              | package.json, next.config.js                  | ✅ Completed | Web-first setup for MVP; TypeScript strict mode enabled               |
-| Configure styling         | Setup Tailwind CSS and Shadcn/UI     | Tailwind, Shadcn/UI      | tailwind.config.js, components/ui/, shells/prototype/ | ✅ Completed | Prototype folder referenced for extra UI components                  |
-| Integrate authentication  | Implement Clerk-based auth system    | Clerk                    | components/auth/, hooks/useAuth.ts           | ✅ Completed | Initial auth choice; abstracted interface allows future switch to BetterAuth |
-| Abstract auth interface   | Create generic auth module for future| TypeScript               | lib/authInterface.ts                         | ✅ Completed | Auth abstraction ensures seamless migration to BetterAuth later       |
-| Set up database           | Configure Convex (collections & sync)| Convex                   | convex/schema.ts, convex/functions/          | ✅ Completed | Initial DB; scalable real-time interactions; migration plan for PostgreSQL + pgvector |
+| Initialize project        | Scaffold Next.js 15 with TypeScript  | Next.js, TS              | package.json, next.config.js                  |        | Web-first setup for MVP; TypeScript strict mode enabled               |
+| Configure styling         | Setup Tailwind CSS and Shadcn/UI     | Tailwind, Shadcn/UI      | tailwind.config.js, components/ui/, shells/prototype/ |        | Prototype folder referenced for extra UI components                  |
+| Integrate authentication  | Implement Clerk-based auth system    | Clerk                    | components/auth/, hooks/useAuth.ts           |        | Initial auth choice; abstracted interface allows future switch to BetterAuth |
+| Abstract auth interface   | Create generic auth module for future| TypeScript               | lib/authInterface.ts                         |        | Auth abstraction ensures seamless migration to BetterAuth later       |
+| Set up database           | Configure Convex (collections & sync)| Convex                   | convex/schema.ts, convex/functions/          |        | Initial DB; scalable real-time interactions; migration plan for PostgreSQL + pgvector |
 | Plan data migration       | Prepare PostgreSQL + pgvector schema | PostgreSQL, pgvector     | migrations/, docs/db-migration.md            |        | Future-proofing AI vector storage; only needed if Convex limits reached |
 | Develop chat UI           | Build chat page and components       | React, Next.js           | pages/chat.tsx, components/ChatWidget.tsx    |        | References `/shells/prototype/` for components and layout patterns    |
 | AI integration            | Connect OpenRouter (Gemini/Claude)   | OpenRouter, LangChain    | lib/openRouter.ts, lib/langchain.ts          |        | Live, context-aware AI companion for chat and YouTube/PDF sessions   |
