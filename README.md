@@ -13,7 +13,7 @@ The AI acts as facilitator and tutor, providing real-time answers, explanations,
 
 ---
 
-## Folder Structure
+## Current Folder Structure
 
 ```
 app/
@@ -102,7 +102,7 @@ app/
         │   ├── post-summary.html
         │   ├── styles.css
         │   └── upgrade.html
-        └── nextjs-app/           # Next.js + Clerk + Convex actual product
+        └── saas-app/           # Next.js + Clerk + Convex actual product
             ├── app/              # Next.js App Router
             │   ├── (auth)/       # Clerk auth routes
             │   ├── (dashboard)/  # User dashboard pages
