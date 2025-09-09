@@ -5,7 +5,10 @@ This document outlines the plan for a future migration from Convex to a self-hos
 While Convex provides an excellent real-time backend for rapid development, a self-hosted PostgreSQL instance offers greater control, scalability, and the ability to use specialized extensions like `pgvector` for advanced AI-powered features like semantic search. This plan prepares for that future transition.
 
 ## Schema Mapping
-The following section details the PostgreSQL schema and how it maps to the original Convex schema.### `users` TableMaps to the `users` table in Convex.
+The following section details the PostgreSQL schema and how it maps to the original Convex schema.
+
+### `users` Table
+Maps to the `users` table in Convex.
 
 **PostgreSQL DDL:**
 ```
