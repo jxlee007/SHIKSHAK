@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 import {
   ClerkProvider,
   SignInButton,
@@ -36,7 +37,12 @@ export default function RootLayout({
                 </div>
               </SignedOut>
               <SignedIn>
-                <UserButton />
+                <div className="flex items-center gap-4">
+                  <Link href="/chat" className="text-primary hover:underline">
+                    Chat
+                  </Link>
+                  <UserButton />
+                </div>
               </SignedIn>
             </div>
           </header>

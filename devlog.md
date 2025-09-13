@@ -42,6 +42,15 @@ This log tracks development progress, notes, and blockers.
 **2025-09-08**
 - **Task:** Plan data migration
 - **Status:** ✅ Completed
+- **Notes:** Researched and documented the data migration plan from Convex to a self-hosted PostgreSQL instance with the pgvector extension. The plan, located in `docs/db_migration.md`, outlines the schema, data transfer strategy, and service-level considerations for a seamless transition when the project scales. This ensures long-term viability for AI-powered features requiring vector storage.
+
+---
+
+**2025-09-08**
+- **Task:** Develop chat UI
+- **Status:** 🔄 In Progress
+- **Notes:** Created the initial scaffolding for the chat UI, including the chat page and a reusable `ChatWidget` component. The basic structure is based on the provided prototypes. Next steps will involve implementing the WhatsApp-style UI and dynamic features.
+=======
 - **Notes:** Created comprehensive database migration plan from Convex to PostgreSQL with pgvector extension. Documented schema mapping in `docs/migration/db_migration.md` and created executable migration script at `docs/migration/001_initial_schema.sql`. The PostgreSQL schema includes optimized indexes, UUID primary keys, proper foreign key relationships with cascade deletes, and vector embedding support for future AI-powered semantic search capabilities. This future-proofs the platform for advanced AI features while maintaining current Convex functionality.
 
 ---
