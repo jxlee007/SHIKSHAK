@@ -38,10 +38,8 @@ CREATE TABLE chat_sessions (    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),  
 
 **Mapping & Rationale:**-   
 `user_id`: A foreign key to `users.id`, ensuring referential integrity. 
-`ON DELETE CASCADE` automatically cleans up sessions if a user is deleted.
+`ON DELETE CASCADE` automatically cleans up sessions if a user is deleted.### `messages` TableMaps to the `messages` table in Convex.
 
-### `messages` Table
-Maps to the `messages` table in Convex.
 **PostgreSQL DDL:**
 ```
 sql
