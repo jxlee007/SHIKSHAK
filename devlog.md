@@ -36,3 +36,17 @@ This log tracks development progress, notes, and blockers.
 - **Task:** Set up database
 - **Status:** ✅ Completed
 - **Notes:** Set up the project for Convex. Manually created the `convex` directory and `tsconfig.json` as a workaround for CLI limitations. Defined the database schema for `users`, `chat_sessions`, and `messages`. Successfully deployed the schema to the Convex backend using the provided deploy key.
+
+---
+
+**2025-09-08**
+- **Task:** Plan data migration
+- **Status:** ✅ Completed
+- **Notes:** Researched and documented the data migration plan from Convex to a self-hosted PostgreSQL instance with the pgvector extension. The plan, located in `docs/db_migration.md`, outlines the schema, data transfer strategy, and service-level considerations for a seamless transition when the project scales. This ensures long-term viability for AI-powered features requiring vector storage.
+
+---
+
+**2025-09-08**
+- **Task:** Develop chat UI
+- **Status:** 🔄 In Progress
+- **Notes:** Created the initial scaffolding for the chat UI, including the chat page and a reusable `ChatWidget` component. The basic structure is based on the provided prototypes. Next steps will involve implementing the WhatsApp-style UI and dynamic features.
