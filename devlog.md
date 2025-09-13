@@ -50,3 +50,7 @@ This log tracks development progress, notes, and blockers.
 - **Task:** Develop chat UI
 - **Status:** 🔄 In Progress
 - **Notes:** Created the initial scaffolding for the chat UI, including the chat page and a reusable `ChatWidget` component. The basic structure is based on the provided prototypes. Next steps will involve implementing the WhatsApp-style UI and dynamic features.
+=======
+- **Notes:** Created comprehensive database migration plan from Convex to PostgreSQL with pgvector extension. Documented schema mapping in `docs/migration/db_migration.md` and created executable migration script at `docs/migration/001_initial_schema.sql`. The PostgreSQL schema includes optimized indexes, UUID primary keys, proper foreign key relationships with cascade deletes, and vector embedding support for future AI-powered semantic search capabilities. This future-proofs the platform for advanced AI features while maintaining current Convex functionality.
+
+---
