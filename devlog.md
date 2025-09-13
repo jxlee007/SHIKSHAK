@@ -36,3 +36,12 @@ This log tracks development progress, notes, and blockers.
 - **Task:** Set up database
 - **Status:** ✅ Completed
 - **Notes:** Set up the project for Convex. Manually created the `convex` directory and `tsconfig.json` as a workaround for CLI limitations. Defined the database schema for `users`, `chat_sessions`, and `messages`. Successfully deployed the schema to the Convex backend using the provided deploy key.
+
+---
+
+**2025-09-08**
+- **Task:** Plan data migration
+- **Status:** ✅ Completed
+- **Notes:** Created comprehensive database migration plan from Convex to PostgreSQL with pgvector extension. Documented schema mapping in `docs/migration/db_migration.md` and created executable migration script at `docs/migration/001_initial_schema.sql`. The PostgreSQL schema includes optimized indexes, UUID primary keys, proper foreign key relationships with cascade deletes, and vector embedding support for future AI-powered semantic search capabilities. This future-proofs the platform for advanced AI features while maintaining current Convex functionality.
+
+---
